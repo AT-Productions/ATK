@@ -1,0 +1,37 @@
+CYGWIN:
+g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp main.cpp
+
+WIX:
+dotnet tool install --global wix
+wix --versionw
+DOTNET_CLI_TELEMETRY_OPTOUT 1
+
+! UPDATE VERSION
+Version in /src/args/getVersion
+
+
+
+/*
+
+rootDir/
+├── include/
+│   ├── argHeader.h
+├── src/
+│   ├──args/
+│      ├── file1.cpp
+│      ├── file2.cpp
+│      ├── file3.cpp
+├── main.cpp
+├── source_file.wxs
+├── Setup.ps1
+├── MyApp.exe
+    Open the Windows Registry Editor by pressing Win + R, typing regedit, and pressing Enter.
+
+    Navigate to HKEY_CLASSES_ROOT\.atk and create a new String Value named PerceivedType with the value text.
+
+    Navigate to HKEY_CLASSES_ROOT\.atk\ShellNew and create a new String Value named NullFile with no value.
+
+    Navigate to HKEY_CLASSES_ROOT\.atk\shell and create a new key (folder) named Open with ATK. Set the (Default) value to the text you want to appear in the context menu (e.g., "Open with ATK").
+
+    Inside the Open with ATK key, create a new key named command. Set the (Default) value to the full path to your batch script (e.g., "C:\path\to\open_with_atk.cmd" "%1").
+*/

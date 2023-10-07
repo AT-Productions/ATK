@@ -1,10 +1,18 @@
-#include <iostream>
+
+
+#ifndef handleArgs_h
+#define handleArgs_h
+
 #include <string>
 using namespace std;
 
-#ifndef ARGHEADER_H
-#define ARGHEADER_H
+struct basicInfo
+  {
+    string type;
+    string path;
+    string password;
+  };
 
-void handleArgs(string);
+basicInfo* handleArgs(char** argv, int argc);
 
 #endif

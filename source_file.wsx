@@ -1,0 +1,37 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <Product Id="*" Name="MyApp" Language="1033" Version="1.0.0.0" Manufacturer="My Company" UpgradeCode="YOUR-UPGRADE-CODE">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+        <!-- Define installation directories -->
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="MyApp">
+                    <!-- Include MyApp.exe -->
+                    <Component Id="MainExecutable" Guid="YOUR-GUID-1">
+                        <File Id="atkEXE" Source="atk.exe" KeyPath="yes" />
+                    </Component>
+
+                    <!-- Include Setup.ps1 -->
+                    <Component Id="SetupScript" Guid="YOUR-GUID-2">
+                        <File Id="SetupScriptFile" Source="Setup.ps1" KeyPath="yes" />
+                    </Component>
+					
+					<!-- Include open_with_atk.cmd -->
+                    <Component Id="openWithAtk" Guid="YOUR-GUID-2">
+                        <File Id="openWithAtkFile" Source="open_with_atk.cmd" KeyPath="yes" />
+                    </Component>
+					
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <!-- Define the feature -->
+        <Feature Id="MainFeature" Title="Main Feature" Level="1">
+            <ComponentRef Id="MainExecutable" />
+            <ComponentRef Id="SetupScript" />
+			<ComponentRef Id="openWithAtk" />
+        </Feature>
+    </Product>
+</Wix>
