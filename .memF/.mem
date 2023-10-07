@@ -14,17 +14,8 @@ Version in /src/args/getVersion
 /*
 
 rootDir/
-├── include/
-│   ├── argHeader.h
-├── src/
-│   ├──args/
-│      ├── file1.cpp
-│      ├── file2.cpp
-│      ├── file3.cpp
-├── main.cpp
-├── source_file.wxs
 ├── Setup.ps1
-├── MyApp.exe
+├── atk.exe
     Open the Windows Registry Editor by pressing Win + R, typing regedit, and pressing Enter.
 
     Navigate to HKEY_CLASSES_ROOT\.atk and create a new String Value named PerceivedType with the value text.
