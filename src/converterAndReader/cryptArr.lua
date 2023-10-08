@@ -1,0 +1,1 @@
+local cryptArray = {"A", "B"}

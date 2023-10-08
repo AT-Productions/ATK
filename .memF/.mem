@@ -6,6 +6,8 @@ dotnet tool install --global wix
 wix --versionw
 DOTNET_CLI_TELEMETRY_OPTOUT 1
 
+wix build -o atkInstaller.msi .\installation\Project.wxs .\installation\components.wxs .\installation\folder.wxs
+
 ! UPDATE VERSION
 Version in /src/args/getVersion
 
@@ -16,6 +18,7 @@ Version in /src/args/getVersion
 rootDir/
 ├── Setup.ps1
 ├── atk.exe
+├── open_with_atk.cmd
     Open the Windows Registry Editor by pressing Win + R, typing regedit, and pressing Enter.
 
     Navigate to HKEY_CLASSES_ROOT\.atk and create a new String Value named PerceivedType with the value text.
@@ -26,3 +29,5 @@ rootDir/
 
     Inside the Open with ATK key, create a new key named command. Set the (Default) value to the full path to your batch script (e.g., "C:\path\to\open_with_atk.cmd" "%1").
 */
+
+
