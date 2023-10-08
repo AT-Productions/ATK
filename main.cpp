@@ -26,7 +26,6 @@ int main(int argc, char *argv[]){
     cout << shortHelp() << endl;
     return EXIT_FAILURE;
   }
-
   // Does the basic stuff with args
   // ! REMEMBER TO CHECK basicInfo.password != ""; OR SOMETHING LIKE THAT
   basicInfo* result = handleArgs(argv, argc);

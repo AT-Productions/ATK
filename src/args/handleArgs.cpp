@@ -10,42 +10,6 @@
 
 using namespace std;
 
-/**
- * EXAMPLE:
- * () means it is not obligatory
- * kml TYPE type PATH path (PASS password)
- * 
- * MORE EXAMPLES
- * kml -t dir -p cwd -s 1234
- * kml -t file -p "C:\path\to\file"
- * 
- * -ARG TYPES:
- * -t = FILE TYPE
- * -p = PATH
- * -s = PASSWORD
- * 
- * -----------------------------
- * THESE CAN'T BE USED WITH THE
- * COMMAND LINE ARGUMENTS IN DEF:
- * 
- * kml -t dir -p cwd -l
- * kml -t dir -p cwd -u
- * THIS WOULD WORK! IT WOULD
- * PROMPT FOR THE PASSWORD
- * 
- * kml -t dir -p cwd -s 1234 -l
- * THIS WOULD NOT WORK!
- * -----------------------------
- * -l = LOCK THE FILE
- * -u = UNLOCK THE FILE
- * -----------------------------
- * 
- * -help = RETURNS HELP MESSAGE
- * -v / --version = RETURNS CURRENT VERSION
- * -location = RETURNS .EXE LOCATION OF THE kml.exe
- * 
-*/
-
 void unexpected(string);
 /**
  * Switch case, look what needs to be done.

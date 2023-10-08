@@ -3,7 +3,7 @@ g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp main.cpp
 
 WIX:
 dotnet tool install --global wix
-wix --versionw
+wix --version
 DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 wix build -o atkInstaller.msi .\installation\Project.wxs .\installation\components.wxs .\installation\folder.wxs
@@ -12,6 +12,12 @@ wix build -o atkInstaller.msi .\installation\Project.wxs .\installation\componen
 Version in /src/args/getVersion
 
 
+-------------------
+|       MEM       |
+-------------------
+ * Nullsoft
+ * MSI
+ * IExpress
 
 /*
 
