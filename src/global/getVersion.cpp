@@ -6,6 +6,6 @@
  * when user asks it
 */
 string getVersion(){
-    const string version = "0.0.0.1";
-    return version;
+    const string version = "Current version for atk.exe: 0.0.0.1";
+    return version + "\n";
 }
