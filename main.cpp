@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
-#include <stdlib.h> // EXIT_FAILURE
 
+/* CUSTOM HEADER FILE IMPORTS */
 #include "include/argHeader.h"
 #include "include/help.h"
+#include "include/readFile.h"
+#include "include/exitFailure.h"
 
 using namespace std;
 
@@ -22,9 +24,9 @@ int main(int argc, char *argv[]){
   // ENTER ARGS WITH SPACES = "ABC DEF GEH"
 
   
-  if( argc <= 1 ){ /* If there are no arguments, throw exit failure*/ 
+  if( argc <= 1 ){ /* If there are no arguments, throw exit failure */ 
     cout << shortHelp() << endl;
-    return EXIT_FAILURE;
+    exitfailure();
   }
   // Does the basic stuff with args
   // ! REMEMBER TO CHECK basicInfo.password != ""; OR SOMETHING LIKE THAT
@@ -36,6 +38,9 @@ int main(int argc, char *argv[]){
       cout << "Path: " << result->path << endl;
       cout << "Password: " << result->password << endl;
       
+      // Read the file
+      readFile(result->path);
+
       // DELETE FROM MEMORY
       delete result;
   } else { // IF NULL POINTER
