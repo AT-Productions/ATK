@@ -1,6 +1,8 @@
 CYGWIN:
 g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp main.cpp
 
+g++ -o atk.exe src/args/*.cpp src/global/*.cpp .\main.cpp
+
 WIX:
 dotnet tool install --global wix
 wix --version
@@ -11,6 +13,8 @@ wix build -o atkInstaller.msi .\installation\Project.wxs .\installation\componen
 ! UPDATE VERSION
 Version in /src/args/getVersion
 
+https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe
+pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
 
 -------------------
 |       MEM       |

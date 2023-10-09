@@ -17,32 +17,45 @@ $callDir = $args[0]
 # Windows PATH Environment Variable Setup
 #
 # ---------------------------------------------------------------------
-# Adding the current directory to the PATH environment variable
-Write-Host Adding the current directory ($callDir) to the PATH environment variable.
-$oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
-$newpath = "$oldpath;$callDir"
+# Add the current directory to the PATH environment variable
+# Check if folder $callDir is already in the path
+if($Env:PATH -notlike "*$callDir*"){
+    # TRUE, ADD TO PATH
 
-# TODO Check if folder $callDir is already in the path
+    Write-Host Adding current path to System Environmental Variables.
 
-Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
+    # Make oldPath and newPath variables
+    $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
+    $newpath = "$oldpath;$callDir"
+    
+    Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
 
-# ! TEMPORARY LINES:
-# $newpath = "$oldpath;C:\Users\anton\Documents\Github\ATK"
-# Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
+    Write-Host Added current path to System Environmental Variables.
+} else {
+	# FALSE DON'T ADD
+    Write-Host Current path is already found in System Environmental Variables.
+}
+
 # ---------------------------------------------------------------------
 
 # Windows PATHEXT Environmental Variable Setup
 #
 # ---------------------------------------------------------------------
 # Setting the PATHEXT environment variable
-Write-Host Adding .atk to the PATHEXT environment variable `n.
 $oldpathext = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT).pathext
 
 $newpathext = "$oldpathext;.atk"
 
-# TODO Check if .atk is already in the pathext
-
-Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT -Value $newpathext
+# Check if .atk is already in the pathext
+if($Env:PATHEXT -notlike "*.atk*"){
+    # TRUE, ADD TO PATHEXT
+    Write-Host Adding .atk to PATHEXT.
+    Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT -Value $newpathext
+    Write-Host Added .atk to PATHEXT.
+} else {
+    # FALSE, DON'T ADD
+    Write-Host .atk already found in PATHEXT.
+}
 # ---------------------------------------------------------------------
 
 
@@ -64,4 +77,4 @@ reg.exe add "$registryShellKeyPath" /ve /d "Open with ATK" /f
 reg.exe add "$registryCommandKeyPath" /ve /d "$registryCommandKeyValue" /f
 
 Write-Host "Context menu entry added for .atk files."
-Write-Host "You can now close this window."
+Write-Host "You can now close this window by clicking any button."
