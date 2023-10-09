@@ -1,5 +1,3 @@
-
-
 # Check if the script is running with administrator privileges
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 if (-not $isAdmin) {
@@ -23,12 +21,12 @@ $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentC
 $newpath = "$oldpath;$callDir"
 
 # TODO Check if folder $callDir is already in the path
+if($oldPath -notcontains $callDir){
+    Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
+} else {
+    Write-Host $callDir is already in system PATH
+}
 
-Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
-
-# ! TEMPORARY LINES:
-# $newpath = "$oldpath;C:\Users\anton\Documents\Github\ATK"
-# Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
 # ---------------------------------------------------------------------
 
 # Windows PATHEXT Environmental Variable Setup
