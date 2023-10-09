@@ -7,6 +7,7 @@
 #include "../../include/help.h"
 #include "../../include/findFromArray.h"
 #include "../../include/getVersion.h"
+#include "../../include/exitFailure.h"
 
 using namespace std;
 
@@ -76,6 +77,7 @@ basicInfo* handleArgs(char** argv, int argc) {
             }
 
             else if(next == "p"){ // Checks for filepath
+                // ! callerPath.cpp HERE !
                 result->path = &currentArg[0];      
             }
 
@@ -114,8 +116,7 @@ basicInfo* handleArgs(char** argv, int argc) {
  * arguments from the users
 */
 void unexpected(string next){
-
     // Logs to console shortHelp and exits
     cout << next << " was unexpected." << endl << shortHelp();
-    exit(1);
+    exitfailure();
 }
