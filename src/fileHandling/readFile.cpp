@@ -1,12 +1,14 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <direct.h>
+
 #include <filesystem>
 
 #include "../../include/argHeader.h"
 #include "../../include/readFile.h"
 #include "../../include/exitFailure.h"
+#include "../../include/writeFile.h"
+#include "../../include/findCwd.h"
 
 using namespace std;
 /**
@@ -14,43 +16,22 @@ using namespace std;
  * @param filepath path to the given file which will be read by this function
 */
 void readFile(string filePath, basicInfo* result){
-    string fullPath = filePath;
+    string fullPath;
     
-    /* Checks if path contains string: cwd (current working directory) */
-    if(fullPath.find(".") != string::npos){
-
-        /* Create character array with length of maximum windows path length */
-        char buffer[_MAX_PATH];
-
-        // Checks for cwd
-        if (_getcwd(buffer, sizeof(buffer)) != nullptr) {
-            /* Build the path */
-
-            // get the filename
-            string fileName = "\\" + fullPath.substr(2, fullPath.length());
-
-            // Add the buffer (call location) and fileName to create the fullpath
-            fullPath = buffer + fileName;
-        } else {
-            perror("_getcwd");
-            exitfailure();
-        }
+    /* Checks if path contains string: . */
+    if(filePath.find("./") != string::npos || filePath.find(".\\") != string::npos){
+        fullPath = findCwd(filePath);
     }
     
 
     /* Checks if given path exists*/
     if( !filesystem::exists(fullPath) ){
-        cout << fullPath << " Is invalid" << endl;
+        cerr << fullPath << " Is invalid" << endl;
         exitfailure();
     }
 
     // Add path to result
     result->path = fullPath;
-
-    // Delete pointer to result
-    delete result;
-
-
 
     /**
      * ------------------------------------
@@ -61,13 +42,23 @@ void readFile(string filePath, basicInfo* result){
      * Reads file line by line
     */
 
+   // Initialize files header section with @param 0
+   writeFile("" ,result, 0, 0);
+
     newfile.open(fullPath,ios::in); // Open file using read operation
     if (newfile.is_open()){   // Checks if file is open
         string line;
+        int i = 0;
         while(getline(newfile, line)){ // Reads file contents line by line
-            cout << line << endl; 
+            // Write to the given file current line. Send 1 to add blocks
+            writeFile(line, result, 1, i);
+            i++;
         }
+        writeFile("]", result, 1, i++);
         newfile.close(); // Closes the file
+
+        // Delete pointer to result
+        delete result;
     }
 
 }

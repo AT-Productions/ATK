@@ -1,5 +1,5 @@
-#ifndef findFromArray_h
-#define findFromArray_h
+#ifndef FINDFROMARRAY_H
+#define FINDFROMARRAY_H
 
 #include <string>
 #include <vector>

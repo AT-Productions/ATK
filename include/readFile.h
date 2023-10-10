@@ -1,5 +1,5 @@
-#ifndef readFile_h
-#define readFile_h
+#ifndef READFILE_H
+#define READFILE_H
 
 #include <string>
 using namespace std;

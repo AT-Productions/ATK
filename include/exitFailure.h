@@ -1,5 +1,5 @@
-#ifndef exitfailure_h
-#define exitfailure_h
+#ifndef EXITFAILURE_H
+#define EXITFAILURE_H
 
 #include <stdlib.h> // EXIT_FAILURE
 

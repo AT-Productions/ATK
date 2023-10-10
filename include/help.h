@@ -1,5 +1,5 @@
-#ifndef help_h
-#define help_h
+#ifndef HELP_H
+#define HELP_H
 
 #include <string>
 using namespace std;

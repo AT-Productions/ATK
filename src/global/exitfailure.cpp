@@ -6,7 +6,7 @@
  * returns EXIT_FAILURE
 */
 int exitfailure(){
-    return 1;
+    exit(EXIT_FAILURE);
 
     // ? REMOVE IN FUTURE ?
     return EXIT_FAILURE;

@@ -1,7 +1,11 @@
-Build this program with:
-```
-g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp main.cpp
-```
+Setup environmental variables by running:
+ * run_setup.bat
+
+---
+
+Build this program with by running either:
+ * .windows_build.bat
+ * .linux_build.sh
 
 Make msi with WiX:
 ```

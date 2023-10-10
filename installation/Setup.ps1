@@ -17,14 +17,15 @@ $callDir = $args[0]
 # ---------------------------------------------------------------------
 # Add the current directory to the PATH environment variable
 # Check if folder $callDir is already in the path
-if($Env:PATH -notlike "*$callDir*"){
+# ! Adds path to build folder
+if($Env:PATH -notlike "*$callDir\build*"){
     # TRUE, ADD TO PATH
 
     Write-Host Adding current path to System Environmental Variables.
 
     # Make oldPath and newPath variables
     $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
-    $newpath = "$oldpath;$callDir"
+    $newpath = "$oldpath;$callDir\build"
     
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
 

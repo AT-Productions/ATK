@@ -6,7 +6,11 @@
 #include "include/help.h"
 #include "include/readFile.h"
 #include "include/exitFailure.h"
+#ifdef __linux__
+#include <unistd.h>
+#else
 #include <direct.h>
+#endif
 using namespace std;
 
 /**
@@ -15,8 +19,6 @@ using namespace std;
 
 /**
  * Startpoint
- * 
- * ! ADD DIRECTORIES LATER
 */
 int main(int argc, char *argv[]){
   // argv[argc-1] LAST ARGUMENT
@@ -28,11 +30,12 @@ int main(int argc, char *argv[]){
     exitfailure();
   }
   // Does the basic stuff with args
-  // ! REMEMBER TO CHECK basicInfo.password != ""; OR SOMETHING LIKE THAT
   basicInfo* result = handleArgs(argv, argc);
-  // CHECK IF POINTER IS NULL
+
+  // CHECKS IF POINTER IS NULL
   if (result != nullptr) {
-      // Read the file, throws exitfailure if it doesn't exist
+
+      // Read the file, function throws exitfailure if it doesn't exist
       readFile(result->path, result);
       
       // Access and print the data
@@ -42,6 +45,7 @@ int main(int argc, char *argv[]){
 
       // DELETE FROM MEMORY
       delete result;
+
   } else { // IF NULL POINTER
       cout << "handleArgs returned a null pointer." << endl;
       return EXIT_FAILURE;

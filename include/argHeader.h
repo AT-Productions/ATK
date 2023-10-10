@@ -1,7 +1,7 @@
 
 
-#ifndef handleArgs_h
-#define handleArgs_h
+#ifndef HANDLEARGS_H
+#define HANDLEARGS_H
 
 #include <string>
 using namespace std;

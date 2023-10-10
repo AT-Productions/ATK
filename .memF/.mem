@@ -3,7 +3,10 @@ g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp main.cpp
 
 
 MSYS mingw compile:
-g++ -o atk.exe src/args/*.cpp src/global/*.cpp src/converterAndReader/*.cpp main.cpp
+g++ -o atk.exe src/args/*.cpp src/global/*.cpp src/fileHandling/*.cpp main.cpp
+
+
+vcvarsall.bat x64
 
 WIX:
 dotnet tool install --global wix
