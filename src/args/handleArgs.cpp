@@ -107,6 +107,13 @@ basicInfo* handleArgs(char** argv, int argc) {
         }
     }
 
+    /* Check that the correct types have been given */
+    if( result->type != "d" & result->type != "f" ||
+
+        result->path == "" || result->password == ""){
+        /* Call exit failure */
+        exitfailure();
+    }
     // Return the basicInfo struct with the data
     return result;
 }

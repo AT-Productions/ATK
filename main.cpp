@@ -6,7 +6,7 @@
 #include "include/help.h"
 #include "include/readFile.h"
 #include "include/exitFailure.h"
-
+#include <direct.h>
 using namespace std;
 
 /**
@@ -22,7 +22,6 @@ int main(int argc, char *argv[]){
   // argv[argc-1] LAST ARGUMENT
   // argv[0] EXE NAME
   // ENTER ARGS WITH SPACES = "ABC DEF GEH"
-
   
   if( argc <= 1 ){ /* If there are no arguments, throw exit failure */ 
     cout << shortHelp() << endl;
@@ -33,13 +32,13 @@ int main(int argc, char *argv[]){
   basicInfo* result = handleArgs(argv, argc);
   // CHECK IF POINTER IS NULL
   if (result != nullptr) {
-      // Access and print the data
-      cout << "Type: " << result->type << endl;
-      cout << "Path: " << result->path << endl;
-      cout << "Password: " << result->password << endl;
+      // Read the file, throws exitfailure if it doesn't exist
+      readFile(result->path, result);
       
-      // Read the file
-      readFile(result->path);
+      // Access and print the data
+      // cout << "Type: " << result->type << endl;
+      // cout << "Path: " << result->path << endl;
+      // cout << "Password: " << result->password << endl << endl;
 
       // DELETE FROM MEMORY
       delete result;

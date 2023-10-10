@@ -1,1 +1,1 @@
-@echo off
+g++ -o atk.exe src/args/*.cpp src/global/*.cpp src/converterAndReader/*.cpp main.cpp

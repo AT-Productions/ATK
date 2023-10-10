@@ -3,30 +3,27 @@ Usage atk.exe [TYPE] [PATH] [PASSWORD]
 atk -t type -p path -s password \n
 \n
 EXAMPLES \n
-atk -t dir -p \"cwd/filename.atk\" -s 1234 \n
-cwd points to current directory \n
+atk -t dir -p \"./filename.atk\" -s 1234 \n
 \n
 atk -t file -p \"C:/path/to/file\" -s 4321 \n
 \n
 ARG TYPES: \n
--t = FILE TYPE \n
--p = PATH \n
--s = PASSWORD \n
-NOTE if you want to use spaces in  \n
-your passwords use ""-characters \n
-atk -t dir -p \"cwd/filename.atk\" -s \"Just A Test\"
+-t = FILE TYPE | dir | file \n
+-p = PATH | .\filename.ext | absolutepath \n
+NOTE: PATH is case-sensitive! \n
+-s = PASSWORD | anything | "you want"\n
 ----------------------------- \n
 -l = LOCK THE FILE \n
 -u = UNLOCK THE FILE \n
 ----------------------------- \n
 THESE CAN\'T BE USED WITH THE \n
 COMMAND LINE ARGUMENTS IN DEFINITIONS: \n
-atk -t dir -p \"cwd/filename.atk\" -l \n
-atk -t file -p \"cwd/filename.atk\" -u \n
+atk -t dir -p \"./filename.atk\" -l \n
+atk -t file -p \"./filename.atk\" -u \n
 THIS WOULD WORK! IT WOULD \n
 PROMPT FOR THE PASSWORD! \n
 \n
-atk -t dir -p cwd -s 1234 -l \n
+atk -t dir -p ./LOLPOISTATÄÄ -s 1234 -l \n
 THIS WOULD NOT WORK! \n
 ----------------------------- \n 
 --help = RETURNS HELP MESSAGE \n

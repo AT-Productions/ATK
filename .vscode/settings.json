@@ -69,6 +69,14 @@
         "xmemory": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "filesystem": "cpp",
+        "iomanip": "cpp",
+        "optional": "cpp",
+        "sstream": "cpp"
     }
 }

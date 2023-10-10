@@ -4,6 +4,6 @@
 #include <string>
 using namespace std;
 
-void readFile(string filePath);
+void readFile(string filePath, basicInfo* result);
 
 #endif
