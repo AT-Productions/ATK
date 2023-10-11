@@ -16,6 +16,7 @@ Setup environmental variables for windows by running:
 	- Open project by opening ATK.sln
 	- Choose the correct platform
     - Choose C++17 by going to Properties -> C/C++ -> Language -> C++ Language Standard -> ISO C++ 17
+    - Choose C++17 by going to Properties -> Configuration Properties -> General -> C++ Language Standard -> ISO C++ 17
 	- Change from Debug to Release
 	- Build -> Build ATK
 	- Build will appear in ATK\Release\ATK.exe
