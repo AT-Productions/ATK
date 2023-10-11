@@ -27,7 +27,7 @@ string findCwd(string path){
             /* Build the path */
 
             // Get filename:
-            string fileName = "/" + fullPath.substr(fullPath.find_last_of("/") + 1);
+            string fileName = "/" + fullPath.substr(fullPath.find_last_of("/"), fullPath.length());
 
             // Add the buffer (call location) and fileName to create the fullpath
             fullPath = buffer + fileName;

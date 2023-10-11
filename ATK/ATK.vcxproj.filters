@@ -13,6 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\global">
+      <UniqueIdentifier>{c7d22fc7-a7f4-4add-af77-c750c7837978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\args">
+      <UniqueIdentifier>{046dfd44-14ec-4710-a44f-ca2f870869c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\createFile">
+      <UniqueIdentifier>{01bf9f60-cb16-43dc-bce0-3de94f7f57b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cui">
+      <UniqueIdentifier>{d7873a0d-6d3a-49fc-a800-16d482392a97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editfile">
+      <UniqueIdentifier>{0bf28183-5409-4f98-8864-c02459ae5130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fileHandling">
+      <UniqueIdentifier>{7ee1aaa7-8938-41a5-acc7-96d18c03eafc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cryption">
+      <UniqueIdentifier>{e51bf6b6-c753-4fe4-aea9-21349cfff67e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test.h">
@@ -50,59 +71,56 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="writeFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shorthelp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="readFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="longHelp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="handleArgs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="getVersion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="findFromArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="findCwd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="exitfailure.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="editFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="deleteFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="decrypt.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="shorthelp.cpp">
+      <Filter>Source Files\global</Filter>
     </ClCompile>
-    <ClCompile Include="crypt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="createFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="convert.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="longHelp.cpp">
+      <Filter>Source Files\global</Filter>
     </ClCompile>
     <ClCompile Include="callerPath.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\args</Filter>
+    </ClCompile>
+    <ClCompile Include="handleArgs.cpp">
+      <Filter>Source Files\args</Filter>
+    </ClCompile>
+    <ClCompile Include="createFile.cpp">
+      <Filter>Source Files\createFile</Filter>
+    </ClCompile>
+    <ClCompile Include="editFile.cpp">
+      <Filter>Source Files\editfile</Filter>
+    </ClCompile>
+    <ClCompile Include="convert.cpp">
+      <Filter>Source Files\fileHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="findCwd.cpp">
+      <Filter>Source Files\fileHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="readFile.cpp">
+      <Filter>Source Files\fileHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="writeFile.cpp">
+      <Filter>Source Files\fileHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="exitfailure.cpp">
+      <Filter>Source Files\global</Filter>
+    </ClCompile>
+    <ClCompile Include="findFromArray.cpp">
+      <Filter>Source Files\global</Filter>
+    </ClCompile>
+    <ClCompile Include="getVersion.cpp">
+      <Filter>Source Files\global</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt.cpp">
+      <Filter>Source Files\cryption</Filter>
+    </ClCompile>
+    <ClCompile Include="decrypt.cpp">
+      <Filter>Source Files\cryption</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

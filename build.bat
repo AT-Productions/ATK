@@ -9,7 +9,7 @@ pushd .\build
 REM 64-bit build
 del *.pdb > NUL 2> NUL
 echo WAITING FOR PDB > lock.tmp
-cl %CommonCompilerFlags% /I "%IncludePath%" /Fe:myprogram.exe ..\main.cpp
+cl %CommonCompilerFlags% /I "%IncludePath%" /Fe:myprogram.exe .\ATK\main.cpp
 del lock.tmp
 
 popd

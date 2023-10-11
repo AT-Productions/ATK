@@ -1,6 +1,6 @@
 #!/bin/bash
 output=./build/atk
-files="src/args/*.cpp src/global/*.cpp src/fileHandling/*.cpp src/cryption/*.cpp main.cpp"
+files="ATK/*.cpp"
 
 # Check if build folder exists
 if [ ! -d "./build" ]; then
@@ -8,4 +8,4 @@ if [ ! -d "./build" ]; then
     mkdir build
 fi
 
-g++ -o "$output" $files
+g++ -O3 -o "$output" $files -ggdb -g3

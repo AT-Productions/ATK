@@ -158,7 +158,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="readFile.cpp" />
     <ClCompile Include="shorthelp.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="writeFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
