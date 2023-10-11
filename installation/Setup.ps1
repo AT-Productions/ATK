@@ -43,10 +43,10 @@ if($Env:PATH -notlike "*$callDir\x64\Release*"){
 # Setting the PATHEXT environment variable
 $oldpathext = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT).pathext
 
-$newpathext = "$oldpathext;.atk"
+$newpathext = "$oldpathext;.ATK"
 
 # Check if .atk is already in the pathext
-if($Env:PATHEXT -notlike "*.atk*"){
+if($Env:PATHEXT -notlike "*.ATK*"){
     # TRUE, ADD TO PATHEXT
     Write-Host Adding .atk to PATHEXT.
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT -Value $newpathext

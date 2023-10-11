@@ -18,7 +18,7 @@ Setup environmental variables for windows by running:
     - Choose C++17 by going to Properties -> C/C++ -> Language -> C++ Language Standard -> ISO C++ 17
 	- Change from Debug to Release
 	- Build -> Build ATK
-	- Build will appear in ATK\x64\Release\ATK.exe
+	- Build will appear in ATK\Release\ATK.exe
 
 Make msi with WiX:
 ```
