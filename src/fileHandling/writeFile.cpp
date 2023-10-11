@@ -7,6 +7,7 @@
 #include "../../include/argHeader.h"
 #include "../../include/writeFile.h"
 #include "../../include/cryption.h"
+#include "../../include/exitFailure.h"
 
 using namespace std;
 /**
@@ -16,6 +17,7 @@ using namespace std;
  * @param action Parameter that checks actions
 */
 void writeFile(string content, basicInfo* result, int action, int blockInt){
+    cout << content << " " << action << " " << blockInt << endl;
     fstream newfile;
     int currentrow = 0;
     // Make new path for new file
@@ -59,12 +61,17 @@ void writeFile(string content, basicInfo* result, int action, int blockInt){
     // Make BLOCKS with action1
     if(action == 1){
         ofstream file(newPathToFile, ios::app);
+        if (file.fail()) {
+            cerr << "Error opening the file for writing." << endl;
+            exitfailure();
+        }
         currentrow = 7 + blockInt;
-        
-        file /* << currentrow */ << crypt(content) << endl;
+        cout << "content" << endl;
+        // file /* << currentrow */ << content << endl;
+        file << content << endl;
     }
     // Delete pointer
     delete result;
-    // Save file contents
 
+    // Save file contents
 }

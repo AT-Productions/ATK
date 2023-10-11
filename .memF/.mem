@@ -1,5 +1,5 @@
 CYGWIN:
-g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp main.cpp
+g++ -Iinclude/*.h -o atk.exe src/args/*.cpp src/global/*.cpp src/fileHandling/*.cpp src/cryption/*.cpp main.cpp
 
 
 MSYS mingw compile:

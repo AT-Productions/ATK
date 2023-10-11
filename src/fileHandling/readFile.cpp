@@ -19,7 +19,7 @@ void readFile(string filePath, basicInfo* result){
     string fullPath;
     
     /* Checks if path contains string: . */
-    if(filePath.find("./") != string::npos || filePath.find(".\\") != string::npos){
+    if(filePath.find(".") != string::npos || filePath.find(".\\") != string::npos){
         fullPath = findCwd(filePath);
     }
     
@@ -45,21 +45,22 @@ void readFile(string filePath, basicInfo* result){
    // Initialize files header section with @param 0
    writeFile("" ,result, 0, 0);
 
-    newfile.open(fullPath,ios::in); // Open file using read operation
+    newfile.open(filePath,ios::in); // Open file using read operation
     if (newfile.is_open()){   // Checks if file is open
         string line;
-        int i = 0;
+        // int i = 0;
+
         while(getline(newfile, line)){ // Reads file contents line by line
             // Write to the given file current line. Send 1 to add blocks
-            writeFile(line, result, 1, i);
-            i++;
+            writeFile(line, result, 1, 1);
+            cout << line << endl;
+            // i++
         }
-        writeFile("]", result, 1, i++);
+        writeFile("]", result, 1, 1);
         newfile.close(); // Closes the file
-
-        // Delete pointer to result
-        delete result;
     }
+    // Delete pointer to result
+    delete result;
 
 }
 
