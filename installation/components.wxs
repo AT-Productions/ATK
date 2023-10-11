@@ -1,0 +1,38 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+  <Fragment>
+
+    <InstallExecuteSequence>
+      <Custom Action="RunPowerShellScript" After="InstallFinalize"></Custom>
+    </InstallExecuteSequence>
+
+    <!-- <CustomAction Id="RunPowerShellScript" Execute="immediate" Value="
+        powershell.exe -ExecutionPolicy Bypass -File $(Session.Property('INSTALLFOLDER'))\Setup.ps1" /> -->
+
+
+      <CustomAction Id="RunPowerShellScript"
+      Property="RegisterPowerShellProperty"
+      Value="&quot;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&quot;
+      C:\Program Files (x86)\setup.ps1&quot;"
+      Execute="immediate" />
+
+
+    <ComponentGroup Id="ExampleComponents" Directory="INSTALLFOLDER">
+
+      <Component>
+        <File Source="C:\Users\user\Documents\GitHub\ATK\installation\setup.ps1" />
+      </Component>
+
+
+      <Component>
+        <File Source="C:\Users\user\Documents\GitHub\ATK\atk.exe" />
+      </Component>
+
+
+      <Component>
+        <File Source="C:\Users\user\Documents\GitHub\ATK\open_with_atk.cmd" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>
