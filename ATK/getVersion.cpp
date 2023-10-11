@@ -1,5 +1,5 @@
 #include <string>
-#include "../../include/getVersion.h"
+#include "getVersion.h"
 
 /**
  * Returns current version to console

@@ -3,11 +3,11 @@
 #include <string>
 #include <stdlib.h> // EXIT_FAILURE
 
-#include "../../include/argHeader.h"
-#include "../../include/help.h"
-#include "../../include/findFromArray.h"
-#include "../../include/getVersion.h"
-#include "../../include/exitFailure.h"
+#include "argHeader.h"
+#include "help.h"
+#include "findFromArray.h"
+#include "getVersion.h"
+#include "exitFailure.h"
 
 using namespace std;
 

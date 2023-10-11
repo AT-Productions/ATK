@@ -10,8 +10,8 @@
 
 using namespace std;
 
-#include "../../include/findCwd.h"
-#include "../../include/exitFailure.h"
+#include "findCwd.h"
+#include "exitFailure.h"
 
 string findCwd(string path){
     string fullPath;

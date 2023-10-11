@@ -1,5 +1,5 @@
 #include <string>
-#include "../../include/findFromArray.h"
+#include "findFromArray.h"
 #include <vector>
 
 using namespace std;

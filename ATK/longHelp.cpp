@@ -1,5 +1,5 @@
 #include <string>
-#include "../../include/help.h"
+#include "help.h"
 /**
  * RETURNS --HELP MESSAGE
  * 

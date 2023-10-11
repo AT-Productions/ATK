@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "../../include/argHeader.h"
-#include "../../include/readFile.h"
-#include "../../include/exitFailure.h"
+#include "argHeader.h"
+#include "readFile.h"
+#include "exitFailure.h"
 
 using namespace std;
 /**

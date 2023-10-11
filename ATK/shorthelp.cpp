@@ -1,6 +1,6 @@
 #include <string>
 using namespace std;
-#include "../../include/help.h"
+#include "help.h"
 
 /**
  * RETURNS SHORT HELP MESSAGE

@@ -4,10 +4,10 @@
 #include <string>
 #include <cstdlib>
 
-#include "../../include/argHeader.h"
-#include "../../include/writeFile.h"
-#include "../../include/cryption.h"
-#include "../../include/exitFailure.h"
+#include "argHeader.h"
+#include "writeFile.h"
+// #include "cryption.h"
+#include "exitFailure.h"
 
 using namespace std;
 /**
@@ -16,7 +16,7 @@ using namespace std;
  * @param result Pointer to result struct
  * @param action Parameter that checks actions
 */
-void writeFile(string content, basicInfo* result, int action, int blockInt){
+void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, int blockInt = 0){
     cout << content << " " << action << " " << blockInt << endl;
     fstream newfile;
     int currentrow = 0;
@@ -65,8 +65,8 @@ void writeFile(string content, basicInfo* result, int action, int blockInt){
             cerr << "Error opening the file for writing." << endl;
             exitfailure();
         }
-        currentrow = 7 + blockInt;
-        cout << "content" << endl;
+        // currentrow = 7 + blockInt;
+        // cout << "content" << endl;
         // file /* << currentrow */ << content << endl;
         file << content << endl;
     }

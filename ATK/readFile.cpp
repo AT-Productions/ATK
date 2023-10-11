@@ -4,11 +4,11 @@
 
 #include <filesystem>
 
-#include "../../include/argHeader.h"
-#include "../../include/readFile.h"
-#include "../../include/exitFailure.h"
-#include "../../include/writeFile.h"
-#include "../../include/findCwd.h"
+#include "argHeader.h"
+#include "readFile.h"
+#include "exitFailure.h"
+#include "writeFile.h"
+#include "findCwd.h"
 
 using namespace std;
 /**

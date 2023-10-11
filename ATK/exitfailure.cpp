@@ -1,4 +1,4 @@
-#include "../../include/exitFailure.h"
+#include "exitFailure.h"
 
 #include <stdlib.h> // ? REMOVE IN FUTURE ?
 /**

@@ -3,7 +3,7 @@
 #include <clocale>
 #include <cstdlib>
 
-#include "../../include/cryption.h"
+#include "cryption.h"
 /**
  * Crypts given content
  * 
