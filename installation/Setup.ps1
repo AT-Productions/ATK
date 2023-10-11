@@ -18,7 +18,7 @@ $callDir = $args[0]
 # Add the current directory to the PATH environment variable
 # Check if folder $callDir is already in the path
 # ! Adds path to build folder
-if($Env:PATH -notlike "*$callDir\build*"){
+if($Env:PATH -notlike "*$callDir\x64\Release*"){
     # TRUE, ADD TO PATH
 
     Write-Host Adding current path to System Environmental Variables.

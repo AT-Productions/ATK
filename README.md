@@ -1,13 +1,26 @@
-Setup environmental variables by running:
- * run_setup.bat
+
+Setup environmental variables for windows by running:
+
+* **run_setup.bat**
 
 ---
 
-Build this program with by running either:
- * .windows_build.bat
- * .linux_build.sh
+**Build**:
+*  **0_windows_build.bat**
+	- Requires cygwin, msys2 or alternatives with g++ installed.
+	- Builds to ATK/build/
+* **0_linux_build.sh**
+	- Requires g++ or alternatives
+	- ATK/build/
+*  **Building with Visual Studio 2022**
+	- Open project by opening ATK.sln
+	- Choose the correct platform
+	- Change from Debug to Release
+	- Build -> Build ATK
+	- Build will appear in ATK\x64\Release\ATK.exe
 
 Make msi with WiX:
 ```
-wix build -o atkInstaller.msi .\installation\Project.wxs .\installation\components.wxs .\installation\folder.wxs
+wix build -o atkInstaller.msi .\installation\Project.wxs 
+.\installation\components.wxs .\installation\folder.wxs
 ```

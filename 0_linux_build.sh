@@ -8,4 +8,8 @@ if [ ! -d "./build" ]; then
     mkdir build
 fi
 
-g++ -O3 -o "$output" $files -ggdb -g3
+# DEBUG
+#g++ -O3 -o "$output" $files -ggdb -g3
+
+
+g++ -o "$output" $files -ggdb -g3

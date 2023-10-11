@@ -29,7 +29,7 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
 
     // Create new substring excluding the .ext part
     string newPathToFile = result->path.substr(0, pos);
-
+    cout << newPathToFile << endl;
     // Add .atk file extension
     newPathToFile = newPathToFile + ".atk";
 
@@ -68,6 +68,7 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         // currentrow = 7 + blockInt;
         // cout << "content" << endl;
         // file /* << currentrow */ << content << endl;
+        cout << content << endl;
         file << content << endl;
     }
     // Delete pointer

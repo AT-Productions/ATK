@@ -16,10 +16,11 @@ using namespace std;
  * @param filepath path to the given file which will be read by this function
 */
 void readFile(string filePath, basicInfo* result){
-    string fullPath;
+    string fullPath = filePath;
     
-    /* Checks if path contains string: . */
-    if(filePath.find(".") != string::npos || filePath.find(".\\") != string::npos){
+    /* Checks if path contains string: ./ or .\ */
+    cout << filePath.substr(0, 2) << endl;
+    if(filePath.substr(0, 2) == ".\\" || filePath.substr(0,2) == "./"){
         fullPath = findCwd(filePath);
     }
     
@@ -52,8 +53,8 @@ void readFile(string filePath, basicInfo* result){
 
         while(getline(newfile, line)){ // Reads file contents line by line
             // Write to the given file current line. Send 1 to add blocks
-            writeFile(line, result, 1, 1);
             cout << line << endl;
+            writeFile(line, result, 1, 1);
             // i++
         }
         writeFile("]", result, 1, 1);
