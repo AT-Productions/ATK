@@ -9,6 +9,8 @@
 // #include "cryption.h"
 #include "exitFailure.h"
 
+string test();
+
 using namespace std;
 /**
  * Write to given file
@@ -65,3 +67,22 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         file << content << endl;
     }
 }
+/*
+#include <iomanip>
+#include <iostream>
+#include <limits>
+
+#include <numbers>
+string stoh(string const& in)
+{
+    ostringstream os;
+
+    for (unsigned char const& c : in)
+    {
+        os << hex << setprecision(2) << setw(2)
+            << setfill('0') << static_cast<int>(c);
+    }
+
+    return os.str();
+}
+*/
