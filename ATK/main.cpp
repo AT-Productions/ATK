@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
         // DELETE FROM MEMORY
         delete result;
-
+        result = nullptr;
     }
     else { // IF NULL POINTER
         cout << "handleArgs returned a null pointer." << endl;

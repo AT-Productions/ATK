@@ -16,22 +16,15 @@ using namespace std;
  * @param result Pointer to result struct
  * @param action Parameter that checks actions
 */
-void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, int blockInt = 0){
+void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, int blockInt = 0, string newPathToFile = "") {
+    //if (result == nullptr) {
+    //    cout << "result was null" << endl;
+    //    exitfailure();
+    //}
+    //basicInfo* result = new basicInfo;
     cout << content << " " << action << " " << blockInt << endl;
     fstream newfile;
     int currentrow = 0;
-    // Make new path for new file
-    // /old/path/name.atk
-    // Changes .ext to atk
-
-    // Get position of last '.'
-    int pos = result->path.find_last_of(".");
-
-    // Create new substring excluding the .ext part
-    string newPathToFile = result->path.substr(0, pos);
-    cout << newPathToFile << endl;
-    // Add .atk file extension
-    newPathToFile = newPathToFile + ".atk";
 
     // Do initialization with action0
     if(action == 0){
@@ -51,7 +44,7 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         */
         newFile /* << currentrow++ */ << "{" << endl; 
         newFile /* << currentrow++ */ << "_PASSWORD_" << result->password << endl;
-        newFile /* << currentrow++ */ <<  "_EXTENSION_" << result->path.substr(pos, result->path.length()) << endl;
+        newFile /* << currentrow++ */ <<  "_EXTENSION_" << newPathToFile.substr(newPathToFile.find_last_of("."), newPathToFile.length()) << endl;
         newFile /* << currentrow++ */ <<  "}" << endl;
         newFile /* << currentrow++ */ <<  "[" << endl;
         // newFile << "BLOCK0" << result->path.substr(pos, result->path.length()) << currentrow++ << " ENDROW " << endl; ;
@@ -71,8 +64,4 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         cout << content << endl;
         file << content << endl;
     }
-    // Delete pointer
-    delete result;
-
-    // Save file contents
 }

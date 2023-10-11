@@ -43,25 +43,42 @@ void readFile(string filePath, basicInfo* result){
      * Reads file line by line
     */
 
-   // Initialize files header section with @param 0
-   writeFile("" ,result, 0, 0);
 
-    newfile.open(filePath,ios::in); // Open file using read operation
+    newfile.open(filePath, ios::in); // Open file using read operation
+    // Make new path for new file
+    // /old/path/name.atk
+    // Changes .ext to atk
+
+    // Get position of last '.'
+    int pos = fullPath.find_last_of(".");
+
+    // Create new substring excluding the .ext part
+    string newPathToFile = fullPath.substr(0, pos);
+    cout << newPathToFile << endl;
+    // Add .atk file extension
+    newPathToFile = newPathToFile + ".atk";
+
+   // Initialize files header section with @param 0
+   writeFile("" ,result, 0, 0, newPathToFile);
+
+
+    
     if (newfile.is_open()){   // Checks if file is open
         string line;
         // int i = 0;
-
+        string data;
         while(getline(newfile, line)){ // Reads file contents line by line
             // Write to the given file current line. Send 1 to add blocks
             cout << line << endl;
-            writeFile(line, result, 1, 1);
+            data += line + "\n";
             // i++
         }
-        writeFile("]", result, 1, 1);
         newfile.close(); // Closes the file
-    }
-    // Delete pointer to result
-    delete result;
 
+        writeFile(data, result, 1, 1, newPathToFile);
+        cout << result << endl;
+        cout << &result << endl;
+        writeFile("]", result, 1, 1, newPathToFile);
+    }
 }
 
