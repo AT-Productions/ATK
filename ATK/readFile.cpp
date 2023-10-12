@@ -19,7 +19,6 @@ void readFile(string filePath, basicInfo* result){
     string fullPath = filePath;
     
     /* Checks if path contains string: ./ or .\ */
-    cout << filePath.substr(0, 2) << endl;
     if(filePath.substr(0, 2) == ".\\" || filePath.substr(0,2) == "./"){
         fullPath = findCwd(filePath);
     }
@@ -39,6 +38,9 @@ void readFile(string filePath, basicInfo* result){
      * 
     New file */
     fstream newfile;
+
+    // Holds value of the new pathfile
+    string newPathToFile;
    /**
      * Reads file line by line
     */
@@ -50,35 +52,85 @@ void readFile(string filePath, basicInfo* result){
     // Changes .ext to atk
 
     // Get position of last '.'
-    int pos = fullPath.find_last_of(".");
+    const int pos = fullPath.find_last_of(".");
 
-    // Create new substring excluding the .ext part
-    string newPathToFile = fullPath.substr(0, pos);
-    cout << newPathToFile << endl;
-    // Add .atk file extension
-    newPathToFile = newPathToFile + ".atk";
+    // !
+    // ! Checks if file is not .atk file
+    // !
+    if (fullPath.substr(pos, fullPath.length()) != ".atk") {
+        // Create new substring excluding the .ext part
+        newPathToFile = fullPath.substr(0, pos);
+        // Add .atk file extension
+        newPathToFile = newPathToFile + ".atk";
 
-   // Initialize files header section with @param 0
-   writeFile("" ,result, 0, 0, newPathToFile);
+       // Initialize files header section with @param 0
+       writeFile("" ,result, 0, 0, newPathToFile);
+    }
+    else {
+        // TODO GET PREVIOUS FILE EXTENSION FROM THE FILE!
 
+        // HERE AS PLACEHOLDER
+        newPathToFile = fullPath.substr(0, pos);
+        newPathToFile = newPathToFile + ".txt";
+    }
 
     
     if (newfile.is_open()){   // Checks if file is open
         string line;
-        // int i = 0;
         string data;
-        while(getline(newfile, line)){ // Reads file contents line by line
-            // Write to the given file current line. Send 1 to add blocks
-            cout << line << endl;
-            data += line + "\n";
-            // i++
+        int i = 0;
+
+
+        // !
+        // ! Checks if file is .atk file
+        // !
+        if (fullPath.substr(pos, fullPath.length()) == ".atk") {
+            // First 3 rows = Headers. after that file content.
+            while (getline(newfile, line)) { // Reads file contents line by line
+                // Write to the given file current line.
+
+                // First row = don't make new row
+                if (i < 3) {
+                    // HEADERS HERE
+                    // TODO HANDLE THESE
+                }
+                else {
+                    // Everything else here
+                    data += line;
+                }
+                // Add the current line to data
+                i++;
+            }
+            newfile.close(); // Closes the file
+
+            writeFile(data, result, 1, true, newPathToFile);
+        } else { // If not .atk file
+            while(getline(newfile, line)){ // Reads file contents line by line
+                // Write to the given file current line.
+
+                // First row = don't make new row
+                if (i == 0) {
+                    data += line;
+                } else {
+                    data += "\n" + line;
+                }
+                // Add the current line to data
+                i++;
+            }
+
+            newfile.close(); // Closes the file
+
+            // Write the data
+            writeFile(data, result, 1, false, newPathToFile);
+
         }
-        newfile.close(); // Closes the file
 
-        writeFile(data, result, 1, 1, newPathToFile);
-        cout << result << endl;
-        cout << &result << endl;
-        writeFile("]", result, 1, 1, newPathToFile);
-    }
+       
+        
+        // End files block with ]
+        // ! Moved "temporarily" to writeFile.cpp
+        // writeFile("]", result, 1, 1, newPathToFile);
+
+    } // End of newfile.open
+
 }
-

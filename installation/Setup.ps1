@@ -18,14 +18,15 @@ $callDir = $args[0]
 # Add the current directory to the PATH environment variable
 # Check if folder $callDir is already in the path
 # ! Adds path to build folder
-if($Env:PATH -notlike "*$callDir\x64\Release*"){
+$pathDir = "$callDir\Release"
+if($Env:PATH -notlike "*$pathDir*"){
     # TRUE, ADD TO PATH
 
     Write-Host Adding current path to System Environmental Variables.
 
     # Make oldPath and newPath variables
     $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
-    $newpath = "$oldpath;$callDir\build"
+    $newpath = "$oldpath;$pathDir"
     
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
 
@@ -45,15 +46,15 @@ $oldpathext = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\Curre
 
 $newpathext = "$oldpathext;.ATK"
 
-# Check if .atk is already in the pathext
+# Check if .ATK is already in the pathext
 if($Env:PATHEXT -notlike "*.ATK*"){
     # TRUE, ADD TO PATHEXT
-    Write-Host Adding .atk to PATHEXT.
+    Write-Host Adding .ATK to PATHEXT.
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT -Value $newpathext
-    Write-Host Added .atk to PATHEXT.
+    Write-Host Added .ATK to PATHEXT.
 } else {
     # FALSE, DON'T ADD
-    Write-Host .atk already found in PATHEXT.
+    Write-Host .ATK already found in PATHEXT.
 }
 # ---------------------------------------------------------------------
 

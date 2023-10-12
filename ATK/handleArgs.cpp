@@ -108,12 +108,18 @@ basicInfo* handleArgs(char** argv, int argc) {
     }
 
     /* Check that the correct types have been given */
-    if( result->type != "d" & result->type != "f" ||
-
-        result->path == "" || result->password == ""){
+    if(result->path == "" || result->password == ""){
+        cout << "Path or Password is not defined. " << shortHelp() << endl;
         /* Call exit failure */
         exitfailure();
     }
+    if (result->type != "d" & result->type != "f") {
+        cout << "Invalid type. " << shortHelp() << endl;
+        /* Call exit failure */
+        exitfailure();
+    }
+    
+    
     // Return the basicInfo struct with the data
     return result;
 }

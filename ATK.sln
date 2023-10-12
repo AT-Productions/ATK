@@ -7,16 +7,31 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATK", "ATK\ATK.vcxproj", "{
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		LIB|Win32 = LIB|Win32
+		LIB|x64 = LIB|x64
+		LIB|x86 = LIB|x86
+		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Debug|Win32.ActiveCfg = Debug|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Debug|Win32.Build.0 = Debug|Win32
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Debug|x64.ActiveCfg = Debug|x64
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Debug|x64.Build.0 = Debug|x64
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Debug|x86.ActiveCfg = Debug|Win32
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Debug|x86.Build.0 = Debug|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.LIB|Win32.ActiveCfg = Release|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.LIB|Win32.Build.0 = Release|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.LIB|x64.ActiveCfg = LIB|x64
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.LIB|x64.Build.0 = LIB|x64
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.LIB|x86.ActiveCfg = LIB|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.LIB|x86.Build.0 = LIB|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Release|Win32.ActiveCfg = Release|Win32
+		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Release|Win32.Build.0 = Release|Win32
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Release|x64.ActiveCfg = Release|Win32
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Release|x64.Build.0 = Release|Win32
 		{056E2171-54F0-4925-A9E6-FEF4CAE4B784}.Release|x86.ActiveCfg = Release|Win32

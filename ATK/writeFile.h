@@ -3,6 +3,6 @@
 #include <string>
 
 void writeFile(std::string content, basicInfo* result, 
-				int action, int blockInt, string newPathToFile);
+				int action, bool decrypt, string newPathToFile);
 
 #endif

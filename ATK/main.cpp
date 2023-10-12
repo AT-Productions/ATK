@@ -6,6 +6,7 @@
 #include "help.h"
 #include "readFile.h"
 #include "exitFailure.h"
+#include "getVersion.h"
 #ifdef __linux__
 #include <unistd.h>
 #else
@@ -25,9 +26,11 @@ int main(int argc, char* argv[]) {
     // argv[0] EXE NAME
     // ENTER ARGS WITH SPACES = "ABC DEF GEH"
 
-    if (argc <= 1) { /* If there are no arguments, throw exit failure */
-        //cout << shortHelp() << endl;
-        //exitfailure();
+    /* If there are no arguments, throw exit failure */
+    if (argc <= 1) { 
+        cout << getVersion();
+        cout << shortHelp() << endl;
+        exitfailure();
     }
     // Does the basic stuff with args
     basicInfo* result = handleArgs(argv, argc);

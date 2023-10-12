@@ -122,5 +122,11 @@
     <ClCompile Include="decrypt.cpp">
       <Filter>Source Files\cryption</Filter>
     </ClCompile>
+    <ClCompile Include="passwordHash.cpp">
+      <Filter>Source Files\cryption</Filter>
+    </ClCompile>
+    <ClCompile Include="cypherAmount.cpp">
+      <Filter>Source Files\cryption</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
