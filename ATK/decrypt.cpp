@@ -20,7 +20,6 @@ std::vector<char32_t> deCrypt(std::string content, basicInfo* result) {
     // Loops through the content string
     for (char32_t c : content) {
 
-
         // If c is under 0
         if (c - cypher < 0) {
 

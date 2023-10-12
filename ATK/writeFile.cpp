@@ -40,7 +40,8 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
          * 
          * cryptFunc("string");
         */
-        newFile /* << currentrow++ */ << "_PASSWORD_" << result->password << endl;
+        
+        newFile /* << currentrow++ */ << "_PASSWORD_" << passwordHash(result) << endl;
 
         // Adds the original file extension. Finds position of the last '.' and takes a substring from it to the end of the string
         newFile /* << currentrow++ */ <<  "_EXTENSION_" << result->path.substr(result->path.find_last_of("."), result->path.length()) << endl;
