@@ -198,6 +198,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="argHeader.h" />
+    <ClInclude Include="checkLua.h" />
     <ClInclude Include="convert.h" />
     <ClInclude Include="cryption.h" />
     <ClInclude Include="exitFailure.h" />
@@ -216,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="callerPath.cpp" />
+    <ClCompile Include="checkLua.cpp" />
     <ClCompile Include="convert.cpp" />
     <ClCompile Include="createFile.cpp" />
     <ClCompile Include="crypt.cpp" />
@@ -238,6 +240,7 @@
   <ItemGroup>
     <None Include="lua535\lua53.dll" />
     <None Include="readFile.lua" />
+    <None Include="writeFile.lua" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lua535\lua53.lib" />

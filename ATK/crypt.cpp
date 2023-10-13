@@ -4,13 +4,7 @@
 #include "cryption.h"
 #include "argHeader.h"
 
-/**
- * Crypts given content.
- * Turns characters to UTF8 Decimals and 
- * changes some values
- * 
- * @param content String to be crypted
-*/
+
 
 std::vector<char32_t> crypt(std::string content, basicInfo* result){
     // Holds the final string full of unicode characters

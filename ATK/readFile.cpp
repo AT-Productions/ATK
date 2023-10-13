@@ -2,22 +2,15 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+
+
 #include "argHeader.h"
 #include "readFile.h"
 #include "exitFailure.h"
 #include "writeFile.h"
 #include "findCwd.h"
 
-//https://www.youtube.com/watch?v=4l5HdmPoynw
-extern "C" {
-#include "lua535/include/lua.h"
-#include "lua535/include/lauxlib.h"
-#include "lua535/include/lualib.h"
-}
 
-#ifdef _WIN32
-#pragma comment(lib, "lua535/lua53.lib")
-#endif // _WIN32
 
 
 
@@ -31,32 +24,8 @@ https://stackoverflow.com/questions/49907441/type-in-special-characters-and-save
 */
 
 using namespace std;
-/**
- * Reads given file
- * @param filepath path to the given file which will be read by this function
-*/
+
 void readFile(string filePath, basicInfo* result){
-    std::string cmd = "a=7+11";
-
-    lua_State* L = luaL_newstate();
-
-    int r = luaL_dostring(L, cmd.c_str());
-
-    // Check for errors
-    if (r == LUA_OK) {
-        lua_getglobal(L, "a");
-        if (lua_isnumber(L, -1)) {
-            float a_in_cpp = (float)lua_tonumber(L, -1);
-            cout << a_in_cpp << endl;
-        }
-    }
-    else {
-        std::string errormsg = lua_tostring(L, -1);
-        std::cout << errormsg << std::endl;
-    }
-    lua_close(L);
-    exitfailure();
-
     string fullPath = filePath;
 
     /* Checks if path contains string: ./ or .\ */
@@ -65,7 +34,7 @@ void readFile(string filePath, basicInfo* result){
     }
     /* Checks if given path exists*/
     if( !filesystem::exists(fullPath) ){
-        cerr << fullPath << " Is invalid" << endl;
+        cerr << fullPath << " Is not a valid path" << endl;
         exitfailure();
     }
 
@@ -151,7 +120,7 @@ void readFile(string filePath, basicInfo* result){
                 // STARTS STRAIGHT FROM DATA
                 // DUE TO EARLIER READING    
 
-                data += line;
+                data += "\n" + line;
 
                 // Add the current line to data
                 // i++;
@@ -168,7 +137,7 @@ void readFile(string filePath, basicInfo* result){
                 if (i < 3) {
                     data += line;
                 } else {
-                    data += line;
+                    data += "\n" + line;
                 }
                 // Add the current line to data
                 i++;

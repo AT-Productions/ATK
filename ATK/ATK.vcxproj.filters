@@ -87,6 +87,9 @@
     <ClInclude Include="lua535\include\lualib.h">
       <Filter>Header Files\lua</Filter>
     </ClInclude>
+    <ClInclude Include="checkLua.h">
+      <Filter>Header Files\lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,6 +149,9 @@
     <ClCompile Include="cypherAmount.cpp">
       <Filter>Source Files\cryption</Filter>
     </ClCompile>
+    <ClCompile Include="checkLua.cpp">
+      <Filter>Source Files\fileHandling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="readFile.lua">
@@ -154,6 +160,7 @@
     <None Include="lua535\lua53.dll">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="writeFile.lua" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lua535\lua53.lib">

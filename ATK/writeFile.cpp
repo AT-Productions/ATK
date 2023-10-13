@@ -9,15 +9,16 @@
 #include "cryption.h"
 #include "exitFailure.h"
 
+//https://www.youtube.com/watch?v=4l5HdmPoynw
+#include "checkLua.h"
+#include "lua535/include/lua.hpp"
+
+#ifdef _WIN32
+#pragma comment(lib, "lua535/lua53.lib")
+#endif // _WIN32
+
 using namespace std;
-/**
- * Write to given file
- * @param pathToFile Path to the file
- * @param result Pointer to result struct
- * @param action Parameter that checks actions
- * @param decrypt true = File is going to be decrypted
- * @param newPathToFile Contains the new path.
-*/
+
 void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false, string newPathToFile = "") {
     int currentrow = 0;
 
@@ -54,9 +55,7 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
             cerr << "Error opening the file for writing." << endl;
             exitfailure();
         }
-        /*
-         https://stackoverflow.com/questions/23461499/decimal-to-unicode-char-in-c
-        */
+
 
         // currentrow = 7 + blockInt;
         std::vector<char32_t> results;
@@ -78,11 +77,55 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
 
 
         // Print the contents of the 'result' vector
-        cout << "CHANGES BEGIN: " << endl;
+        // Using lua
+
+        // Initialize new lua machine
+        lua_State* L = luaL_newstate();
+
+        // Opens basic libraries for lua to use
+        luaL_openlibs(L);
+
+
+        int r = luaL_dofile(L, "source/writeFile.lua");
+        // Check for errors
+        if (checkLua(L, r)) {
+
+            // Gets function
+            lua_getglobal(L, "WriteFile");
+
+            // Error check
+            if (lua_isfunction(L, -1)) {
+                // Create a Lua table to hold the vector elements
+                lua_newtable(L);
+                // Push the vector elements onto the Lua stack
+                int integer = 0;
+                for (char32_t c : results) {
+                    lua_pushnumber(L, c);
+                    wcout << wchar_t(c) << endl;
+                    // Set the table entry (Lua is 1-based)
+                    lua_rawseti(L, -2, static_cast<lua_Integer>(integer) + 1);
+                    integer++;
+                }
+
+
+                lua_pushstring(L, newPathToFile.c_str());
+
+                if (checkLua(L, lua_pcall(L, 2, 1, 0))) {
+
+                     //cout << "GOT: " << (bool)lua_tonumber(L, -1) << endl;
+                }
+            }
+
+        }
+        lua_close(L);
+
+
+
         for (char32_t c : results) {
             if (c <= 0xFFFF) {
                 // If the character is within the UTF-16 range
                 utf16.push_back(static_cast<uint16_t>(c));
+                //wcout << static_cast<uint16_t>(c) << endl;
             }
             else {
                 // HANDLE ERRORS
@@ -90,14 +133,14 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
             }
         }
 
-        // Write the UTF-16 data to the file
-        newFile.write(reinterpret_cast<char*>(utf16.data()), utf16.size() * sizeof(uint16_t));
+        //// Write the UTF-16 data to the file
+        //newFile.write(reinterpret_cast<char*>(utf16.data()), utf16.size() * sizeof(uint16_t));
 
-        // Close the file
+        //// Close the file
         newFile.close();
 
 
-        // Delete the previous file
+        //// Delete the previous file
         if (remove(result->path.c_str()) == 0){
         }
     }
