@@ -20,7 +20,6 @@ std::vector<char32_t> crypt(std::string content, basicInfo* result){
     int cypher = cypherAmount(result);
     // Loops through the content string
     for (char32_t c : content) {
-
         // If c is over 149,813
         // https://www.unicode.org/versions/Unicode15.1.0/
         // MAXIMUM AMOUNT AS OF UNICODE 15.1.0

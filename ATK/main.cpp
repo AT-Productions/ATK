@@ -17,11 +17,10 @@ using namespace std;
 /**
  * https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/cc144169(v=vs.85)?redirectedfrom=MSDN
 */
-
 /**
  * Startpoint
 */
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]){
     // argv[argc-1] LAST ARGUMENT
     // argv[0] EXE NAME
     // ENTER ARGS WITH SPACES = "ABC DEF GEH"

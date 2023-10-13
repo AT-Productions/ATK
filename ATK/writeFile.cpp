@@ -2,9 +2,7 @@
 #include <string>
 #include <fstream>
 #include <string>
-#include <locale>
 #include <vector>
-#include <codecvt>
 
 #include "argHeader.h"
 #include "writeFile.h"
@@ -21,19 +19,19 @@ using namespace std;
  * @param newPathToFile Contains the new path.
 */
 void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false, string newPathToFile = "") {
-    fstream newfile;
     int currentrow = 0;
+
+    // Open in append mode
 
     // Do initialization with action0
     if(action == 0){
-        // Create new file or modify it
 
         // Delete old file
         remove(newPathToFile.c_str());
 
-        // Open in append mode
+
+        // Create new file or modify it
         ofstream newFile(newPathToFile, ios::app);
-        
         /**
          * ---------------------------------------------
          * Starts writing to new file
@@ -45,16 +43,14 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
 
         // Adds the original file extension. Finds position of the last '.' and takes a substring from it to the end of the string
         newFile /* << currentrow++ */ <<  "_EXTENSION_" << result->path.substr(result->path.find_last_of("."), result->path.length()) << endl;
-        newFile /* << currentrow++ */ <<  "_START_" << endl;
         // newFile << "BLOCK0" << result->path.substr(pos, result->path.length()) << currentrow++ << " ENDROW " << endl; ;
     }
-    
 
     // Make BLOCKS with action1
     if(action == 1){
-        ofstream file(newPathToFile, std::ios::app | std::ios::binary);
-
-        if (file.fail()) {
+        ofstream newFile(newPathToFile, std::ios::app | std::ios::binary);
+        // ofstream newFile(newPathToFile, ios::app);
+        if (newFile.fail()) {
             cerr << "Error opening the file for writing." << endl;
             exitfailure();
         }
@@ -68,15 +64,21 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         std::string writeStr;
         std::vector<uint16_t> utf16;
 
+        /* DECRYPT THE FILE */
         if (decrypt == true) {
             // Decrypt the contents and get the result vector
             results = deCrypt(content, result);
         }
+
+        /*CRYPT THE FILE*/
         else {
             // Crypt the content and get the result vector
             results = crypt(content, result);
         }
+
+
         // Print the contents of the 'result' vector
+        cout << "CHANGES BEGIN: " << endl;
         for (char32_t c : results) {
             if (c <= 0xFFFF) {
                 // If the character is within the UTF-16 range
@@ -89,8 +91,14 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         }
 
         // Write the UTF-16 data to the file
-        file.write(reinterpret_cast<char*>(utf16.data()), utf16.size() * sizeof(uint16_t));
+        newFile.write(reinterpret_cast<char*>(utf16.data()), utf16.size() * sizeof(uint16_t));
+
         // Close the file
-        file.close();
+        newFile.close();
+
+
+        // Delete the previous file
+        if (remove(result->path.c_str()) == 0){
+        }
     }
 }

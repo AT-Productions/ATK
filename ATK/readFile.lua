@@ -1,0 +1,3 @@
+ReadFile(){
+	print("AAA");
+}

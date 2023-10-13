@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 
 #include "argHeader.h"
@@ -11,17 +10,19 @@ int cypherAmount(basicInfo* result) {
 
 	// Takes passwords length and adds three to it
 	int length = result->password.length() + 3;
+	int sugar = 5;
+
 
 	if (length <= 5) {
-		std::cout << "ASADSDSA";
+		sugar *= 4;
 	}
 	else if (length <= 7) {
-		std::cout << "dsadsadsa";
+		sugar *= 3;
 	}
 	else {
-		std::cout << "fdsfds";
+		sugar *= 2;
 	}
 
-	finalInt = 10;
+	finalInt = 10 + sugar + length;
 	return finalInt;
 }

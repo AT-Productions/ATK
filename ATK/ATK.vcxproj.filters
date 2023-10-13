@@ -34,6 +34,9 @@
     <Filter Include="Source Files\cryption">
       <UniqueIdentifier>{e51bf6b6-c753-4fe4-aea9-21349cfff67e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\lua">
+      <UniqueIdentifier>{d7714ef7-b787-4d62-b5e9-050eb06f1c1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test.h">
@@ -68,6 +71,21 @@
     </ClInclude>
     <ClInclude Include="writeFile.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lua535\include\lauxlib.h">
+      <Filter>Header Files\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="lua535\include\lua.h">
+      <Filter>Header Files\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="lua535\include\lua.hpp">
+      <Filter>Header Files\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="lua535\include\luaconf.h">
+      <Filter>Header Files\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="lua535\include\lualib.h">
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,5 +146,18 @@
     <ClCompile Include="cypherAmount.cpp">
       <Filter>Source Files\cryption</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readFile.lua">
+      <Filter>Source Files\fileHandling</Filter>
+    </None>
+    <None Include="lua535\lua53.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lua535\lua53.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>
