@@ -19,7 +19,7 @@ This will add the folder to the system pa
 ---
 
 * ```0_linux_build.sh```bash
-	- Requires g++ or alternatives
+	- Requires g++
 	- ATK/build/
 
 ---
