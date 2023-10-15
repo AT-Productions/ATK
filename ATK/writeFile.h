@@ -10,6 +10,6 @@
  * @param newPathToFile Contains the new path.
 */
 void writeFile(std::string content, basicInfo* result, 
-				int action, bool decrypt, string newPathToFile);
+				int action, bool decrypt);
 
 #endif

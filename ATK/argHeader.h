@@ -11,6 +11,7 @@ struct basicInfo
     string type;
     string path;
     string password;
+    string newPath;
   };
 
 basicInfo* handleArgs(char** argv, int argc);

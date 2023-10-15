@@ -10,7 +10,7 @@ function WriteFile(content, path)
 
         for _, decimal in pairs(content) do
             print(decimal)
-            file:write(utf8.char(decimal))
+            -- file:write(utf8.char(decimal))
         end
 
         -- Close the file to save the changes

@@ -19,7 +19,7 @@
 
 using namespace std;
 
-void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false, string newPathToFile = "") {
+void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false) {
     int currentrow = 0;
 
     // Open in append mode
@@ -28,11 +28,11 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
     if(action == 0){
 
         // Delete old file
-        remove(newPathToFile.c_str());
+        remove(result->newPath.c_str());
 
 
         // Create new file or modify it
-        ofstream newFile(newPathToFile, ios::app);
+        ofstream newFile(result->newPath, ios::app);
         /**
          * ---------------------------------------------
          * Starts writing to new file
@@ -49,8 +49,8 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
 
     // Make BLOCKS with action1
     if(action == 1){
-        ofstream newFile(newPathToFile, std::ios::app | std::ios::binary);
-        // ofstream newFile(newPathToFile, ios::app);
+        ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
+        // ofstream newFile(result->newPath, ios::app);
         if (newFile.fail()) {
             cerr << "Error opening the file for writing." << endl;
             exitfailure();
@@ -108,7 +108,7 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
                 }
 
 
-                lua_pushstring(L, newPathToFile.c_str());
+                lua_pushstring(L, result->newPath.c_str());
 
                 if (checkLua(L, lua_pcall(L, 2, 1, 0))) {
 
@@ -141,7 +141,8 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
 
 
         //// Delete the previous file
-        if (remove(result->path.c_str()) == 0){
-        }
+       /* if (remove(result->path.c_str()) == 0){
+       * cout << "Removed " << result->path << " succesfully" << endl;
+        }*/
     }
 }

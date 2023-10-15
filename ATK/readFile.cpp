@@ -3,13 +3,22 @@
 #include <fstream>
 #include <filesystem>
 
+#include <cstdlib>
+#include <locale>
+
+
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+#pragma warning (disable : 4996 )
+#include <codecvt>
+
+#include <Windows.h>
 
 #include "argHeader.h"
 #include "readFile.h"
 #include "exitFailure.h"
 #include "writeFile.h"
 #include "findCwd.h"
-
 
 
 
@@ -49,20 +58,24 @@ void readFile(string filePath, basicInfo* result){
 
     // Holds value of the new pathfile
     string newPathToFile;
+
+
    /**
      * Reads file line by line
+     * https://stackoverflow.com/questions/4775437/read-unicode-utf-8-file-into-wstring
     */
 
-
     newfile.open(filePath, ios::in); // Open file using read operation
+    
+
+   // exitfailure();
+
     // Make new path for new file
     // /old/path/name.atk
     // Changes .ext to atk
 
     // Get position of last '.'
     const int pos = fullPath.find_last_of(".");
-    // cout << "AAA " << result->path << endl;
-    // cout << "BBB " << newPathToFile << endl;
     // !
     // ! Checks if file is not .atk file
     // !
@@ -94,7 +107,7 @@ void readFile(string filePath, basicInfo* result){
         newPathToFile = fullPath.substr(0, pos);
         newPathToFile = newPathToFile + prev;
     }
-
+    result->newPath = newPathToFile;
 
 
 
@@ -126,7 +139,7 @@ void readFile(string filePath, basicInfo* result){
                 // i++;
             }
             newfile.close(); // Closes the file
-            writeFile(data, result, 1, true, newPathToFile);
+            writeFile(data, result, 1, true);
 
         } else { // If not .atk file
             while(getline(newfile, line)){ 
@@ -144,11 +157,11 @@ void readFile(string filePath, basicInfo* result){
             }
             newfile.close(); // Closes the file
             // Write the data
-            writeFile(data, result, 1, false, newPathToFile);
+            writeFile(data, result, 1, false);
         }
         // End files block with ]
         // ! Moved "temporarily" to writeFile.cpp
-        // writeFile("]", result, 1, 1, newPathToFile);
+        // writeFile("]", result, 1, 1);
 
     } // End of newfile.open
 

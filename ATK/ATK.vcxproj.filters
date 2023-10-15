@@ -157,10 +157,7 @@
     <None Include="readFile.lua">
       <Filter>Source Files\fileHandling</Filter>
     </None>
-    <None Include="lua535\lua53.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="writeFile.lua" />
+    <None Include="source\writeFile.lua" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lua535\lua53.lib">
