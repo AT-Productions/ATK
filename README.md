@@ -1,12 +1,8 @@
-# Characters
-Supports crypting of all characters found in Unicode 15.1.0 version
-
 # Setting up
 Setup environmental variables and RegEd by running:
 ```bash
 run_setup.bat
 ```
-This will add the folder to the system pa
 
 ---
 
