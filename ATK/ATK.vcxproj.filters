@@ -19,29 +19,14 @@
     <Filter Include="Source Files\args">
       <UniqueIdentifier>{046dfd44-14ec-4710-a44f-ca2f870869c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\createFile">
-      <UniqueIdentifier>{01bf9f60-cb16-43dc-bce0-3de94f7f57b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\cui">
-      <UniqueIdentifier>{d7873a0d-6d3a-49fc-a800-16d482392a97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\editfile">
-      <UniqueIdentifier>{0bf28183-5409-4f98-8864-c02459ae5130}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\fileHandling">
       <UniqueIdentifier>{7ee1aaa7-8938-41a5-acc7-96d18c03eafc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\cryption">
       <UniqueIdentifier>{e51bf6b6-c753-4fe4-aea9-21349cfff67e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\lua">
-      <UniqueIdentifier>{d7714ef7-b787-4d62-b5e9-050eb06f1c1c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="argHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,30 +57,9 @@
     <ClInclude Include="writeFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lua535\include\lauxlib.h">
-      <Filter>Header Files\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="lua535\include\lua.h">
-      <Filter>Header Files\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="lua535\include\lua.hpp">
-      <Filter>Header Files\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="lua535\include\luaconf.h">
-      <Filter>Header Files\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="lua535\include\lualib.h">
-      <Filter>Header Files\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="checkLua.h">
-      <Filter>Header Files\lua</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="deleteFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="shorthelp.cpp">
@@ -104,20 +68,8 @@
     <ClCompile Include="longHelp.cpp">
       <Filter>Source Files\global</Filter>
     </ClCompile>
-    <ClCompile Include="callerPath.cpp">
-      <Filter>Source Files\args</Filter>
-    </ClCompile>
     <ClCompile Include="handleArgs.cpp">
       <Filter>Source Files\args</Filter>
-    </ClCompile>
-    <ClCompile Include="createFile.cpp">
-      <Filter>Source Files\createFile</Filter>
-    </ClCompile>
-    <ClCompile Include="editFile.cpp">
-      <Filter>Source Files\editfile</Filter>
-    </ClCompile>
-    <ClCompile Include="convert.cpp">
-      <Filter>Source Files\fileHandling</Filter>
     </ClCompile>
     <ClCompile Include="findCwd.cpp">
       <Filter>Source Files\fileHandling</Filter>
@@ -143,25 +95,8 @@
     <ClCompile Include="decrypt.cpp">
       <Filter>Source Files\cryption</Filter>
     </ClCompile>
-    <ClCompile Include="passwordHash.cpp">
-      <Filter>Source Files\cryption</Filter>
-    </ClCompile>
     <ClCompile Include="cypherAmount.cpp">
       <Filter>Source Files\cryption</Filter>
     </ClCompile>
-    <ClCompile Include="checkLua.cpp">
-      <Filter>Source Files\fileHandling</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readFile.lua">
-      <Filter>Source Files\fileHandling</Filter>
-    </None>
-    <None Include="source\writeFile.lua" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lua535\lua53.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
   </ItemGroup>
 </Project>

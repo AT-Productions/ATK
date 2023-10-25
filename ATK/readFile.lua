@@ -1,3 +1,0 @@
-ReadFile(){
-	print("AAA");
-}

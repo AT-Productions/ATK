@@ -1,67 +1,95 @@
 #include <iostream>
-#include <string>
 #include <fstream>
 #include <string>
+#include <string>
 #include <vector>
+
+#include <locale>
 
 #include "argHeader.h"
 #include "writeFile.h"
 #include "cryption.h"
 #include "exitFailure.h"
 
-//https://www.youtube.com/watch?v=4l5HdmPoynw
-#include "checkLua.h"
-#include "lua535/include/lua.hpp"
-
-#ifdef _WIN32
-#pragma comment(lib, "lua535/lua53.lib")
-#endif // _WIN32
-
 using namespace std;
 
 void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false) {
-    int currentrow = 0;
-
-    // Open in append mode
-
     // Do initialization with action0
-    if(action == 0){
-
+    if (action == 0) {
         // Delete old file
-        remove(result->newPath.c_str());
+        if (remove(result->newPath.c_str()) == 0) {}
 
 
         // Create new file or modify it
-        ofstream newFile(result->newPath, ios::app);
+        ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
+        // Set the locale to UTF-8
+        newFile.imbue(std::locale("en_US.UTF-8"));
         /**
          * ---------------------------------------------
          * Starts writing to new file
-         * 
+         *
          * cryptFunc("string");
         */
-        
-        newFile /* << currentrow++ */ << "_PASSWORD_" << passwordHash(result) << endl;
 
-        // Adds the original file extension. Finds position of the last '.' and takes a substring from it to the end of the string
-        newFile /* << currentrow++ */ <<  "_EXTENSION_" << result->path.substr(result->path.find_last_of("."), result->path.length()) << endl;
-        // newFile << "BLOCK0" << result->path.substr(pos, result->path.length()) << currentrow++ << " ENDROW " << endl; ;
+        // Crypted versions of password and file extension
+        std::vector<char32_t> newPasswordC, newExtensionC;
+        newPasswordC = crypt(result->password, result);
+        newExtensionC = crypt(result->path.substr(result->path.find_last_of(".") + 1, result->path.length()), result);
+
+        // String versions
+        wstring newPasswordS;
+        string newExtensionS;
+
+        // Change password to crypt
+        for (char32_t c : newPasswordC) {
+            if (c <= std::numeric_limits<wchar_t>::max()) {
+                wchar_t wc = static_cast<wchar_t>(c);
+                newPasswordS += wc;
+            }
+            else {
+                // Handle the case where a char32_t character cannot be represented as a wchar_t
+                std::cerr << "Character cannot be converted to wchar_t without data loss." << std::endl;
+                // You might want to decide what to do in this case
+            }
+        }
+        
+        // Change extension to crypt
+        for (char32_t c : newExtensionC) {
+            if (c <= std::numeric_limits<wchar_t>::max()) {
+                wchar_t wc = static_cast<wchar_t>(c);
+                newExtensionS += wc;
+            }
+            else {
+                // Handle the case where a char32_t character cannot be represented as a wchar_t
+                std::cerr << "Character cannot be converted to wchar_t without data loss." << std::endl;
+                // You might want to decide what to do in this case
+            }
+        }
+
+
+        // Adds the original file extension. Finds position of the last '.'
+        //  and takes a substring from it to the end of the string
+
+
+        newFile << "_PASSWORD_" << newPasswordS.c_str() << endl;
+        //newFile << "_EXTENSION_" << newExtensionS << endl;
+        newFile << "_EXTENSION_" << result->path.substr(result->path.find_last_of(".") + 1, result->path.length()) << endl;
+        newFile.close();
     }
 
     // Make BLOCKS with action1
-    if(action == 1){
+    if (action == 1) {
         ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
-        // ofstream newFile(result->newPath, ios::app);
+
+        // Set the locale to UTF-8
+        newFile.imbue(std::locale("en_US.UTF-8"));
+
         if (newFile.fail()) {
             cerr << "Error opening the file for writing." << endl;
             exitfailure();
         }
 
-
-        // currentrow = 7 + blockInt;
         std::vector<char32_t> results;
-        std::vector<wchar_t> newResults;
-        std::string writeStr;
-        std::vector<uint16_t> utf16;
 
         /* DECRYPT THE FILE */
         if (decrypt == true) {
@@ -75,74 +103,19 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
             results = crypt(content, result);
         }
 
-
-        // Print the contents of the 'result' vector
-        // Using lua
-
-        // Initialize new lua machine
-        lua_State* L = luaL_newstate();
-
-        // Opens basic libraries for lua to use
-        luaL_openlibs(L);
-
-
-        int r = luaL_dofile(L, "source/writeFile.lua");
-        // Check for errors
-        if (checkLua(L, r)) {
-
-            // Gets function
-            lua_getglobal(L, "WriteFile");
-
-            // Error check
-            if (lua_isfunction(L, -1)) {
-                // Create a Lua table to hold the vector elements
-                lua_newtable(L);
-                // Push the vector elements onto the Lua stack
-                int integer = 0;
-                for (char32_t c : results) {
-                    lua_pushnumber(L, c);
-                    wcout << wchar_t(c) << endl;
-                    // Set the table entry (Lua is 1-based)
-                    lua_rawseti(L, -2, static_cast<lua_Integer>(integer) + 1);
-                    integer++;
-                }
-
-
-                lua_pushstring(L, result->newPath.c_str());
-
-                if (checkLua(L, lua_pcall(L, 2, 1, 0))) {
-
-                     //cout << "GOT: " << (bool)lua_tonumber(L, -1) << endl;
-                }
-            }
-
-        }
-        lua_close(L);
-
-
+        // Create an empty string to store the result
+        std::string resultString;
 
         for (char32_t c : results) {
-            if (c <= 0xFFFF) {
-                // If the character is within the UTF-16 range
-                utf16.push_back(static_cast<uint16_t>(c));
-                //wcout << static_cast<uint16_t>(c) << endl;
-            }
-            else {
-                // HANDLE ERRORS
-                // COMING SOON
-            }
+            resultString += c;
         }
+        newFile << resultString;
 
-        //// Write the UTF-16 data to the file
-        //newFile.write(reinterpret_cast<char*>(utf16.data()), utf16.size() * sizeof(uint16_t));
-
-        //// Close the file
+        // Close the file
         newFile.close();
 
 
-        //// Delete the previous file
-       /* if (remove(result->path.c_str()) == 0){
-       * cout << "Removed " << result->path << " succesfully" << endl;
-        }*/
+        // Delete the previous file
+        if (remove(result->path.c_str()) == 0) {}
     }
 }

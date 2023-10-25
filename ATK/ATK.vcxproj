@@ -198,7 +198,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="argHeader.h" />
-    <ClInclude Include="checkLua.h" />
     <ClInclude Include="convert.h" />
     <ClInclude Include="cryption.h" />
     <ClInclude Include="exitFailure.h" />
@@ -206,25 +205,13 @@
     <ClInclude Include="findFromArray.h" />
     <ClInclude Include="getVersion.h" />
     <ClInclude Include="help.h" />
-    <ClInclude Include="lua535\include\lauxlib.h" />
-    <ClInclude Include="lua535\include\lua.h" />
-    <ClInclude Include="lua535\include\lua.hpp" />
-    <ClInclude Include="lua535\include\luaconf.h" />
-    <ClInclude Include="lua535\include\lualib.h" />
     <ClInclude Include="readFile.h" />
-    <ClInclude Include="test.h" />
     <ClInclude Include="writeFile.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="callerPath.cpp" />
-    <ClCompile Include="checkLua.cpp" />
-    <ClCompile Include="convert.cpp" />
-    <ClCompile Include="createFile.cpp" />
     <ClCompile Include="crypt.cpp" />
     <ClCompile Include="cypherAmount.cpp" />
     <ClCompile Include="decrypt.cpp" />
-    <ClCompile Include="deleteFile.cpp" />
-    <ClCompile Include="editFile.cpp" />
     <ClCompile Include="exitfailure.cpp" />
     <ClCompile Include="findCwd.cpp" />
     <ClCompile Include="findFromArray.cpp" />
@@ -232,17 +219,9 @@
     <ClCompile Include="handleArgs.cpp" />
     <ClCompile Include="longHelp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="passwordHash.cpp" />
     <ClCompile Include="readFile.cpp" />
     <ClCompile Include="shorthelp.cpp" />
     <ClCompile Include="writeFile.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readFile.lua" />
-    <None Include="source\writeFile.lua" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lua535\lua53.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
