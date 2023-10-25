@@ -5,7 +5,8 @@
 using namespace std;
 /**
  * Reads given file
- * @param filepath path to the given file which will be read by this function
+ * @param filepath Path to the given file which will be read by this function
+ * @param result Pointer to the result struct
 */
 void readFile(string filePath, basicInfo* result);
 

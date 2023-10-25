@@ -6,9 +6,6 @@
 int cypherAmount(basicInfo* result) {
 	int finalInt;
 
-
-
-	// Takes passwords length and adds three to it
 	int length = result->password.length() + 3;
 	int sugar = 5;
 

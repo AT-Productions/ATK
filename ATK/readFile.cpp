@@ -76,7 +76,7 @@ void readFile(string filePath, basicInfo* result){
                 if (line.find("_PASSWORD_")) { // Find _EXTENSION_
 
                     // Decrypt the extension
-                    std::vector<char32_t> newExtensionC;
+                    std::vector<char16_t> newExtensionC;
                     string newExtensionS;
 
                     newExtensionC = deCrypt(line.substr(line.find_last_of("_") + 1, line.length()), result);

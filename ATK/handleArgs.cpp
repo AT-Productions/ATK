@@ -114,7 +114,7 @@ basicInfo* handleArgs(char** argv, int argc) {
         exitfailure();
     }
     if (result->type != "d" & result->type != "f") {
-        cout << "Invalid type. " << shortHelp() << endl;
+        cout << "Invalid type \"" << result->type << "\". " << shortHelp() << endl;
         /* Call exit failure */
         exitfailure();
     }

@@ -2,9 +2,6 @@
 using namespace std;
 #include "help.h"
 
-/**
- * RETURNS SHORT HELP MESSAGE
-*/
 string shortHelp(){
     return "For help, type atk --help";
 }

@@ -13,7 +13,7 @@
  *
  * @param content String to be crypted
 */
-std::vector<char32_t> crypt(std::string content, basicInfo* result);
+std::vector<char16_t> crypt(std::string content, basicInfo* result);
 
 
 /**
@@ -23,7 +23,7 @@ std::vector<char32_t> crypt(std::string content, basicInfo* result);
  *
  * @param content String to be decrypted
 */
-std::vector<char32_t> deCrypt(std::string content, basicInfo* result);
+std::vector<char16_t> deCrypt(std::string content, basicInfo* result);
 
 int cypherAmount(basicInfo* result);
 
