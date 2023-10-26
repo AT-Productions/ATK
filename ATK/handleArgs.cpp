@@ -18,7 +18,7 @@ basicInfo* handleArgs(char** argv, int argc) {
 
     // All arg types for error checking
     const string argTypes[6] = {
-        "t", "p", "k", "type", "path", "key"
+        "t", "p", "k", "-type", "-path", "-key"
     };
 
     const int argTypesSize = sizeof(argTypes) / sizeof(argTypes[0]); // Size of argTypes Array
@@ -32,7 +32,6 @@ basicInfo* handleArgs(char** argv, int argc) {
 
     for (int i = 1; i < argc; ++i){ /* Loop through args*/
         currentArg = argv[i]; // The current argument
-
         // Checks for --help
         if (currentArg == "--help") {
 
@@ -63,10 +62,8 @@ basicInfo* handleArgs(char** argv, int argc) {
 
             // Put it to memory for next loop pass
             next = &currentArg[1];
-
             // If it is not a: - typed argument
             if (!findFromArray(argTypes, argTypesSize, next)) {
-
                 // Call unexpected and exit the code
                 unexpected(&currentArg[0]);
             }
@@ -77,16 +74,16 @@ basicInfo* handleArgs(char** argv, int argc) {
 -------------------------------------------------------------*/
 
 
-            if (next == "t" || next == "type") { // Check for filetype
+            if (next == "t" || next == "-type") { // Check for filetype
                 result->type = currentArg[0];
             }
 
-            else if(next == "p" || next == "path"){ // Checks for filepath
+            else if(next == "p" || next == "-path"){ // Checks for filepath
                 // ! callerPath.cpp HERE !
                 result->path = &currentArg[0];      
             }
 
-            else if(next == "k" || next == "key"){ // Checks for password
+            else if(next == "k" || next == "-key"){ // Checks for password
                 result->password = &currentArg[0];
             }
             else {
