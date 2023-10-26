@@ -36,3 +36,8 @@ Setup environmental variables and RegEd by running the following script: ```run_
 * Run ```0_linux_build.sh```
 	- Requires g++
 	- Build will be generated to ATK/build/ directory.
+
+### Making installer executable for Windows
+
+Look at ATK/installation/ directory, it will contain all the steps
+
