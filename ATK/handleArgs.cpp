@@ -97,11 +97,17 @@ basicInfo* handleArgs(char** argv, int argc) {
     }
 
     /* Check that the correct types have been given */
-    if(result->path == "" || result->password == ""){
-        cout << "Path or Password is not defined. " << shortHelp() << endl;
+    if(result->password == ""){
+        cout << "Password is not defined. " << shortHelp() << endl;
         /* Call exit failure */
         exitfailure();
     }
+    if(result->path == ""){
+        cout << "Path is not defined. " << shortHelp() << endl;
+        /* Call exit failure */
+        exitfailure();
+    }
+
     if (result->type != "d" & result->type != "f") {
         cout << "Invalid type \"" << result->type << "\". " << shortHelp() << endl;
         /* Call exit failure */
