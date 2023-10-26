@@ -6,7 +6,6 @@
 #include <direct.h>
 #endif
 
-#include <iostream>
 #include <fstream>
 
 using namespace std;

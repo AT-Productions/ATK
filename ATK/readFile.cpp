@@ -3,14 +3,16 @@
 #include <fstream>
 #include <filesystem>
 
-
+#include "help.h"
 #include "argHeader.h"
 #include "readFile.h"
 #include "exitFailure.h"
 #include "writeFile.h"
 #include "findCwd.h"
+#include "exitFailure.h"
 #include "cryption.h"
 
+namespace fs = std::filesystem;
 using namespace std;
 
 void readFile(string filePath, basicInfo* result){
@@ -22,9 +24,29 @@ void readFile(string filePath, basicInfo* result){
     }
     /* Checks if given path exists*/
     if( !filesystem::exists(fullPath) ){
-        cerr << fullPath << " Is not a valid path" << endl;
+        cerr << "Path is not valid" << endl;
         exitfailure();
     }
+
+    // Check if filepath and type provided are correct
+    std::error_code ec;
+    if (fs::is_directory(fullPath, ec) && (result->type.substr(0, 1) == "f" || result->type.substr(0, 1) == "F")) {
+        // Process a directory.
+        cout << fullPath << " is a directory. " << shortHelp() << endl;
+        exitfailure();
+    }
+    if (ec) {
+        std::cerr << "Error in is_directory: " << ec.message();
+    }
+    if (fs::is_regular_file(fullPath, ec) && (result->type.substr(0, 1) == "d" || result->type.substr(0, 1) == "D")) {
+        // Process a regular file.
+        cout << fullPath << " is a file. " << shortHelp() << endl;
+        exitfailure();
+    }
+    if (ec) {
+        std::cerr << "Error in is_regular_file: " << ec.message();
+    }
+
 
     // Add path to result
     result->path = fullPath;
@@ -34,7 +56,6 @@ void readFile(string filePath, basicInfo* result){
 
     // Holds value of the new pathfile
     string newPathToFile;
-
 
    /**
      * Reads file line by line
@@ -63,21 +84,50 @@ void readFile(string filePath, basicInfo* result){
        // Initialize files header section with @param 0
        writeFile("" ,result, 0, 0);
     }
-    else { // If .atk file
+    else { 
+        // If .atk file
+        // CHECK PASSWORD
         // GET PREVIOUS FILE EXTENSION FROM THE FILE
         string prev;
         if(newfile.is_open()) {
             string line;
+            int i = 0;
 
-            while (getline(newfile, line)) { // Reads file contents line by line
+            // Reads file contents line by line
+            // Reads only password and file extension
+            while (getline(newfile, line)) {
+                if (i == 0) { // PASSWORD
 
-                // ! No idea why _PASSWORD_ returns the line of _EXTENSION_
-                // ! But it does...
-                if (line.find("_PASSWORD_")) { // Find _EXTENSION_
+                    // Reads and decrypts password
+                    // If they aren't equal, throw error on console
+                    
+                    // Initialize variables
+                    string passwordString;
+                    std::vector<char16_t> newPasswordC;
 
+                    // Contains vector holding the characters
+                    newPasswordC = deCrypt(line, result);
+
+                    // Loops through the vector and turns it to a string
+                    for (char16_t c : newPasswordC) {
+                        passwordString += static_cast<char>(c);
+                    }
+
+                    // Checks the strings equality
+                    if (passwordString != result->password) {
+                        // Exit the program on failure
+                        cout << "Password is incorrect, try again." << endl;
+                        exitfailure();
+                    }
+
+                }
+
+                // EXTENSION
+                else {
                     // Decrypt the extension
                     std::vector<char16_t> newExtensionC;
                     string newExtensionS;
+
 
                     newExtensionC = deCrypt(line.substr(line.find_last_of("_") + 1, line.length()), result);
 
@@ -92,11 +142,7 @@ void readFile(string filePath, basicInfo* result){
                     prev = "." + line.substr(line.find_last_of("_") + 1, line.length());
                     break;
                 }
-
-                // Password here
-                else {
-                    cout << "PASSWORD IS HERE ::::: " << line << endl;
-                }
+                i++;
             }
         }
         // HERE AS PLACEHOLDER
@@ -112,40 +158,27 @@ void readFile(string filePath, basicInfo* result){
     if (newfile.is_open()){   // Checks if file is open
         string line;
         string data;
+        while (getline(newfile, line)) { 
+            // Reads file contents line by line
+            // Write to the given file current line.
 
-        // !
+            // Add the current line to data
+            data += line + "\n";
+        }
+
+        // Remove last letter \n
+        // Otherwise it will add an extra null character
+        data.pop_back();
+
+        newfile.close(); // Closes the file
+
         // ! Checks if file is .atk file
-        // !
         if (fullPath.substr(pos, fullPath.length()) == ".atk") {
-            while (getline(newfile, line)) { 
-                // Reads file contents line by line
-                // Write to the given file current line.
-                //
-                // STARTS STRAIGHT FROM DATA
-                // DUE TO EARLIER READING    
-
-                // Add the current line to data
-                data += line + "\n";
-
-            }
-            newfile.close(); // Closes the file
-
             writeFile(data, result, 1, true);
-
         } 
-        // !
-        // ! If not .atk file
-        // !
-        else { 
-            while(getline(newfile, line)){ 
-                // Reads file contents line by line
-                // Write to the given file current line.
-                //
-                // Add the current line to data
-                data += line + "\n";
-            }
-            newfile.close(); // Closes the file
 
+        // ! If not .atk file
+        else {
             // Write the data
             writeFile(data, result, 1, false);
         }

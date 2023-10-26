@@ -1,7 +1,6 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <stdlib.h> // EXIT_FAILURE
 
 #include "argHeader.h"
 #include "help.h"
@@ -19,7 +18,7 @@ basicInfo* handleArgs(char** argv, int argc) {
 
     // All arg types for error checking
     const string argTypes[5] = {
-        "t", "p", "s", "l", "u"
+        "t", "p", "s"
     };
 
     const int argTypesSize = sizeof(argTypes) / sizeof(argTypes[0]); // Size of argTypes Array
@@ -39,7 +38,7 @@ basicInfo* handleArgs(char** argv, int argc) {
 
             // If it is found, consolelog longHelp message and exit
             cout << longHelp();
-            exit(1);
+            exitfailure();
         }
 
         // Checks for --version or -v
@@ -47,7 +46,13 @@ basicInfo* handleArgs(char** argv, int argc) {
 
             // If it is found, consolelog getVersion message and exit
             cout << getVersion();
-            exit(1);
+            exitfailure();
+        }
+
+        // TODO finish
+        else if (currentArg == "-l" || currentArg == "--location") {
+            cout << "Current location is " << endl;
+            exitfailure();
         }
 
 
@@ -84,22 +89,6 @@ basicInfo* handleArgs(char** argv, int argc) {
             else if(next == "s"){ // Checks for password
                 result->password = &currentArg[0];
             }
-
-            /**
-             * ? -----------------------------------
-             * ?                                   |
-             * ?  LOCK AND UNLOCK MAYBE DELETE  ?  |
-             * ?                                   |
-             * ?------------------------------------
-            */
-            else if(next == "l"){ // Checks if it needs to be locked
-                cout << "LOCKING \n";
-            }
-
-            else if(next == "u"){ // Checkss if it need to be unlocked
-                cout << "UNLOCKING \n";
-            }
-
             else {
                 unexpected(&currentArg[0]);
             }

@@ -30,9 +30,3 @@ run_setup.bat
 	- Build will appear in ATK\Release\ATK.exe
 
 ---
- 
-Make msi with WiX:
-
-```bash
-wix build -o atkInstaller.msi .\installation\Project.wxs .\installation\components.wxs .\installation\folder.wxs
-```

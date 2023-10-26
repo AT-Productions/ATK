@@ -1,0 +1,14 @@
+atk [TYPE] [PATH] [PASSWORD] \n
+-----------------------------\n
+EXAMPLES \n
+atk -t dir -p \"./dir/name/\" -s 1234 \n
+atk -t file -p \"C:\path\to\file.ext\\" -s 4321 \n
+\n
+ARG TYPES: \n
+-t = FILE TYPE | dir | file \n
+-p = PATH | .\filename.ext | absolutepath \n
+-s = PASSWORD | anything | "you want"\n
+--help = Returns this message \n
+-v / --version = Returns current version \n
+-l / --location = Returns the location of atk.exe"\n
+-----------------------------\n

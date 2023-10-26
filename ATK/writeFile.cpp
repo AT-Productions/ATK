@@ -1,14 +1,10 @@
-﻿#include <iostream>
-#include <fstream>
+﻿#include <fstream>
 #include <string>
 #include <string>
 #include <vector>
-
-#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
-#pragma warning(disable : 4996)
+#include <iostream>
 
 #include <locale>
-#include <codecvt>
 
 #include "argHeader.h"
 #include "writeFile.h"
@@ -16,28 +12,6 @@
 #include "exitFailure.h"
 
 using namespace std;
-
-std::string convertChar16toUTF8(char16_t c) {
-    if (c <= 0x7F) {
-        // ASCII characters (0x00 to 0x7F) can be directly converted to UTF-8
-        return { static_cast<char>(c) };
-    }
-    else if (c <= 0x07FF) {
-        // 2-byte UTF-8 encoding for characters in the range 0x80 to 0x7FF
-        std::string utf8;
-        utf8 += static_cast<char>(0xC0 | (c >> 6));
-        utf8 += static_cast<char>(0x80 | (c & 0x3F));
-        return utf8;
-    }
-    else {
-        // 3-byte UTF-8 encoding for characters outside the BMP
-        std::string utf8;
-        utf8 += static_cast<char>(0xE0 | (c >> 12));
-        utf8 += static_cast<char>(0x80 | ((c >> 6) & 0x3F));
-        utf8 += static_cast<char>(0x80 | (c & 0x3F));
-        return utf8;
-    }
-}
 
 void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false) {
     // Do initialization with action0
@@ -48,9 +22,9 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
     // Create new file or modify it
     ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
 
-    std::locale::global(std::locale("zh_CN.UTF-8"));
-
-    newFile.imbue(std::locale("zh_CN.UTF-8"));
+    // Set chinese utf as locale
+    std::locale::global(std::locale("en_US.UTF-8"));
+    //newFile.imbue(std::locale("zh_CN.UTF-8"));
 
     if (action == 0) {
         /**
@@ -67,47 +41,28 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
                 result->path.length()
             ), result
         );
-
         // String versions
-        wstring newPasswordS;
+        string newPasswordS;
         string newExtensionS;
 
         // Change password to crypt
         for (char16_t c : newPasswordC) {
-            if (c <= std::numeric_limits<wchar_t>::max()) {
-                wchar_t wc = static_cast<wchar_t>(c);
-                newPasswordS += wc;
-            }
-            else {
-                // Handle the case where a char16_t character cannot be represented as a wchar_t
-                std::cerr << "Character cannot be converted to wchar_t without data loss." << std::endl;
-                // You might want to decide what to do in this case
-            }
+            newPasswordS += static_cast<char>(c);
         }
         
         // Change extension to crypt
         for (char16_t c : newExtensionC) {
-            if (c <= std::numeric_limits<wchar_t>::max()) {
-                wchar_t wc = static_cast<wchar_t>(c);
-                newExtensionS += wc;
-            }
-            else {
-                // Handle the case where a char16_t character cannot be represented as a wchar_t
-                std::cerr << "Character cannot be converted to wchar_t without data loss." << std::endl;
-                // You might want to decide what to do in this case
-            }
+            newExtensionS += static_cast<char>(c);
         }
 
-
-        // Adds the original file extension. Finds position of the last '.'
-        //  and takes a substring from it to the end of the string
-
-
-        newFile << "_PASSWORD_" << newPasswordS.c_str() << endl;
-        //newFile << "_EXTENSION_" << newExtensionS << endl;
+        newFile << newPasswordS << endl;
+        //newFile << newExtensionS << endl;
 
         // ! TEMP
-        newFile << "_EXTENSION_" << result->path.substr(result->path.find_last_of(".") + 1, result->path.length()) << endl;
+        // Adds the original file extension. Finds position of the last '.'
+        // and takes a substring from it to the end of the string
+        //newFile << result->password << endl;
+        newFile << result->path.substr(result->path.find_last_of(".") + 1, result->path.length()) << endl;
         newFile.close();
     }
 
@@ -136,8 +91,10 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
         // Create an empty string to store the result
         std::string resultString;
 
-
+        // Write the results to the file
         for (char16_t c : results) {
+
+            // On write turn to char
             newFile << static_cast<char>(c);
         }
 

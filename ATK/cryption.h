@@ -12,6 +12,7 @@
  * changes some values
  *
  * @param content String to be crypted
+ * @param result Pointer to result struct
 */
 std::vector<char16_t> crypt(std::string content, basicInfo* result);
 
@@ -22,11 +23,10 @@ std::vector<char16_t> crypt(std::string content, basicInfo* result);
  * changes some values
  *
  * @param content String to be decrypted
+ * @param result Pointer to result struct
 */
 std::vector<char16_t> deCrypt(std::string content, basicInfo* result);
 
 int cypherAmount(basicInfo* result);
 
-string passwordHash(basicInfo* result);
-
-#endif
+#endif // CRYPTION_H
