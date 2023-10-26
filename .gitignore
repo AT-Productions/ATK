@@ -25,6 +25,7 @@ Release/
 build/
 .memF/
 installation/ATK.exe
+installation/ATK-installer.exe
 
 # [Rr]elease/
 # [Rr]eleases/
