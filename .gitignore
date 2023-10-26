@@ -20,7 +20,8 @@ mono_crash.*
 [Dd]ebug/
 [Dd]ebugPublic/
 
-Release/ATK.pdb
+
+Release/
 build/
 .memF/
 # [Rr]elease/
