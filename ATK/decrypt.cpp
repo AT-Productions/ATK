@@ -12,7 +12,6 @@ std::vector<char16_t> deCrypt(std::string content, basicInfo* result) {
     std::vector<char16_t> results;
     int cypher = cypherAmount(result);
     // Loops through the content string
-    std::cout << content << endl;
     for (char16_t c : content) {
         // If c is under 0
         if (c - cypher < 0) {
