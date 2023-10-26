@@ -17,8 +17,8 @@ void unexpected(string);
 basicInfo* handleArgs(char** argv, int argc) {
 
     // All arg types for error checking
-    const string argTypes[5] = {
-        "t", "p", "s"
+    const string argTypes[6] = {
+        "t", "p", "k", "type", "path", "key"
     };
 
     const int argTypesSize = sizeof(argTypes) / sizeof(argTypes[0]); // Size of argTypes Array
@@ -77,16 +77,16 @@ basicInfo* handleArgs(char** argv, int argc) {
 -------------------------------------------------------------*/
 
 
-            if(next == "t"){ // Check for filetype
+            if (next == "t" || next == "type") { // Check for filetype
                 result->type = currentArg[0];
             }
 
-            else if(next == "p"){ // Checks for filepath
+            else if(next == "p" || next == "path"){ // Checks for filepath
                 // ! callerPath.cpp HERE !
                 result->path = &currentArg[0];      
             }
 
-            else if(next == "s"){ // Checks for password
+            else if(next == "k" || next == "key"){ // Checks for password
                 result->password = &currentArg[0];
             }
             else {
