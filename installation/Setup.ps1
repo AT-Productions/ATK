@@ -18,7 +18,7 @@ $callDir = $args[0]
 # Add the current directory to the PATH environment variable
 # Check if folder $callDir is already in the path
 # ! Adds path to build folder
-$pathDir = "$callDir\Release"
+$pathDir = "$callDir"
 if($Env:PATH -notlike "*$pathDir*"){
     # TRUE, ADD TO PATH
 
