@@ -17,7 +17,7 @@ CreateDirectory $PROGRAMFILES\ATK
 File "Setup.ps1"
 
 ; Execute the PowerShell script with elevated privileges and pass the parameters
-nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$PROGRAMFILES\ATK\Setup.ps1" "$PROGRAMFILES\ATK"'
+nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$PROGRAMFILES\ATK\Setup.ps1" "$PROGRAMFILES\ATK" "no"'
 
 
 ; Extract uninstallation script

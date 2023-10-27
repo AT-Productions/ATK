@@ -10,7 +10,7 @@ if (-not $isAdmin) {
 # Contains the directory it was called from
 # Maybe use $PSScriptRoot in future?
 $callDir = $args[0]
-
+$mode = $args[1]
 
 # Windows PATH Environment Variable Setup
 #
@@ -18,7 +18,13 @@ $callDir = $args[0]
 # Add the current directory to the PATH environment variable
 # Check if folder $callDir is already in the path
 # ! Adds path to build folder
-$pathDir = "$callDir"
+$pathDir = "";
+if($mode -like "manual"){
+    $pathDir = "$callDir\Release"
+} else {
+    $pathDir = "$callDir"
+}
+Write-Output $pathDir
 if($Env:PATH -notlike "*$pathDir*"){
     # TRUE, ADD TO PATH
 

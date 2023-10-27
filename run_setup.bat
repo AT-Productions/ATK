@@ -10,5 +10,5 @@ if %errorlevel% neq 0 (
 echo Don't close this window while the setup is running!
 echo Running powershell script: Setup.ps1
 SET mypath=%~dp0
-powershell.exe -ExecutionPolicy Bypass -File %mypath:~0,-1%\installation\Setup.ps1 "%mypath:~0,-1%"
+powershell.exe -ExecutionPolicy Bypass -File %mypath:~0,-1%\installation\Setup.ps1 "%mypath:~0,-1%" "manual"
 pause
