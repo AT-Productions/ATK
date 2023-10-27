@@ -9,20 +9,20 @@ int cypherAmount(basicInfo* result) {
 	int sugar = 80;
 
 	if (length <= 5) {
-		sugar *= 11.5;
+		sugar *= 1445;
 	}
 	else if (length <= 7) {
-		sugar *= 7.2;
+		sugar *= 722;
 	}
 	else {
-		sugar *= 5.4;
+		sugar *= 354;
 	}
 
 	finalInt = 10 + sugar + length;
 	
 	// If finalInt is over 15. 15 is max length for some reason.
-	while (finalInt > 15) {
-		finalInt -= 8;
+	while (finalInt > 255) {
+		finalInt -= 145;
 	}
 	return finalInt;
 }
