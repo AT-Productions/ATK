@@ -9,7 +9,7 @@ string longHelp()
         ---------------------------
         EXAMPLES:
         atk -t dir -p \"./dir/name/\" -k 1234\n
-        atk -t file -p \"C:\\path\\to\\file.ext\" -k "pass 123"
+        atk -t file -p \file.ext/" -k "pass 123"\n
         ---------------------------
         ARGUMENTS:
         -t, --type      FILE TYPE: Choose \'dir\' for directories or \'file\' for files.
