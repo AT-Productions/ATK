@@ -4,7 +4,6 @@
 
 @echo off
 
-::
 copy .\Release\ATK.exe .\installation\ /y /b
 
 makensis.exe .\installation\script.nsi
