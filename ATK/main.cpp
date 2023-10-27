@@ -21,6 +21,7 @@ int main(int argc, char* argv[]){
         cout << shortHelp() << endl;
         exitfailure();
     }
+
     // Does the basic stuff with args
     basicInfo* result = handleArgs(argv, argc);
 

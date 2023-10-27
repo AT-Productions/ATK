@@ -48,9 +48,9 @@ basicInfo* handleArgs(char** argv, int argc) {
             exitfailure();
         }
 
-        // TODO finish
+        // Returns the location
         else if (currentArg == "-l" || currentArg == "--location") {
-            cout << "Current location is " << endl;
+            cout << "Current location is " << argv[0] << endl;
             exitfailure();
         }
 
