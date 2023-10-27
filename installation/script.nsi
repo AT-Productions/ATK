@@ -19,6 +19,10 @@ File "Setup.ps1"
 ; Execute the PowerShell script with elevated privileges and pass the parameters
 nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$PROGRAMFILES\ATK\Setup.ps1" "$PROGRAMFILES\ATK"'
 
+
+; Extract uninstallation script
+File "Uninstall.ps1"
+
 ; Extract an EXE and BAT file
 File "ATK.exe"
 File "open_with_atk.bat"
@@ -30,10 +34,14 @@ SectionEnd
 
 Section "Uninstall"
 
+; Execute the PowerShell script with elevated privileges and pass the parameters
+nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$PROGRAMFILES\ATK\Uninstall.ps1" "$PROGRAMFILES\ATK"'
+
 ; Remove installed files during uninstallation
 Delete "$PROGRAMFILES\ATK\ATK.exe"
 Delete "$PROGRAMFILES\ATK\open_with_atk.bat"
 Delete "$PROGRAMFILES\ATK\Setup.ps1"
+Delete "$PROGRAMFILES\ATK\Uninstall.ps1"
 DELETE "$PROGRAMFILES\ATK\"
 DELETE "$PROGRAMFILES\ATK\Uninstall.exe"
 
