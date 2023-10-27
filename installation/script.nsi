@@ -34,6 +34,8 @@ Section "Uninstall"
 Delete "$PROGRAMFILES\ATK\ATK.exe"
 Delete "$PROGRAMFILES\ATK\open_with_atk.bat"
 Delete "$PROGRAMFILES\ATK\Setup.ps1"
+DELETE "$PROGRAMFILES\ATK\"
+DELETE "$PROGRAMFILES\ATK\Uninstall.exe"
 
 ; Remove the installation directory
 RMDir $PROGRAMFILES\ATK
