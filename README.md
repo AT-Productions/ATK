@@ -5,7 +5,7 @@ Encrypts files of all kind fast and reliably without data loss.
 Has build in password feature to lock files after encryption
 
   # Installation
- -  Visit the  [ATK Releases](https://github.com/Antonako1/ATK/releases)  page on GitHub.
+ -  Visit the  [ATK Releases](https://github.com/Antonako1/ATK/releases/latest)  page on GitHub.
  -  Download the appropriate binary for your operating system and architecture.
 
 ---
