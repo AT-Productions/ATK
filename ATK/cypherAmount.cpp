@@ -22,7 +22,7 @@ int cypherAmount(basicInfo* result) {
 	
 	// If finalInt is over 15. 15 is max length for some reason.
 	while (finalInt > 15) {
-		finalInt -= 5;
+		finalInt -= 8;
 	}
 	return finalInt;
 }

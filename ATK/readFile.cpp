@@ -84,76 +84,67 @@ void readFile(string filePath, basicInfo* result){
        // Initialize files header section with @param 0
        writeFile("" ,result, 0, 0);
     }
-    else { 
+
+    else {
         // If .atk file
         // CHECK PASSWORD
         // GET PREVIOUS FILE EXTENSION FROM THE FILE
         string prev;
-        if(newfile.is_open()) {
+        if (newfile.is_open()) {
             string line;
-            int i = 0;
 
             // Reads file contents line by line
             // Reads only password and file extension
-            while (getline(newfile, line)) {
-                if (i == 0) { // PASSWORD
+            getline(newfile, line);
 
-                    // Reads and decrypts password
-                    // If they aren't equal, throw error on console
-                    
-                    // Initialize variables
-                    string passwordString;
-                    std::vector<char16_t> newPasswordC;
+            // Position of separator
+            string toFind = "c?^ | ^?c";
+            int separator = line.find(toFind);
 
-                    // Contains vector holding the characters
-                    newPasswordC = deCrypt(line, result);
+            // PASSWORD
+            // Reads and decrypts password
+            // If they aren't equal, throw error on console
 
-                    // Loops through the vector and turns it to a string
-                    for (char16_t c : newPasswordC) {
-                        passwordString += static_cast<char>(c);
-                    }
+            // Initialize variables
+            string passwordString;
+            std::vector<char16_t> newPasswordC;
 
-                    // Checks the strings equality
-                    if (passwordString != result->password) {
-                        // Exit the program on failure
-                        cout << "Password is incorrect, try again." << endl;
-                        exitfailure();
-                    }
+            // Contains vector holding the characters
+            newPasswordC = deCrypt(line.substr(0, separator), result);
 
-                }
-
-                // EXTENSION
-                else {
-                    // Decrypt the extension
-                    std::vector<char16_t> newExtensionC;
-                    string newExtensionS;
-
-
-                    newExtensionC = deCrypt(line.substr(line.find_last_of("_") + 1, line.length()), result);
-
-                    // Change extension to decrypt
-                    for (char c : newExtensionC) {
-                        newExtensionS += c;
-                    }
-
-                    prev = "." + newExtensionS;
-
-
-                    prev = "." + line.substr(line.find_last_of("_") + 1, line.length());
-                    break;
-                }
-                i++;
+            // Loops through the vector and turns it to a string
+            for (char16_t c : newPasswordC) {
+                passwordString += static_cast<char>(c);
             }
+
+            // Checks the strings equality
+            if (passwordString != result->password) {
+                // Exit the program on failure
+                cout << "Password is incorrect, try again." << endl;
+                exitfailure();
+            }
+
+            // EXTENSION
+            // Decrypt the extension
+            std::vector<char16_t> newExtensionC;
+            string newExtensionS;
+
+            newExtensionC = deCrypt(line.substr(separator + toFind.length(), line.length()), result);
+            
+            // Change extension to decrypt
+            for (char c : newExtensionC) {
+                newExtensionS += c;
+            }
+            prev = "." + newExtensionS;
+
+            // HERE AS PLACEHOLDER
+            newPathToFile = fullPath.substr(0, pos);
+            newPathToFile = newPathToFile + prev;
+
+            // Add newpath to result
+            result->newPath = newPathToFile;
         }
-        // HERE AS PLACEHOLDER
-        newPathToFile = fullPath.substr(0, pos);
-        newPathToFile = newPathToFile + prev;
-
-        // Add newpath to result
-        result->newPath = newPathToFile;
     }
-
-
 
     if (newfile.is_open()){   // Checks if file is open
         string line;

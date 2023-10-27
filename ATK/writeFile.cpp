@@ -55,14 +55,9 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
             newExtensionS += static_cast<char>(c);
         }
 
-        newFile << newPasswordS << endl;
-        //newFile << newExtensionS << endl;
+        // Writes password and extension. below is seperator
+        newFile << newPasswordS << "c?^ | ^?c" << newExtensionS << endl;
 
-        // ! TEMP
-        // Adds the original file extension. Finds position of the last '.'
-        // and takes a substring from it to the end of the string
-        //newFile << result->password << endl;
-        newFile << result->path.substr(result->path.find_last_of(".") + 1, result->path.length()) << endl;
         newFile.close();
     }
 
