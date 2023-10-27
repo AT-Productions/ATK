@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
+#include <iomanip> 
 #include <locale>
 
 #include "argHeader.h"
@@ -13,14 +13,16 @@
 
 using namespace std;
 
-void writeFile(string content = "", basicInfo* result = nullptr, int action = 1, bool decrypt = false) {
+void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, int action = 1, bool decrypt = false) {
     // Do initialization with action0
+
     // Delete old file
     if (action == 0) {
         if(remove(result->newPath.c_str()) == 0) {}
     }
-    // Create new file or modify it
     ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
+
+    // Create new file or modify it
 
     // Set chinese utf as locale
     std::locale::global(std::locale("en_US.UTF-8"));
@@ -32,44 +34,74 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
          */
 
         // Crypted versions of password and file extension
-        std::vector<char16_t> newPasswordC, newExtensionC;
+        std::vector<unsigned char> newPasswordC, newExtensionC;
 
-        newPasswordC = crypt(result->password, result);
-        newExtensionC = crypt(
-            result->path.substr(
-                result->path.find_last_of(".") + 1,
-                result->path.length()
-            ), result
-        );
+
+        std::vector<unsigned char> newPasswordCVector, newExtensionCVector;
+
+
+        // Turn password and extension to unsigned char vectors:
+
+        // EXT
+        for (char c : result->path.substr(result->path.find_last_of(".") + 1)) {
+            // Push value to vector as unsigned char
+            int value = static_cast<int>(static_cast<unsigned char>(c));
+            newExtensionCVector.push_back(value);
+        }
+
+        // Password
+        for (char c : result->password) {
+            // Push value to vector as unsigned char
+            int value = static_cast<int>(static_cast<unsigned char>(c));
+            newPasswordCVector.push_back(value);
+        }
+
+
+        int secPos = result->path.find_last_of("\\");
+
+        string newStringMem = result->path.substr(secPos + 1);
+        // If it has a . in it
+        if (newStringMem.find_last_of(".") != -1) {
+            // Use .
+            newExtensionC = crypt(
+                newExtensionCVector, result
+            );
+
+        }
+        else {
+            // Don't use .
+            newExtensionC = { 20 };
+        }
+
+        newPasswordC = crypt(newPasswordCVector, result);
+        
+
         // String versions
         string newPasswordS;
         string newExtensionS;
 
         // Change password to crypt
-        for (char16_t c : newPasswordC) {
+        for (unsigned char c : newPasswordC) {
             newPasswordS += static_cast<char>(c);
         }
         
         // Change extension to crypt
-        for (char16_t c : newExtensionC) {
+        for (unsigned char c : newExtensionC) {
             newExtensionS += static_cast<char>(c);
         }
 
         // Writes password and extension. below is seperator
-        newFile << newPasswordS << "c?^ | ^?c" << newExtensionS << endl;
-
-        newFile.close();
+        result->header = newPasswordS + "c?^ | ^?c" + newExtensionS + "\n";
     }
 
     // Make BLOCKS with action1
     if (action == 1) {
-
         if (newFile.fail()) {
             cerr << "Error opening the file for writing." << endl;
             exitfailure();
         }
 
-        std::vector<char16_t> results;
+        std::vector<unsigned char> results;
 
         /* DECRYPT THE FILE */
         if (decrypt == true) {
@@ -85,18 +117,16 @@ void writeFile(string content = "", basicInfo* result = nullptr, int action = 1,
 
         // Create an empty string to store the result
         std::string resultString;
-
+        resultString = result->header;
         // Write the results to the file
-        for (char16_t c : results) {
-
-            // On write turn to char
-            newFile << static_cast<char>(c);
-        }
+        
+        std::string resultString2(results.begin(), results.end());
+        resultString += resultString2;
+       newFile << resultString;
 
 
         // Close the file
         newFile.close();
-
 
         // Delete the previous file
         if (remove(result->path.c_str()) == 0) {}

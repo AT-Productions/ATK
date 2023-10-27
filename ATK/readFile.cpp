@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <iomanip> 
 
 #include "help.h"
 #include "argHeader.h"
@@ -28,6 +29,8 @@ void readFile(string filePath, basicInfo* result){
         exitfailure();
     }
 
+    
+
     // Check if filepath and type provided are correct
     std::error_code ec;
     if (fs::is_directory(fullPath, ec) && (result->type.substr(0, 1) == "f" || result->type.substr(0, 1) == "F")) {
@@ -52,37 +55,52 @@ void readFile(string filePath, basicInfo* result){
     result->path = fullPath;
 
     /* New file */
-    fstream newfile;
+    ifstream newfile(filePath, ios::in | ios::binary); // Open file using read operation;
 
     // Holds value of the new pathfile
     string newPathToFile;
 
-   /**
-     * Reads file line by line
-    */
-    newfile.open(filePath, ios::in | ios::binary); // Open file using read operation
 
     // Make new path for new file
     // /old/path/name.atk
     // Changes .ext to atk
 
     // Get position of last '.'
-    const int pos = fullPath.find_last_of(".");
+    int pos = fullPath.find_last_of(".");
+    if (pos == std::string::npos) {
+        pos += 1;
+    }
     // !
     // ! Checks if file is not .atk file
     // !
     if (fullPath.substr(pos, fullPath.length()) != ".atk") {
         // Create new substring excluding the .ext part
-        newPathToFile = fullPath.substr(0, pos);
+        
+        // Get position of last \-character
 
-        // Add .atk file extension
-        newPathToFile = newPathToFile + ".atk";
+        int secPos = fullPath.find_last_of("\\");
+
+        string newStringMem = fullPath.substr(secPos + 1);
+        // If it has a . in it
+        if (newStringMem.find_last_of(".") != -1) {
+            // Get part excluding .ext part
+            newPathToFile = fullPath.substr(0, pos);
+
+            // Add .atk file extension
+            newPathToFile = newPathToFile + ".atk";
+        }
+        else {
+            // Add .atk file extension
+            newPathToFile = fullPath + ".atk";
+        }
 
         // Add newpath to result
         result->newPath = newPathToFile;
 
-       // Initialize files header section with @param 0
-       writeFile("" ,result, 0, 0);
+        // Initialize files header section with @param 0
+        std::vector<unsigned char>emptyVector = {};
+        writeFile(emptyVector, result, 0, false);
+        
     }
 
     else {
@@ -107,16 +125,27 @@ void readFile(string filePath, basicInfo* result){
 
             // Initialize variables
             string passwordString;
-            std::vector<char16_t> newPasswordC;
+            vector<unsigned char> newPasswordC;
+            vector<unsigned char> newPasswordCVector;
 
+            // Turn password to vector
+            for (char c : line.substr(0, separator)) {
+                // Push value to vector as unsigned char
+                int value = static_cast<int>(static_cast<unsigned char>(c));
+                newPasswordCVector.push_back(value);
+            }
             // Contains vector holding the characters
-            newPasswordC = deCrypt(line.substr(0, separator), result);
+
+            newPasswordC = deCrypt(newPasswordCVector, result);
+
+
+
 
             // Loops through the vector and turns it to a string
-            for (char16_t c : newPasswordC) {
+            for (unsigned char c : newPasswordC) {
                 passwordString += static_cast<char>(c);
             }
-
+            
             // Checks the strings equality
             if (passwordString != result->password) {
                 // Exit the program on failure
@@ -124,22 +153,42 @@ void readFile(string filePath, basicInfo* result){
                 exitfailure();
             }
 
+
+
             // EXTENSION
             // Decrypt the extension
-            std::vector<char16_t> newExtensionC;
+            std::vector<unsigned char> newExtensionC;
+            std::vector<unsigned char> newExtensionCVector;
             string newExtensionS;
 
-            newExtensionC = deCrypt(line.substr(separator + toFind.length(), line.length()), result);
-            
+            for (char c : line.substr(separator + toFind.length(), line.length())) {
+                // Push value to vector as unsigned char
+                int value = static_cast<int>(static_cast<unsigned char>(c));
+                newExtensionCVector.push_back(c);
+            }
+
+            newExtensionC = deCrypt(newExtensionCVector, result);
+
+
+
             // Change extension to decrypt
             for (char c : newExtensionC) {
                 newExtensionS += c;
             }
-            prev = "." + newExtensionS;
 
-            // HERE AS PLACEHOLDER
-            newPathToFile = fullPath.substr(0, pos);
-            newPathToFile = newPathToFile + prev;
+            // Check if it doesn't have extension.
+            if (newExtensionS != "") {
+                // Get part excluding .ext part
+                newPathToFile = fullPath.substr(0, pos);
+
+                // Add old file extension
+                prev = "." + newExtensionS;
+                newPathToFile += prev;
+            }
+            else {
+                // No file extension, the path is the same but without .atk
+                newPathToFile = fullPath.substr(0, pos);
+            }
 
             // Add newpath to result
             result->newPath = newPathToFile;
@@ -148,30 +197,40 @@ void readFile(string filePath, basicInfo* result){
 
     if (newfile.is_open()){   // Checks if file is open
         string line;
-        string data;
-        while (getline(newfile, line)) { 
-            // Reads file contents line by line
-            // Write to the given file current line.
 
-            // Add the current line to data
-            data += line + "\n";
+        /*
+        Vector that will hold the values
+        of each byte in hexadeciaml
+        */
+        std::vector<unsigned char> hexData;
+
+        char byte;
+        while (newfile.read(&byte, 1)) {
+            // Store the byte in the vector
+            hexData.push_back(static_cast<unsigned char>(byte));
         }
 
-        // Remove last letter \n
-        // Otherwise it will add an extra null character
-        data.pop_back();
+        /* MEM
+        for (unsigned char c : hexData) {
+            std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c) << " ";
+            std::cout << std::dec << std::setw(2) << std::setfill('0') << static_cast<int>(c) << endl;
+        } 
+        */
 
         newfile.close(); // Closes the file
 
+
+
+
         // ! Checks if file is .atk file
         if (fullPath.substr(pos, fullPath.length()) == ".atk") {
-            writeFile(data, result, 1, true);
+            writeFile(hexData, result, 1, true);
         } 
 
         // ! If not .atk file
         else {
             // Write the data
-            writeFile(data, result, 1, false);
+            writeFile(hexData, result, 1, false);
         }
 
     } // End of newfile.open

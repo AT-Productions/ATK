@@ -13,8 +13,9 @@
  *
  * @param content String to be crypted
  * @param result Pointer to result struct
+ * @returns vector containing crypted data
 */
-std::vector<char16_t> crypt(std::string content, basicInfo* result);
+std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result);
 
 
 /**
@@ -24,8 +25,9 @@ std::vector<char16_t> crypt(std::string content, basicInfo* result);
  *
  * @param content String to be decrypted
  * @param result Pointer to result struct
+ * @returns vector containing crypted data
 */
-std::vector<char16_t> deCrypt(std::string content, basicInfo* result);
+std::vector<unsigned char> deCrypt(std::vector<unsigned char>content,  basicInfo* result);
 
 int cypherAmount(basicInfo* result);
 
