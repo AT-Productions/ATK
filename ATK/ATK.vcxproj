@@ -208,6 +208,8 @@
     <ClInclude Include="getVersion.h" />
     <ClInclude Include="help.h" />
     <ClInclude Include="readFile.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="writeFile.h" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +227,9 @@
     <ClCompile Include="readFile.cpp" />
     <ClCompile Include="shorthelp.cpp" />
     <ClCompile Include="writeFile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
