@@ -8,6 +8,37 @@ Has build in password feature to lock files after encryption
 
 ---
 
+ # Installation
+ -  Visit the  [ATK Releases](https://github.com/Antonako1/ATK/releases/latest)  page on GitHub.
+
+---
+
+# Usage
+
+```
+Usage: ATK -t {dir | file} -p {absolute | relative} -k (keystring) [-s]
+        
+--------------------------- 
+ARGUMENTS: 
+        
+-t, --type      FILE TYPE : Choose 'dir' for directories or 'file' for files.
+-p, --path      PATH : Specify the target path, either relative like "./filename.ext" or an absolute path.
+-k, --key       KEY : Set the key for encryption. It can be any string, enclosed in double quotes if needed.
+-s, --safe      SAFE : Changes the key so that only the computer it was encrypted on can unlock it.
+        
+---------------------------
+        
+OPTIONS:
+        
+--help          Display this help message.
+-v, --version   Show the current version of ATK.
+-l, --location  Return the location of the ATK.exe file.
+
+---------------------------
+```
+
+---
+
 # Manually setting up on Windows
 
 Setup environmental variables and RegEd by running the following script: ```run_setup.bat```
