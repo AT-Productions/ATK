@@ -1,8 +1,8 @@
 #include <string>
 #include <vector>
 
-#include <iostream>
-#include "exitFailure.h"
+//#include <iostream>
+//#include "exitFailure.h"
 
 #include "argHeader.h"
 #include "cryption.h"
@@ -51,7 +51,6 @@ int cypherAmount(basicInfo* result) {
 	if (finalInt <= 5) {
 		finalInt += 6;
 	}
-	std::cout << finalInt << std::endl;
-	exitfailure();
+
 	return finalInt;
 }
