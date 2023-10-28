@@ -4,7 +4,7 @@
 
 string longHelp(){
     string result = getVersion() + R"(
-Usage: ATK -t dir | file -p absolute | relative -k (keystring) [-s]
+Usage: ATK -t {dir | file} -p {absolute | relative} -k (keystring) [-s]
         
 --------------------------- 
 ARGUMENTS: 
