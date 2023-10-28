@@ -13,6 +13,9 @@ struct basicInfo
     string password;
     string newPath;
     string header;
+    bool safe = false;
+    string uniq;
+    int cypher = 0;
   };
 
 basicInfo* handleArgs(char** argv, int argc);

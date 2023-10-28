@@ -42,18 +42,27 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
 
         // Turn password and extension to unsigned char vectors:
 
-        // EXT
+        // EXT to unsigned vector
         for (char c : result->path.substr(result->path.find_last_of(".") + 1)) {
             // Push value to vector as unsigned char
             int value = static_cast<int>(static_cast<unsigned char>(c));
             newExtensionCVector.push_back(value);
         }
 
-        // Password
+        // Password to unsigned vector
         for (char c : result->password) {
             // Push value to vector as unsigned char
             int value = static_cast<int>(static_cast<unsigned char>(c));
             newPasswordCVector.push_back(value);
+        }
+
+        // If keyword -s has been used
+        if (result->safe == true) {
+            // Add uniq string
+            for (char c : result->uniq) {
+                int value = static_cast<int>(static_cast<unsigned char>(c));
+                newPasswordCVector.push_back(value);
+            }
         }
 
 
@@ -69,10 +78,11 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
 
         }
         else {
-            // Don't use .
+            // Don't use . add empty
             newExtensionC = { 20 };
         }
 
+        // Crypt vector
         newPasswordC = crypt(newPasswordCVector, result);
         
 
@@ -80,16 +90,15 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
         string newPasswordS;
         string newExtensionS;
 
-        // Change password to crypt
+        // Change password to crypt string
         for (unsigned char c : newPasswordC) {
             newPasswordS += static_cast<char>(c);
         }
         
-        // Change extension to crypt
+        // Change extension to crypt string
         for (unsigned char c : newExtensionC) {
             newExtensionS += static_cast<char>(c);
         }
-
         // Writes password and extension. below is seperator
         result->header = newPasswordS + "c?^ | ^?c" + newExtensionS + "\n";
     }

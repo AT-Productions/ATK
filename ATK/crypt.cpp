@@ -10,7 +10,7 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     // Vector to store Unicode characters
     std::vector<unsigned char> results;
-    int cypher = cypherAmount(result);
+    int cypher = result->cypher;
 
     int finalValue;
     // Loops through the content string

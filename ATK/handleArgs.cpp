@@ -7,18 +7,20 @@
 #include "findFromArray.h"
 #include "getVersion.h"
 #include "exitFailure.h"
+#include "deviceId.h"
 
 using namespace std;
 
 void unexpected(string);
-/**
- * Switch case, look what needs to be done.
-*/
+
 basicInfo* handleArgs(char** argv, int argc) {
+    bool nextArg = false;
+    bool nextValue = false;
+    int j = 0;
 
     // All arg types for error checking
-    const string argTypes[6] = {
-        "t", "p", "k", "-type", "-path", "-key"
+    const string argTypes[8] = {
+        "t", "p", "k", "s", "-type", "-path", "-key", "-safe"
     };
 
     const int argTypesSize = sizeof(argTypes) / sizeof(argTypes[0]); // Size of argTypes Array
@@ -28,10 +30,11 @@ basicInfo* handleArgs(char** argv, int argc) {
     string currentArg = ""; // Initialize current argument
     string next = "";       // Initialize next argument
 
-
-
     for (int i = 1; i < argc; ++i){ /* Loop through args*/
         currentArg = argv[i]; // The current argument
+        if (nextArg && i == argc) {
+            break;
+        }
         // Checks for --help
         if (currentArg == "--help") {
 
@@ -41,7 +44,7 @@ basicInfo* handleArgs(char** argv, int argc) {
         }
 
         // Checks for --version or -v
-        else if(currentArg == "-v" || currentArg == "--version"){
+        else if (currentArg == "-v" || currentArg == "--version") {
 
             // If it is found, consolelog getVersion message and exit
             cout << getVersion();
@@ -53,9 +56,9 @@ basicInfo* handleArgs(char** argv, int argc) {
             cout << "Current location is " << argv[0] << endl;
             exitfailure();
         }
+             
 
-
-        if(i % 2 == 1){ // 
+        if( nextArg == false ? i % 2 == 1 : j % 2 == 1){ // Every other is next if -s spotted, use j
 /**------------------------------------------------------------
              * Checks and saves the: - typed arguments
 -------------------------------------------------------------*/
@@ -67,35 +70,43 @@ basicInfo* handleArgs(char** argv, int argc) {
                 // Call unexpected and exit the code
                 unexpected(&currentArg[0]);
             }
-            
+
+            // If argument safe has been used
+            if (next == "s" || next == "-safe") {
+                nextArg = true;
+                result->safe = true;
+                deviceId(result);
+            }
+
         } else {
 /**------------------------------------------------------------
              * Values for: - typed arguments
 -------------------------------------------------------------*/
-
-
             if (next == "t" || next == "-type") { // Check for filetype
                 result->type = currentArg[0];
             }
 
             else if(next == "p" || next == "-path"){ // Checks for filepath
                 // ! callerPath.cpp HERE !
-                result->path = &currentArg[0];      
+                result->path = &currentArg[0]; 
             }
 
             else if(next == "k" || next == "-key"){ // Checks for password
                 result->password = &currentArg[0];
             }
+
             else {
                 unexpected(&currentArg[0]);
             }
 
         }
+
+        j++;
     }
 
     /* Check that the correct types have been given */
     if(result->password == ""){
-        cout << "Password is not defined. " << shortHelp() << endl;
+        cout << "Key is not defined. " << shortHelp() << endl;
         /* Call exit failure */
         exitfailure();
     }
@@ -110,7 +121,6 @@ basicInfo* handleArgs(char** argv, int argc) {
         /* Call exit failure */
         exitfailure();
     }
-    
     
     // Return the basicInfo struct with the data
     return result;

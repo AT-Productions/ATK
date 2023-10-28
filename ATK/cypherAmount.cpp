@@ -7,13 +7,13 @@
 #include "argHeader.h"
 #include "cryption.h"
 
-int cypherAmount(basicInfo* result) {
+void cypherAmount(basicInfo* result) {
 	int finalInt;
 
 	int length = result->password.length() + 17;
 	int sugar = 80;
 
-	std:vector<unsigned char>data;
+	std::vector<unsigned char>data;
 
 	for (char c : result->password) {
 		data.push_back(static_cast<unsigned char>(c));
@@ -52,5 +52,5 @@ int cypherAmount(basicInfo* result) {
 		finalInt += 6;
 	}
 
-	return finalInt;
+	result->cypher = finalInt;
 }

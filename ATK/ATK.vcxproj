@@ -201,6 +201,7 @@
     <ClInclude Include="argHeader.h" />
     <ClInclude Include="convert.h" />
     <ClInclude Include="cryption.h" />
+    <ClInclude Include="deviceId.h" />
     <ClInclude Include="exitFailure.h" />
     <ClInclude Include="findCwd.h" />
     <ClInclude Include="findFromArray.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="crypt.cpp" />
     <ClCompile Include="cypherAmount.cpp" />
     <ClCompile Include="decrypt.cpp" />
+    <ClCompile Include="deviceId.cpp" />
     <ClCompile Include="exitfailure.cpp" />
     <ClCompile Include="findCwd.cpp" />
     <ClCompile Include="findFromArray.cpp" />

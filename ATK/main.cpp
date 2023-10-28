@@ -6,6 +6,7 @@
 #include "readFile.h"
 #include "exitFailure.h"
 #include "getVersion.h"
+#include "cryption.h"
 
 #ifdef __linux__
 #include <unistd.h>
@@ -27,6 +28,8 @@ int main(int argc, char* argv[]){
 
     // CHECKS IF POINTER IS NULL
     if (result != nullptr) {
+
+        cypherAmount(result);
 
         // Read the file, function throws exitfailure if it doesn't exist
         readFile(result->path, result);

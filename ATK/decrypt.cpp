@@ -9,7 +9,7 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     // Holds the final string full of unicode characters
     // Vector to store Unicode characters
     std::vector<unsigned char> results;
-    int cypher = cypherAmount(result);
+    int cypher = result->cypher;
     // Loops through the content string
     int finalValue;
     for (char16_t c : content) {

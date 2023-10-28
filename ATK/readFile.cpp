@@ -11,6 +11,7 @@
 #include "writeFile.h"
 #include "findCwd.h"
 #include "exitFailure.h"
+#include "deviceId.h"
 #include "cryption.h"
 
 namespace fs = std::filesystem;
@@ -119,7 +120,7 @@ void readFile(string filePath, basicInfo* result){
             string toFind = "c?^ | ^?c";
             int separator = line.find(toFind);
 
-            // PASSWORD
+            // PASSWORD-------------------------------------------------
             // Reads and decrypts password
             // If they aren't equal, throw error on console
 
@@ -138,23 +139,45 @@ void readFile(string filePath, basicInfo* result){
 
             newPasswordC = deCrypt(newPasswordCVector, result);
 
-
-
-
             // Loops through the vector and turns it to a string
             for (unsigned char c : newPasswordC) {
                 passwordString += static_cast<char>(c);
             }
             
-            // Checks the strings equality
+            
+            // Checks the strings equality and safepasswords
             if (passwordString != result->password) {
-                // Exit the program on failure
-                cout << "Password is incorrect, try again." << endl;
-                exitfailure();
+                // If it failed try again with safePassword
+
+                // Init
+                int safePos = 0;
+                int lengthSafe = 0;
+                int secLengthSafe = 0;
+                string safePassword;
+
+                // Make uniq if user hasn't put it themselves
+                deviceId(result);
+            
+                // Length of uniq
+                lengthSafe = result->uniq.length();
+                // passwordstring - uniq length
+                secLengthSafe = passwordString.length() - lengthSafe;
+
+                // String length = substring = oikea salasana
+                safePassword = passwordString.substr(secLengthSafe);
+
+                // Checks the strings equality and safepasswords
+                if (
+                    safePassword != result->uniq 
+                    &&
+                    result->password !=  passwordString.substr(0, secLengthSafe)
+                    ) {
+                    // Exit the program on failure
+                    cout << "Password is incorrect, try again." << endl;
+                    exitfailure();
+                }
             }
-
-
-
+            
             // EXTENSION
             // Decrypt the extension
             std::vector<unsigned char> newExtensionC;

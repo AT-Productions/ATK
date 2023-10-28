@@ -29,6 +29,6 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 */
 std::vector<unsigned char> deCrypt(std::vector<unsigned char>content,  basicInfo* result);
 
-int cypherAmount(basicInfo* result);
+void cypherAmount(basicInfo* result);
 
 #endif // CRYPTION_H
