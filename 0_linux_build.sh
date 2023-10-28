@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo Chances that this will work are 0
+
 output=./build/atk
 files="ATK/*.cpp"
 

@@ -167,11 +167,8 @@ void readFile(string filePath, basicInfo* result){
                 safePassword = passwordString.substr(secLengthSafe);
 
                 // Checks the strings equality and safepasswords
-                if (
-                    safePassword != result->uniq 
-                    &&
-                    result->password !=  passwordString.substr(0, secLengthSafe)
-                    ) {
+                if (safePassword != result->uniq &&
+                    result->password !=  passwordString.substr(0, secLengthSafe)) {
                     // Exit the program on failure
                     cout << "Password is incorrect, try again." << endl;
                     exitfailure();
