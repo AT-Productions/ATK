@@ -26,6 +26,7 @@ File "Uninstall.ps1"
 ; Extract an EXE and BAT file
 File "ATK.exe"
 File "open_with_atk.bat"
+File "atk-ext.ico"
 
 ; Create an uninstaller in the same directory as the installer
 WriteUninstaller "$PROGRAMFILES\ATK\Uninstall.exe"
@@ -40,6 +41,7 @@ nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$PROGRAMFILES\A
 ; Remove installed files during uninstallation
 Delete "$PROGRAMFILES\ATK\ATK.exe"
 Delete "$PROGRAMFILES\ATK\open_with_atk.bat"
+Delete "$PROGRAMFILES\ATK\atk-ext.ico"
 Delete "$PROGRAMFILES\ATK\Setup.ps1"
 Delete "$PROGRAMFILES\ATK\Uninstall.ps1"
 DELETE "$PROGRAMFILES\ATK\"

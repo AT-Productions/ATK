@@ -69,10 +69,18 @@ $registryShellKeyPath = "HKCR\.atk\shell\Open with ATK"
 $registryCommandKeyPath = "HKCR\.atk\shell\Open with ATK\command"
 $registryCommandKeyValue = "open_with_atk.cmd `"%%1`""  # Note the double percent signs
 
+# Define the path to your custom icon
+$iconPath = "$callDir\atk-ext.ico"  # Replace with the actual path to your icon
+
 # Create registry entries
 reg.exe add "$registryKeyPath" /v "$registryKeyValuePerceivedType" /d "$registryKeyValuePerceivedTypeValue" /f
 reg.exe add "$registryShellKeyPath" /ve /d "Open with ATK" /f
 reg.exe add "$registryCommandKeyPath" /ve /d "$registryCommandKeyValue" /f
 
+# Add the DefaultIcon registry key with the path to your custom icon
+reg.exe add "$registryKeyPath\DefaultIcon" /ve /d "$iconPath" /f
+
+
 Write-Host "Context menu entry added for .atk files."
+Write-Host "Custom icon added for .atk files."
 Write-Host "You can now close this window by clicking any button."
