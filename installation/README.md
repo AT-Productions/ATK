@@ -1,4 +1,4 @@
-Add ATK.exe file to this directory and run script.nsi using nullsoft nsis.
+Add ATK.exe file to either user or admin directory and run script.nsi using nullsoft nsis.
 
 Latest version can be downloaded from [here](https://nsis.sourceforge.io/Download)
 

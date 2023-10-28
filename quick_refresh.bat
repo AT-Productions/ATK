@@ -5,12 +5,12 @@
 @echo off
 
 :: Copy from release to installation
-copy .\Release\ATK.exe .\installation\ /y /b
+copy .\Release\ATK.exe .\installation\admin\ /y /b
 
 :: Run compile script
-makensis.exe .\installation\script.nsi
+makensis.exe .\installation\admin\script.nsi
 
 :: Run compiled executable
-.\installation\ATK-Installer.exe
+.\installation\admin\ATK-Installer.exe
 
 echo DONE

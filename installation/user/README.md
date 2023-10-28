@@ -1,0 +1,1 @@
+Will make script that won't require adminstrator privilages

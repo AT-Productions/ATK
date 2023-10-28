@@ -24,8 +24,10 @@ mono_crash.*
 Release/
 build/
 .memF/
-installation/ATK.exe
-installation/ATK-installer.exe
+installation/admin/ATK.exe
+installation/admin/ATK-installer.exe
+installation/user/ATK.exe
+installation/user/ATK-installer.exe
 
 # [Rr]elease/
 # [Rr]eleases/
