@@ -1,1 +1,1 @@
-Will make script that won't require adminstrator privilages
+Will make script that won't require adminstrator privilages.

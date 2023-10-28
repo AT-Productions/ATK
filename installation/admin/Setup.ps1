@@ -8,7 +8,6 @@ if (-not $isAdmin) {
 }
 # Argument got from run_setup.bat
 # Contains the directory it was called from
-# Maybe use $PSScriptRoot in future?
 $callDir = $args[0]
 $mode = $args[1]
 
