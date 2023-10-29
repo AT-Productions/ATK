@@ -15,7 +15,6 @@ void unexpected(string);
 
 basicInfo* handleArgs(char** argv, int argc) {
     bool nextArg = false;
-    bool nextValue = false;
     int j = 0;
 
     // All arg types for error checking
