@@ -4,8 +4,9 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.2.1   | :white_check_mark: |
-| 1.2.0   | :white_check_mark: |
+| 1.2.2   | :white_check_mark: |
+| 1.2.1   | <span style="color:red;">&#10060;</span> |
+| 1.2.0   | <span style="color:red;">&#10060;</span> |
 | 1.1.1   | :white_check_mark: |
 | 1.1.0   | :white_check_mark: |
 | 1.0.2 | <span style="color:red;">&#10060;</span> |
