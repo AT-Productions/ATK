@@ -135,9 +135,19 @@ void readFile(string filePath, basicInfo* result){
                 int value = static_cast<int>(static_cast<unsigned char>(c));
                 newPasswordCVector.push_back(value);
             }
+
+
             // Contains vector holding the characters
 
             newPasswordC = deCrypt(newPasswordCVector, result);
+
+            // Check for \r\n
+            for (unsigned char& c : newPasswordC) {
+                if (static_cast<int>(c) == 14 || static_cast<int>(c) == 11) { // If char is 13 or 10 \r\n
+                    // remove 1
+                    c = static_cast<unsigned char>(static_cast<int>(c) - 1);
+                }
+            }
 
             // Loops through the vector and turns it to a string
             for (unsigned char c : newPasswordC) {
@@ -167,10 +177,11 @@ void readFile(string filePath, basicInfo* result){
                 safePassword = passwordString.substr(secLengthSafe);
 
                 // Checks the strings equality and safepasswords
-                if (safePassword != result->uniq &&
-                    result->password !=  passwordString.substr(0, secLengthSafe)) {
+                if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {
+                }
+                else {
                     // Exit the program on failure
-                    cout << "Password is incorrect, try again." << endl;
+                    cout << "Password is incorrect or the computer is not the same it was encrypted on, try again." << endl;
                     exitfailure();
                 }
             }
@@ -189,7 +200,13 @@ void readFile(string filePath, basicInfo* result){
 
             newExtensionC = deCrypt(newExtensionCVector, result);
 
-
+            // Check for \r\n
+            for (unsigned char& c : newExtensionC) {
+                if (static_cast<int>(c) == 14 || static_cast<int>(c) == 11) { // If char is 14 or 11 = \r +1 && \n + 1
+                    // remove 1
+                    c = static_cast<unsigned char>(static_cast<int>(c) - 1);
+                }
+            }
 
             // Change extension to decrypt
             for (char c : newExtensionC) {
