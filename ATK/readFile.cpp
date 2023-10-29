@@ -73,6 +73,8 @@ void readFile(string filePath, basicInfo* result){
     }
     // !
     // ! Checks if file is not .atk file
+    // ! 
+    // ! Initialize fileheader
     // !
     if (fullPath.substr(pos, fullPath.length()) != ".atk") {
         // Create new substring excluding the .ext part
@@ -117,7 +119,7 @@ void readFile(string filePath, basicInfo* result){
             getline(newfile, line);
 
             // Position of separator
-            string toFind = "c?^ | ^?c";
+            string toFind = "41adc_c?^ | ^?cd-cgga";
             int separator = line.find(toFind);
 
             // PASSWORD-------------------------------------------------
@@ -232,6 +234,9 @@ void readFile(string filePath, basicInfo* result){
         }
     }
 
+    // ! 
+    // ! Reads filedata
+    // ! 
     if (newfile.is_open()){   // Checks if file is open
         string line;
 

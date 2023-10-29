@@ -63,6 +63,8 @@ void action0(basicInfo* result) {
         newExtensionCVector.push_back(value);
     }
 
+
+
     // Password to unsigned vector
     for (char c : result->password) {
         // Push value to vector as unsigned char
@@ -130,7 +132,7 @@ void action0(basicInfo* result) {
         newExtensionS += static_cast<char>(c);
     }
     // Writes password and extension. below is seperator
-    result->header = newPasswordS + "c?^ | ^?c" + newExtensionS + "\n";
+    result->header = newPasswordS + "41adc_c?^ | ^?cd-cgga" + newExtensionS + "\n";
 }
 
 void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* content) {

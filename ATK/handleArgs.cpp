@@ -86,7 +86,6 @@ basicInfo* handleArgs(char** argv, int argc) {
             }
 
             else if(next == "p" || next == "-path"){ // Checks for filepath
-                // ! callerPath.cpp HERE !
                 result->path = &currentArg[0]; 
             }
 
