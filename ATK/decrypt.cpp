@@ -3,8 +3,8 @@
 #include <iomanip> 
 #include "cryption.h"
 #include "argHeader.h"
-
-//#include <iostream>
+#include "exitFailure.h"
+#include <iostream>
 std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result) {
     // Holds the final string full of unicode characters
     // Vector to store Unicode characters
@@ -26,5 +26,53 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
             results.push_back(c - cypher);
         }
     }
-    return results;
+
+
+    // Size of results
+    const int length = results.size();
+
+    // Spacing for randomness
+    int spacing = length <= 10 ? length / 2 : length / 10;
+    int amount = spacing;
+
+    int ogSpacing = 0;
+    int ogAmount = 0;
+        std::cout << length << " A "<< amount << std::endl;
+
+    for (int y = 0; y <= length; y++) {
+        int x = amount * y;
+        if (x + y == length) {
+            std::cout << "HAHAHA " << x << " + " << y << " = " << length << std::endl;
+            break;
+        }
+    }
+
+    std::vector<unsigned char> newResults;
+    if (result->safe) {
+        // Safe decrypt
+    }
+
+   
+
+    int i = 0;
+    for (unsigned char c : results) {
+        std::cout << c << " - ";
+        if (i == spacing) {
+            spacing += amount;
+            std::cout << "NEXTSPACE " << spacing << endl;
+        }
+        else {
+            newResults.push_back(c);
+        }
+
+        i++;
+    }
+    std::cout << std::endl;
+    for (unsigned char c : newResults) {
+        std::cout << (int)c << ", ";
+    }
+    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << endl;
+    std::cout << std::endl;
+
+    return newResults;
 }

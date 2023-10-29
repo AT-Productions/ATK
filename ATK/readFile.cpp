@@ -174,9 +174,13 @@ void readFile(string filePath, basicInfo* result){
                 lengthSafe = result->uniq.length();
                 // passwordstring - uniq length
                 secLengthSafe = passwordString.length() - lengthSafe;
+                cout << "SECLENGTH: " << secLengthSafe << " " << passwordString.length() << " - " << lengthSafe << endl;
+                cout << passwordString << endl;
 
                 // String length = substring = oikea salasana
                 safePassword = passwordString.substr(secLengthSafe);
+
+                cout << safePassword << endl;
 
                 // Checks the strings equality and safepasswords
                 if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {
