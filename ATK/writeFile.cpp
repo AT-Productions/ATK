@@ -89,6 +89,7 @@ void action0(basicInfo* result) {
     // If it has a . in it
     if (newStringMem.find_last_of(".") != -1) {
         // Use .
+        result->elength = newExtensionCVector.size();
         newExtensionC = crypt(
             newExtensionCVector, result
         );
@@ -104,10 +105,12 @@ void action0(basicInfo* result) {
     }
     else {
         // Don't use . add empty
+        result->elength = newExtensionCVector.size();
         newExtensionC = { 20 };
     }
 
     // Crypt vector
+    result->plength = newPasswordCVector.size();
     newPasswordC = crypt(newPasswordCVector, result);
 
     // Check for \r\n
@@ -132,7 +135,9 @@ void action0(basicInfo* result) {
         newExtensionS += static_cast<char>(c);
     }
     // Writes password and extension. below is seperator
-    result->header = newPasswordS + "41adc_c?^ | ^?cd-cgga" + newExtensionS + "\n";
+    result->header = std::to_string(result->elength) + "3hzk233dr198_DATA011kpp253" +
+                     std::to_string(result->plength) + "kl_STM-pfge9132zbag91_META0312" + 
+                     newPasswordS + "41adc_c?^ | ^?cd-cgga" + newExtensionS;
 }
 
 void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* content) {
@@ -155,16 +160,19 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
     /*CRYPT THE FILE*/
     else {
         // Crypt the content and get the result vector
+        result->dlength = content->size();
         results = crypt(*content, result);
     }
 
     // Create an empty string to store the result
     std::string resultString;
-    resultString = result->header;
+    if(result->header.empty() == false){
+        resultString = result->header + "w01|_DATAMSTRT_##+1ld13" + std::to_string(result->dlength) + "\n";
+    }
     // Write the results to the file
 
     std::string resultString2(results.begin(), results.end());
-    resultString += resultString2;
+    resultString +=  resultString2;
     newFile << resultString;
 
 

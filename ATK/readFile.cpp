@@ -131,8 +131,30 @@ void readFile(string filePath, basicInfo* result){
             vector<unsigned char> newPasswordC;
             vector<unsigned char> newPasswordCVector;
 
+            // MEMORY
+            std::string memF = "3hzk233dr198_DATA011kpp253";
+            std::string memF_ = "kl_STM-pfge9132zbag91_META0312";
+            std::string memF_2 = "w01|_DATAMSTRT_##+1ld13";
+
+            int startPos1 = line.find("3hzk233dr198_DATA011kpp253");
+
+            if (startPos1 != std::string::npos && separator != string::npos) {
+                // Turn to integers
+                result->elength = std::stoi(line.substr(0, startPos1));
+                result->plength = std::stoi(line.substr(startPos1 + memF.length(), line.find(memF_)));
+
+            }
+            else {
+                cerr << "Error reading file" << endl;
+                exitfailure();
+            }
+
+            // Get password
+            string extractedSubstring = line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length()));
+
+
             // Turn password to vector
-            for (char c : line.substr(0, separator)) {
+            for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
                 int value = static_cast<int>(static_cast<unsigned char>(c));
                 newPasswordCVector.push_back(value);
@@ -156,7 +178,6 @@ void readFile(string filePath, basicInfo* result){
                 passwordString += static_cast<char>(c);
             }
             
-            
             // Checks the strings equality and safepasswords
             if (passwordString != result->password) {
                 // If it failed try again with safePassword
@@ -174,20 +195,16 @@ void readFile(string filePath, basicInfo* result){
                 lengthSafe = result->uniq.length();
                 // passwordstring - uniq length
                 secLengthSafe = passwordString.length() - lengthSafe;
-                cout << "SECLENGTH: " << secLengthSafe << " " << passwordString.length() << " - " << lengthSafe << endl;
-                cout << passwordString << endl;
 
                 // String length = substring = oikea salasana
                 safePassword = passwordString.substr(secLengthSafe);
-
-                cout << safePassword << endl;
 
                 // Checks the strings equality and safepasswords
                 if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {
                 }
                 else {
                     // Exit the program on failure
-                    cout << "Password is incorrect or the computer is not the same it was encrypted on, try again." << endl;
+                    cout << "Password is incorrect or the computer is not the same this file was encrypted on, try again." << endl;
                     exitfailure();
                 }
             }
@@ -198,7 +215,11 @@ void readFile(string filePath, basicInfo* result){
             std::vector<unsigned char> newExtensionCVector;
             string newExtensionS;
 
-            for (char c : line.substr(separator + toFind.length(), line.length())) {
+            // Get extension
+            extractedSubstring = line.substr(line.find(toFind) + toFind.length(), line.find(memF_2) - (line.find(toFind) + toFind.length()));
+
+            // Turn ext to vector
+            for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
                 int value = static_cast<int>(static_cast<unsigned char>(c));
                 newExtensionCVector.push_back(c);
@@ -232,7 +253,6 @@ void readFile(string filePath, basicInfo* result){
                 // No file extension, the path is the same but without .atk
                 newPathToFile = fullPath.substr(0, pos);
             }
-
             // Add newpath to result
             result->newPath = newPathToFile;
         }
@@ -251,6 +271,7 @@ void readFile(string filePath, basicInfo* result){
         std::vector<unsigned char> hexData;
 
         char byte;
+        
         while (newfile.read(&byte, 1)) {
             // Store the byte in the vector
             hexData.push_back(static_cast<unsigned char>(byte));

@@ -12,7 +12,10 @@ struct basicInfo
     string path;
     string password;
     string newPath;
-    string header;
+    string header = "";
+    int plength = 0;
+    int elength = 0;
+    int dlength = 0;
     bool safe = false;
     string uniq;
     int cypher = 0;

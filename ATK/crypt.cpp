@@ -30,37 +30,34 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
         }
     }
 
-
+    /*
     // Size of results
     const int length = results.size();
 
     // Spacing for randomness
     int spacing = length <= 10 ? length / 2 : length / 10;
-    int amount = spacing;
+    int amount = spacing == 0 || spacing == 0? 0 : length / spacing;
+    int test = amount;
 
     std::vector<unsigned char> newResults;
-    int i = 0;
 
+    // ! HUOM I = 1; ~~ I = 0;
+    int i = 1;
+    std::cout << " | " << spacing << " | " << length << " | " << amount << " | " << test << " | " << std::endl;
     for (unsigned char c : results) {
-        if (i == spacing) {
+        if (i == amount) {
             int random = rand() % (255 - 1) + 1; // Random value between 1 and 255
             newResults.push_back(random);
-            spacing += amount;
-            std::cout << "NEXTSPACE " << spacing << ". RANDOM " << random << std::endl;
+            amount += test;
+            //std::cout << "NEXTSPACE " << amount << ". RANDOM " << random << std::endl;
         }
         newResults.push_back(c);
         i++;
     }
 
-    // Calculate the remaining random values needed to reach 110 total elements
-    int remainingRandomValues = (amount + length) - newResults.size();
-    for (int j = 0; j < remainingRandomValues; j++) {
-        int random = rand() % (255 - 1) + 1;
-        newResults.push_back(random);
-    }
-
-    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << std::endl;
+    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
     std::cout << std::endl;
     return newResults;
-
+    */
+    return results;
 }

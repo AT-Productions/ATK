@@ -27,52 +27,36 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
         }
     }
 
-
+    /*
     // Size of results
     const int length = results.size();
 
     // Spacing for randomness
     int spacing = length <= 10 ? length / 2 : length / 10;
-    int amount = spacing;
+    int amount = length / spacing;
+    int test = amount;
 
-    int ogSpacing = 0;
-    int ogAmount = 0;
-        std::cout << length << " A "<< amount << std::endl;
-
-    for (int y = 0; y <= length; y++) {
-        int x = amount * y;
-        if (x + y == length) {
-            std::cout << "HAHAHA " << x << " + " << y << " = " << length << std::endl;
-            break;
-        }
-    }
+    int x, y, z;
 
     std::vector<unsigned char> newResults;
-    if (result->safe) {
-        // Safe decrypt
-    }
 
-   
-
-    int i = 0;
+    // ! HUOM I = 1; ~~ I = 0;
+    int i = 1;
+    std::cout << " | " << spacing << " | " << length << " | " << amount << " | " << test << " | " << std::endl;
     for (unsigned char c : results) {
-        std::cout << c << " - ";
-        if (i == spacing) {
-            spacing += amount;
-            std::cout << "NEXTSPACE " << spacing << endl;
+        if (i == amount) {
+            amount += test;
+            //std::cout << "NEXTSPACE " << amount << ". RANDOM " << random << std::endl;
         }
         else {
             newResults.push_back(c);
         }
-
         i++;
     }
-    std::cout << std::endl;
-    for (unsigned char c : newResults) {
-        std::cout << (int)c << ", ";
-    }
-    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << endl;
-    std::cout << std::endl;
 
+    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
+    std::cout << std::endl;
     return newResults;
+    */
+    return results;
 }
