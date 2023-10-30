@@ -204,7 +204,7 @@ void readFile(string filePath, basicInfo* result){
                 }
                 else {
                     // Exit the program on failure
-                    cout << "Password is incorrect or the computer is not the same this file was encrypted on, try again." << endl;
+                    cout << "Password is incorrect or the computer is not the same this file was encrypted on." << endl;
                     exitfailure();
                 }
             }

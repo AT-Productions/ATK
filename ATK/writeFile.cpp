@@ -105,7 +105,15 @@ void action0(basicInfo* result) {
     }
     else {
         // Don't use . add empty
+
+        // ! THIS CODE HERE
+        // I
+        // I
+        // V
+        // MAY LEAD TO ISSUES !
+        //
         result->elength = newExtensionCVector.size();
+
         newExtensionC = { 20 };
     }
 
