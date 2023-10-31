@@ -151,7 +151,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get password
             string extractedSubstring = line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length()));
-            cout << "SUBSTR:: " << extractedSubstring << endl;
+            cout << "|" << line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length())) << "|" << endl;
             // Turn password to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -176,7 +176,7 @@ void readFile(string filePath, basicInfo* result){
             for (unsigned char c : newPasswordC) {
                 passwordString += static_cast<char>(c);
             }
-            cout << "PASSSTR:: " << passwordString << endl;
+
             // Checks the strings equality and safepasswords
             if (passwordString != result->password) {
                 // If it failed try again with safePassword
@@ -221,7 +221,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get extension
             extractedSubstring = line.substr(line.find(toFind) + toFind.length(), line.find(memF_2) - (line.find(toFind) + toFind.length()));
-
+            cout << extractedSubstring << endl;
             // Turn ext to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -229,15 +229,23 @@ void readFile(string filePath, basicInfo* result){
                 newExtensionCVector.push_back(c);
             }
 
-            newExtensionC = deCrypt(newExtensionCVector, result);
 
-            // Check for \r\n
-            for (unsigned char& c : newExtensionC) {
-                if (static_cast<int>(c) == 14 || static_cast<int>(c) == 11) { // If char is 14 or 11 = \r +1 && \n + 1
-                    // remove 1
-                    c = static_cast<unsigned char>(static_cast<int>(c) - 1);
+            // If no file extension skip this
+            cout << newExtensionCVector.size() << " a" << endl;
+            if (newExtensionCVector.size() != 0) {
+                if (newExtensionCVector.size() == 2 || result->elength == 1) {
+                    newExtensionCVector.pop_back();
+                }
+                newExtensionC = deCrypt(newExtensionCVector, result);
+                // Check for \r\n
+                for (unsigned char& c : newExtensionC) {
+                    if (static_cast<int>(c) == 14 || static_cast<int>(c) == 11) { // If char is 14 or 11 = \r +1 && \n + 1
+                        // remove 1
+                        c = static_cast<unsigned char>(static_cast<int>(c) - 1);
+                    }
                 }
             }
+
 
             // Change extension to decrypt
             for (char c : newExtensionC) {

@@ -40,14 +40,16 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     int originalLength = 0;
 
 
-    int calc1 = calculation1(&result->dlength);
-    int calc2 = calculation1(&result->elength);
-    int calc3 = calculation1(&result->plength);
+    //int calc1 = result->dlength >= 100 ? calculation1(&result->dlength) : calculation1(&result->dlength) - 1;
+    int calc1 = calculation1(&result->dlength) - 1;
 
-
-    int ans1 = result->dlength / calc1;
-    int ans2 = result->elength / calc2;
-    int ans3 = result->plength / calc3;
+    // TODO FIX MAX FILE LENGTH > 10 BEFORE DATA LOSS !!!!!
+    int calc2 = result->elength > 9 ? calculation1(&result->elength) : calculation1(&result->elength) - 1;
+    int calc3 = result->plength >= 100 ? calculation1(&result->plength)  : calculation1(&result->plength) - 1;
+    
+   /* calc1 = calc1 <= 0 ? calc1 = 1 : calc1;
+    calc2 = calc2 <= 0 ? calc2 = 1 : calc2;
+    calc3 = calc3 <= 0 ? calc3 = 1 : calc3;*/
 
     std::cout << result->dlength << " || " << calc1 << " || " << result->dlength + calc1 << " || " << length << std::endl;
     std::cout << result->elength << " || " << calc2 << " || " << result->elength + calc2 << " || " << length << std::endl;
@@ -58,7 +60,6 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     }
     else if (result->elength + calc2 == length) {
         originalLength = result->elength;
-
     }
     else if (result->plength + calc3 == length) {
         originalLength = result->plength;
@@ -72,6 +73,7 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
 
     // Spacing for randomness
     int spacing = 0;
+
     if (originalLength <= 10) {
         spacing = originalLength / 2;
     }
@@ -90,55 +92,52 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     else {
         spacing = originalLength / 1000000;
     }
-    int amount = originalLength / spacing;
-    int test = amount;
+
+    int amount = spacing == 0 ? 0 : originalLength / spacing;
+    int test = amount + 1;
 
     std::vector<unsigned char> newResults;
 
-    int i = 0;
-    std::cout << "| " << spacing << " | " << length << " | " << originalLength << " | " << amount << " | " << test << " | " << std::endl;
+    int i = -1;
     for (unsigned char c : results) {
+        newResults.push_back(c);
+
         if (i == amount) {
             amount += test;
-            cout << c << " && " << amount << " - ";
+            newResults.pop_back();
+            cout << c << " " << amount << " - ";
         }
-        else {
-            newResults.push_back(c);
-        }
+
         i++;
     }
-    std::cout << std::endl;
-    for (char c : newResults) {
-        std::cout << c << ", ";
-    }
-    std::cout << std::endl;
-    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
-
-
     return newResults;
-    /*
-    return results;
-    */
 }
 
 
 int calculation1(int* x) {
+    int integer = 0;
     if (*x <= 10) {
-        return *x / 2;
+        integer = *x / 2;
     }
     else if (*x <= 1000) {
-        return *x / 10;
+        integer = *x / 10;
     }
     else if (*x <= 10000) {
-        return *x / 100;
+        integer = *x / 100;
     }
     else if (*x <= 1000000) {
-        return *x / 1000;
+        integer = *x / 1000;
     }
     else if (*x <= 1000000000) {
-        return *x / 100000;
+        integer = *x / 100000;
     }
     else {
-        return *x / 1000000;
+        integer = *x / 1000000;
     }
+
+    if (integer <= 0) {
+        integer = 1;
+    }
+
+    return integer;
 }

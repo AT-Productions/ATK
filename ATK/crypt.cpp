@@ -61,26 +61,16 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
     std::vector<unsigned char> newResults;
 
     int i = 0;
-    std::cout << "| " << spacing << " | " << length << " | " << amount << " | " << test << " | " << std::endl;
     for (unsigned char c : results) {
+        newResults.push_back(c);
         if (i == amount) {
+
             int random = rand() % (255 - 1) + 1; // Random value between 1 and 255
             newResults.push_back(random);
             amount += test;
-            cout << c << " && " << amount << " - ";
         }
-        newResults.push_back(c);
         i++;
     }
-    std::cout << std::endl;
-    for (char c : newResults) {
-        std::cout << c << ", ";
-    }
-
-    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
-    std::cout << std::endl;
+    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << std::endl;
     return newResults;
-    /*
-    return results;
-    */
 }
