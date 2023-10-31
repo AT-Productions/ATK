@@ -151,8 +151,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get password
             string extractedSubstring = line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length()));
-
-
+            cout << "SUBSTR:: " << extractedSubstring << endl;
             // Turn password to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -177,7 +176,7 @@ void readFile(string filePath, basicInfo* result){
             for (unsigned char c : newPasswordC) {
                 passwordString += static_cast<char>(c);
             }
-            
+            cout << "PASSSTR:: " << passwordString << endl;
             // Checks the strings equality and safepasswords
             if (passwordString != result->password) {
                 // If it failed try again with safePassword
@@ -196,8 +195,13 @@ void readFile(string filePath, basicInfo* result){
                 // passwordstring - uniq length
                 secLengthSafe = passwordString.length() - lengthSafe;
 
-                // String length = substring = oikea salasana
-                safePassword = passwordString.substr(secLengthSafe);
+                try {
+                    // String length = substring = oikea salasana
+                    safePassword = passwordString.substr(secLengthSafe);
+                }
+                catch (const std::exception& error){
+                    std::cerr << error.what() << std::endl;
+                }
 
                 // Checks the strings equality and safepasswords
                 if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {

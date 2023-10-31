@@ -8,8 +8,6 @@
 
 
 int calculation1(int* x);
-int calculation2(int* x);
-int calculation3(int* x);
 
 std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result) {
     // Holds the final string full of unicode characters
@@ -43,8 +41,8 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
 
 
     int calc1 = calculation1(&result->dlength);
-    int calc2 = calculation2(&result->elength);
-    int calc3 = calculation3(&result->plength);
+    int calc2 = calculation1(&result->elength);
+    int calc3 = calculation1(&result->plength);
 
 
     int ans1 = result->dlength / calc1;
@@ -73,21 +71,39 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
 
 
     // Spacing for randomness
-    int spacing = originalLength <= 10 ? originalLength / 2 : originalLength / 10;
+    int spacing = 0;
+    if (originalLength <= 10) {
+        spacing = originalLength / 2;
+    }
+    else if (originalLength <= 1000) {
+        spacing = originalLength / 10;
+    }
+    else if (originalLength <= 10000) {
+        spacing = originalLength / 100;
+    }
+    else if (originalLength <= 1000000) {
+        spacing = originalLength / 1000;
+    }
+    else if (originalLength <= 1000000000) {
+        spacing = originalLength / 100000;
+    }
+    else {
+        spacing = originalLength / 1000000;
+    }
     int amount = originalLength / spacing;
     int test = amount;
 
     std::vector<unsigned char> newResults;
 
-    // ! HUOM I = 1; ~~ I = 0;
     int i = 0;
-    std::cout << " | " << spacing << " | " << length << " | " << originalLength << " | " << amount << " | " << test << " | " << std::endl;
+    std::cout << "| " << spacing << " | " << length << " | " << originalLength << " | " << amount << " | " << test << " | " << std::endl;
     for (unsigned char c : results) {
-        if (i != amount) {
-            newResults.push_back(c);
+        if (i == amount) {
+            amount += test;
+            cout << c << " && " << amount << " - ";
         }
         else {
-            amount += test;
+            newResults.push_back(c);
         }
         i++;
     }
@@ -107,51 +123,6 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
 
 
 int calculation1(int* x) {
-    if (*x <= 10) {
-        return *x / 2;
-    }
-    else if (*x <= 1000) {
-        return *x / 10;
-    }
-    else if (*x <= 10000) {
-        return *x / 100;
-    }
-    else if (*x <= 1000000) {
-        return *x / 1000;
-    }
-    else if (*x <= 1000000000) {
-        return *x / 100000;
-    }
-    else {
-        return *x / 1000000;
-    }
-}
-
-
-int calculation2(int* x) {
-    if (*x <= 10) {
-        return *x / 2;
-    }
-    else if (*x <= 1000) {
-        return *x / 10;
-    }
-    else if (*x <= 10000) {
-        return *x / 100;
-    }
-    else if (*x <= 1000000) {
-        return *x / 1000;
-    }
-    else if (*x <= 1000000000) {
-        return *x / 100000;
-    }
-    else {
-        return *x / 1000000;
-    }
-}
-
-
-
-int calculation3(int* x) {
     if (*x <= 10) {
         return *x / 2;
     }
