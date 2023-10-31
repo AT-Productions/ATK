@@ -30,19 +30,37 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
         }
     }
 
-    /*
     // Size of results
     const int length = results.size();
 
     // Spacing for randomness
-    int spacing = length <= 10 ? length / 2 : length / 10;
-    int amount = spacing == 0 || spacing == 0? 0 : length / spacing;
+    int spacing = 0;
+
+    if (length <= 10) {
+        spacing = length / 2;
+    }
+    else if (length <= 1000) {
+        spacing = length / 10;
+    }
+    else if (length <= 10000) {
+        spacing = length / 100;
+    }
+    else if (length <= 1000000) {
+        spacing = length / 1000;
+    }
+    else if (length <= 1000000000) {
+        spacing = length / 100000;
+    }
+    else {
+        spacing = length / 1000000;
+    }
+
+    int amount = spacing == 0 ? 0 : length / spacing;
     int test = amount;
 
     std::vector<unsigned char> newResults;
 
-    // ! HUOM I = 1; ~~ I = 0;
-    int i = 1;
+    int i = 0;
     std::cout << " | " << spacing << " | " << length << " | " << amount << " | " << test << " | " << std::endl;
     for (unsigned char c : results) {
         if (i == amount) {
@@ -58,6 +76,7 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
     std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
     std::cout << std::endl;
     return newResults;
-    */
+    /*
     return results;
+    */
 }

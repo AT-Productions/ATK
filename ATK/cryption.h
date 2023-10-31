@@ -1,7 +1,6 @@
 #ifndef CRYPTION_H
-#define CRYPTION_H
 
-#include <string>
+#define CRYPTION_H
 #include <vector>
 #include "cryption.h"
 #include "argHeader.h"
@@ -25,9 +24,10 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
  *
  * @param content String to be decrypted
  * @param result Pointer to result struct
+ * @param what What to be decrypted
  * @returns vector containing crypted data
 */
-std::vector<unsigned char> deCrypt(std::vector<unsigned char>content,  basicInfo* result);
+std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result);
 
 void cypherAmount(basicInfo* result);
 

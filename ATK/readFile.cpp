@@ -142,7 +142,7 @@ void readFile(string filePath, basicInfo* result){
                 // Turn to integers
                 result->elength = std::stoi(line.substr(0, startPos1));
                 result->plength = std::stoi(line.substr(startPos1 + memF.length(), line.find(memF_)));
-
+                result->dlength = std::stoi(line.substr(line.find(memF_2) + memF_2.length(), line.length()));
             }
             else {
                 cerr << "Error reading file" << endl;

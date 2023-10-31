@@ -5,6 +5,12 @@
 #include "argHeader.h"
 #include "exitFailure.h"
 #include <iostream>
+
+
+int calculation1(int* x);
+int calculation2(int* x);
+int calculation3(int* x);
+
 std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result) {
     // Holds the final string full of unicode characters
     // Vector to store Unicode characters
@@ -27,36 +33,141 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
         }
     }
 
-    /*
+    
     // Size of results
     const int length = results.size();
 
-    // Spacing for randomness
-    int spacing = length <= 10 ? length / 2 : length / 10;
-    int amount = length / spacing;
-    int test = amount;
 
-    int x, y, z;
+    // Calculate originals
+    int originalLength = 0;
+
+
+    int calc1 = calculation1(&result->dlength);
+    int calc2 = calculation2(&result->elength);
+    int calc3 = calculation3(&result->plength);
+
+
+    int ans1 = result->dlength / calc1;
+    int ans2 = result->elength / calc2;
+    int ans3 = result->plength / calc3;
+
+    std::cout << result->dlength << " || " << calc1 << " || " << result->dlength + calc1 << " || " << length << std::endl;
+    std::cout << result->elength << " || " << calc2 << " || " << result->elength + calc2 << " || " << length << std::endl;
+    std::cout << result->plength << " || " << calc3 << " || " << result->plength + calc3 << " || " << length << std::endl;
+
+    if (result->dlength + calc1 == length) {
+        originalLength = result->dlength;
+    }
+    else if (result->elength + calc2 == length) {
+        originalLength = result->elength;
+
+    }
+    else if (result->plength + calc3 == length) {
+        originalLength = result->plength;
+
+    }
+    else {
+        std::cerr << "Error decrypting." << std::endl;
+        exitfailure();
+    }
+
+
+    // Spacing for randomness
+    int spacing = originalLength <= 10 ? originalLength / 2 : originalLength / 10;
+    int amount = originalLength / spacing;
+    int test = amount;
 
     std::vector<unsigned char> newResults;
 
     // ! HUOM I = 1; ~~ I = 0;
-    int i = 1;
-    std::cout << " | " << spacing << " | " << length << " | " << amount << " | " << test << " | " << std::endl;
+    int i = 0;
+    std::cout << " | " << spacing << " | " << length << " | " << originalLength << " | " << amount << " | " << test << " | " << std::endl;
     for (unsigned char c : results) {
-        if (i == amount) {
-            amount += test;
-            //std::cout << "NEXTSPACE " << amount << ". RANDOM " << random << std::endl;
+        if (i != amount) {
+            newResults.push_back(c);
         }
         else {
-            newResults.push_back(c);
+            amount += test;
         }
         i++;
     }
-
-    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
     std::cout << std::endl;
+    for (char c : newResults) {
+        std::cout << c << ", ";
+    }
+    std::cout << std::endl;
+    std::cout << "Length of newResults: " << newResults.size() << " From: " << length << " AND I: " << i << std::endl;
+
+
     return newResults;
-    */
+    /*
     return results;
+    */
+}
+
+
+int calculation1(int* x) {
+    if (*x <= 10) {
+        return *x / 2;
+    }
+    else if (*x <= 1000) {
+        return *x / 10;
+    }
+    else if (*x <= 10000) {
+        return *x / 100;
+    }
+    else if (*x <= 1000000) {
+        return *x / 1000;
+    }
+    else if (*x <= 1000000000) {
+        return *x / 100000;
+    }
+    else {
+        return *x / 1000000;
+    }
+}
+
+
+int calculation2(int* x) {
+    if (*x <= 10) {
+        return *x / 2;
+    }
+    else if (*x <= 1000) {
+        return *x / 10;
+    }
+    else if (*x <= 10000) {
+        return *x / 100;
+    }
+    else if (*x <= 1000000) {
+        return *x / 1000;
+    }
+    else if (*x <= 1000000000) {
+        return *x / 100000;
+    }
+    else {
+        return *x / 1000000;
+    }
+}
+
+
+
+int calculation3(int* x) {
+    if (*x <= 10) {
+        return *x / 2;
+    }
+    else if (*x <= 1000) {
+        return *x / 10;
+    }
+    else if (*x <= 10000) {
+        return *x / 100;
+    }
+    else if (*x <= 1000000) {
+        return *x / 1000;
+    }
+    else if (*x <= 1000000000) {
+        return *x / 100000;
+    }
+    else {
+        return *x / 1000000;
+    }
 }
