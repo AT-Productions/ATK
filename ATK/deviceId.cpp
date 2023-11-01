@@ -6,10 +6,13 @@
 #include "argHeader.h"
 #include "exitFailure.h"
 #pragma comment(lib, "user32.lib")
-
+#include <Lmcons.h>
 
 #include <WINSOCK.H>
 #pragma comment(lib, "ws2_32.lib")
+
+std::string getUser();
+std::string getComputerNameF();
 
 void deviceId(basicInfo* result) {
     std::string results = "";
@@ -23,6 +26,58 @@ void deviceId(basicInfo* result) {
     results += std::to_string(siSysInfo.dwActiveProcessorMask);
     results += std::to_string(siSysInfo.dwAllocationGranularity);
     results += std::to_string(siSysInfo.dwNumberOfProcessors);
+    results += getComputerNameF();
+    results += std::to_string(siSysInfo.dwOemId);
+    results += std::to_string(siSysInfo.dwPageSize);
+    results += std::to_string(siSysInfo.dwProcessorType);
+    results += std::to_string(siSysInfo.wProcessorArchitecture);
+    results += std::to_string(siSysInfo.wProcessorLevel);
+    results += getUser();
+    results += std::to_string(siSysInfo.wProcessorRevision);
+    results += std::to_string(siSysInfo.wReserved);
+
+    result->uniq = results;
+}
+
+// @Returns the current username
+std::string getUser() {
+    TCHAR name[UNLEN + 1];
+    DWORD size = UNLEN + 1;
+
+    if (GetUserName((TCHAR*)name, &size)) {
+        // WSTRIN TO STRING
+        std::wstring wide = name;
+        std::string strname(wide.begin(), wide.end());
+
+        std::string s1 = strname;
+        std::wstring ws(strname.begin(), strname.end()); // converting s1 to ws in its range
+
+        // Error check for possible dataloss
+        if (ws != name) {
+            std::cerr << "Error making unique key with the safe argument. Possible data loss." << std::endl;
+            exitfailure();
+        }
+        else {
+            int i = 0;
+            std::string results;
+            for (char c : strname) {
+                results += c;
+                if (i >= strname.length()) { // Add it to results
+                    break;
+                }
+                i++;
+            }
+            return results;
+        }
+    }
+    else {
+        std::cerr << "Error making unique key with the safe argument." << std::endl;
+        exitfailure();
+    }
+}
+
+// @Returns the current computer name (DESKTOP-1234567)
+std::string getComputerNameF() {
     // Initialize winsock
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
@@ -34,6 +89,7 @@ void deviceId(basicInfo* result) {
     char hostname[256];
     if (gethostname(hostname, sizeof(hostname)) == 0) {
         int i = 0;
+        std::string results;
         for (char c : hostname) {
             results += c;
             if (i >= 15) { // Maximum amount the comp. name can be
@@ -41,21 +97,12 @@ void deviceId(basicInfo* result) {
             }
             i++;
         }
+        return results;
     }
     else {
-        std::cout << "Error making unique key with the safe argument." << std::endl;
+        std::cerr << "Error making unique key with the safe argument." << std::endl;
         exitfailure();
     }
 
     WSACleanup();
-    results += std::to_string(siSysInfo.dwOemId);
-    results += std::to_string(siSysInfo.dwPageSize);
-    results += std::to_string(siSysInfo.dwProcessorType);
-    results += std::to_string(siSysInfo.wProcessorArchitecture);
-    results += std::to_string(siSysInfo.wProcessorLevel);
-    results += std::to_string(siSysInfo.wProcessorRevision);
-    results += std::to_string(siSysInfo.wReserved);
-
-    result->uniq = results;
 }
-

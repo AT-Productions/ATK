@@ -9,7 +9,7 @@
 
 int calculation1(int* x);
 
-std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result) {
+std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result, int what) {
     // Holds the final string full of unicode characters
     // Vector to store Unicode characters
     std::vector<unsigned char> results;
@@ -41,32 +41,78 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
 
 
     //int calc1 = result->dlength >= 100 ? calculation1(&result->dlength) : calculation1(&result->dlength) - 1;
-    int calc1 = calculation1(&result->dlength) - 1;
+    //int calc1 = calculation1(&result->dlength) - 1;
+    //int calc2 = calculation1(&result->elength);
 
+    /*
+    * NOT OPTIMAL:)
+    * I
+    * I
+    * V
+     */
+    int calc1 = result->dlength < 10 ?                   // IF .................................
+                        calculation1(&result->dlength) : calculation1(&result->dlength) - 1 < 0 ?
+                                                                                calculation1(&result->dlength) : calculation1(&result->dlength) - 1;
+    int calc2 = result->elength < 10 ?                   // IF .................................
+                        calculation1(&result->elength) : calculation1(&result->elength) - 1 < 0 ?
+                                                                                calculation1(&result->elength) : calculation1(&result->elength) - 1;
+    int calc3 = result->plength < 10 ?                   // IF .................................
+                        calculation1(&result->plength) : calculation1(&result->plength) - 1 < 0 ? 
+                                                                                calculation1(&result->plength) : calculation1(&result->plength) - 1;
+    // ^^^^^^^^^^^^^^^^^^^^
+    // ^ ALL OF THE ABOVE ^
+    // ^^^^^^^^^^^^^^^^^^^^
+    // if length is under 10
+    // use normal
+    // else if length - 1 is under 0
+    // use normal else normal - 1
+    // ???????????????????????????????
+    // 
+    // 
+    // int amount1 = calc1 == 0 ? 0 : result->dlength / calc1;
+    // int amount2 = calc2 == 0 ? 0 : result->elength / calc2;
+    // int amount3 = calc3 == 0 ? 0 : result->plength / calc3;
+    //int amount = spacing == 0 ? 0 : length / spacing;
     // TODO FIX MAX FILE LENGTH > 10 BEFORE DATA LOSS !!!!!
-    int calc2 = result->elength > 9 ? calculation1(&result->elength) : calculation1(&result->elength) - 1;
-    int calc3 = result->plength >= 100 ? calculation1(&result->plength)  : calculation1(&result->plength) - 1;
     
-   /* calc1 = calc1 <= 0 ? calc1 = 1 : calc1;
+   /* 
+    ?????????????????????????????????????
+    ?????????????????????????????????????
+    ?????????????????????????????????????
+    ?????????????????????????????????????
+    ?????????????????????????????????????
+   calc1 = calc1 <= 0 ? calc1 = 1 : calc1;
     calc2 = calc2 <= 0 ? calc2 = 1 : calc2;
     calc3 = calc3 <= 0 ? calc3 = 1 : calc3;*/
-
+    /*
     std::cout << result->dlength << " || " << calc1 << " || " << result->dlength + calc1 << " || " << length << std::endl;
     std::cout << result->elength << " || " << calc2 << " || " << result->elength + calc2 << " || " << length << std::endl;
     std::cout << result->plength << " || " << calc3 << " || " << result->plength + calc3 << " || " << length << std::endl;
+    */
+    
 
-    if (result->dlength + calc1 == length) {
+    //
+    // Everything below and above may and will probably lead to issues!
+    // 
+    // all work??+
+    // TODO !\
+    BETTER BUGFIX!!
+    if (result->dlength + calc1 == length && what == 2 || result->dlength + (calc1 + 1) == length && what == 2) {
         originalLength = result->dlength;
     }
-    else if (result->elength + calc2 == length) {
+    // TODO !\
+    BETTER BUGFIX!!
+    else if (result->elength + calc2 == length && what == 1 || result->elength + (calc2 + 1) == length && what == 1) {
         originalLength = result->elength;
     }
-    else if (result->plength + calc3 == length) {
+    // TODO !\
+    BETTER BUGFIX!!
+    else if (result->plength + calc3 == length && what == 0|| result->plength + (calc3 + 1) == length && what == 0) {
         originalLength = result->plength;
 
     }
     else {
-        std::cerr << "Error decrypting." << std::endl;
+        std::cerr << "Error decrypting. The file may have been modified." << std::endl;
         exitfailure();
     }
 
@@ -105,11 +151,12 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
         if (i == amount) {
             amount += test;
             newResults.pop_back();
-            cout << c << " " << amount << " - ";
+            //cout << c << " " << amount << " - ";
         }
 
         i++;
     }
+
     return newResults;
 }
 
@@ -135,8 +182,9 @@ int calculation1(int* x) {
         integer = *x / 1000000;
     }
 
-    if (integer <= 0) {
-        integer = 1;
+    // TODO Better bugfix!!
+    if (integer == 1) {
+        integer = 0;
     }
 
     return integer;

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <filesystem>
 #include <iomanip> 
+#include <algorithm>
 
 #include "help.h"
 #include "argHeader.h"
@@ -151,7 +152,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get password
             string extractedSubstring = line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length()));
-            cout << "|" << line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length())) << "|" << endl;
+            //cout << "|" << line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length())) << "|" << endl;
             // Turn password to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -162,7 +163,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Contains vector holding the characters
 
-            newPasswordC = deCrypt(newPasswordCVector, result);
+            newPasswordC = deCrypt(newPasswordCVector, result, 0);
 
             // Check for \r\n
             for (unsigned char& c : newPasswordC) {
@@ -178,7 +179,11 @@ void readFile(string filePath, basicInfo* result){
             }
 
             // Checks the strings equality and safepasswords
-            if (passwordString != result->password) {
+            //cout << passwordString << "|" << result->password << "|" << passwordString.substr(0, 1) << "|" << endl;
+
+            // ! BUG !
+            // If password is 1 long, it will add 1 random character to the end
+            if (passwordString != result->password & passwordString.substr(0,1) != result->password) {
                 // If it failed try again with safePassword
 
                 // Init
@@ -204,14 +209,13 @@ void readFile(string filePath, basicInfo* result){
                 }
 
                 // Checks the strings equality and safepasswords
-                if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {
-                }
+                if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {}
                 else {
                     // Exit the program on failure
                     cout << "Password is incorrect or the computer is not the same this file was encrypted on." << endl;
                     exitfailure();
-                }
-            }
+                } // SAFEPASS
+            } // PASSWORDSTRING
             
             // EXTENSION
             // Decrypt the extension
@@ -221,7 +225,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get extension
             extractedSubstring = line.substr(line.find(toFind) + toFind.length(), line.find(memF_2) - (line.find(toFind) + toFind.length()));
-            cout << extractedSubstring << endl;
+            //cout << extractedSubstring << endl;
             // Turn ext to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -231,12 +235,9 @@ void readFile(string filePath, basicInfo* result){
 
 
             // If no file extension skip this
-            cout << newExtensionCVector.size() << " a" << endl;
+            //cout << newExtensionCVector.size() << " a" << endl;
             if (newExtensionCVector.size() != 0) {
-                if (newExtensionCVector.size() == 2 || result->elength == 1) {
-                    newExtensionCVector.pop_back();
-                }
-                newExtensionC = deCrypt(newExtensionCVector, result);
+                newExtensionC = deCrypt(newExtensionCVector, result, 1);
                 // Check for \r\n
                 for (unsigned char& c : newExtensionC) {
                     if (static_cast<int>(c) == 14 || static_cast<int>(c) == 11) { // If char is 14 or 11 = \r +1 && \n + 1
@@ -252,6 +253,7 @@ void readFile(string filePath, basicInfo* result){
                 newExtensionS += c;
             }
 
+            //cout << "|" << newExtensionS << "|" << endl;
             // Check if it doesn't have extension.
             if (newExtensionS != "") {
                 // Get part excluding .ext part

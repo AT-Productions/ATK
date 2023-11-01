@@ -1,6 +1,5 @@
 #include "exitFailure.h"
-
-#include <stdlib.h>
+#include <cstdlib>
 /**
  * returns EXIT_FAILURE
 */

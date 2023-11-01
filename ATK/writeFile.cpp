@@ -149,20 +149,12 @@ void action0(basicInfo* result) {
 }
 
 void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* content) {
-    // Create new file or modify it
-    ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
-
-    if (newFile.fail()) {
-        cerr << "Error opening the file for writing." << endl;
-        exitfailure();
-    }
-
     std::vector<unsigned char> results;
 
     /* DECRYPT THE FILE */
     if (*decrypt == true) {
         // Decrypt the contents and get the result vector
-        results = deCrypt(*content, result);
+        results = deCrypt(*content, result, 2);
     }
 
     /*CRYPT THE FILE*/
@@ -171,13 +163,20 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
         result->dlength = content->size();
         results = crypt(*content, result);
     }
-
     // Create an empty string to store the result
     std::string resultString;
     if(result->header.empty() == false){
         resultString = result->header + "w01|_DATAMSTRT_##+1ld13" + std::to_string(result->dlength) + "\n";
     }
     // Write the results to the file
+
+    // Create new file or modify it
+    ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
+
+    if (newFile.fail()) {
+        cerr << "Error opening the file for writing." << endl;
+        exitfailure();
+    }
 
     std::string resultString2(results.begin(), results.end());
     resultString +=  resultString2;
