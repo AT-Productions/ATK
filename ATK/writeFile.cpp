@@ -169,10 +169,12 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
         resultString = result->header + "w01|_DATAMSTRT_##+1ld13" + std::to_string(result->dlength) + "\n";
     }
     // Write the results to the file
+    cout << result->newPath << "|" << endl;
+    cout << resultString << endl;
 
     // Create new file or modify it
     ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
-
+    cout << endl;
     if (newFile.fail()) {
         cerr << "Error opening the file for writing." << endl;
         exitfailure();

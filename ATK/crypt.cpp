@@ -71,6 +71,18 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
         }
         i++;
     }
-    //std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << std::endl;
+
+    // Calculate remainder
+    // KORJAA TÄÄKIN
+    int remainder = (length + spacing) - newResults.size();
+    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << remainder << std::endl;
+    if (remainder >= 0) {
+        // MAYBE NOT WORKING WELL??
+        for (int i = 0; i < remainder; i++) {
+            newResults.push_back(rand() % (255 - 1) + 1);
+        }
+    }
+
+    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << remainder << std::endl;
     return newResults;
 }

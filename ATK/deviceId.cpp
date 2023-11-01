@@ -2,14 +2,16 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "deviceId.h"
-#include "argHeader.h"
-#include "exitFailure.h"
+
 #pragma comment(lib, "user32.lib")
 #include <Lmcons.h>
 
 #include <WINSOCK.H>
 #pragma comment(lib, "ws2_32.lib")
+
+#include "deviceId.h"
+#include "argHeader.h"
+#include "exitFailure.h"
 
 std::string getUser();
 std::string getComputerNameF();
@@ -18,8 +20,8 @@ void deviceId(basicInfo* result) {
     std::string results = "";
 
 
-    SYSTEM_INFO siSysInfo;
     // Copy the hardware information to the SYSTEM_INFO structure. 
+    SYSTEM_INFO siSysInfo;
 
     GetSystemInfo(&siSysInfo);
 
@@ -35,7 +37,7 @@ void deviceId(basicInfo* result) {
     results += getUser();
     results += std::to_string(siSysInfo.wProcessorRevision);
     results += std::to_string(siSysInfo.wReserved);
-
+    
     result->uniq = results;
 }
 
@@ -49,8 +51,7 @@ std::string getUser() {
         std::wstring wide = name;
         std::string strname(wide.begin(), wide.end());
 
-        std::string s1 = strname;
-        std::wstring ws(strname.begin(), strname.end()); // converting s1 to ws in its range
+        std::wstring ws(strname.begin(), strname.end()); // converting strname to ws in its range
 
         // Error check for possible dataloss
         if (ws != name) {
@@ -58,16 +59,7 @@ std::string getUser() {
             exitfailure();
         }
         else {
-            int i = 0;
-            std::string results;
-            for (char c : strname) {
-                results += c;
-                if (i >= strname.length()) { // Add it to results
-                    break;
-                }
-                i++;
-            }
-            return results;
+            return strname;
         }
     }
     else {
@@ -97,12 +89,13 @@ std::string getComputerNameF() {
             }
             i++;
         }
+        WSACleanup();
         return results;
     }
     else {
         std::cerr << "Error making unique key with the safe argument." << std::endl;
+        WSACleanup();
         exitfailure();
     }
 
-    WSACleanup();
 }

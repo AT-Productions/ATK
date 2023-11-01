@@ -11,8 +11,6 @@ string shortHelp();
 
 /**
  * RETURNS --HELP MESSAGE
- * 
- * MESSAGE IS IN help.txt
 */
 string longHelp();
 

@@ -1,10 +1,11 @@
 #include <string>
 #include <vector>
 #include <iomanip> 
+
+#include <iostream>
 #include "cryption.h"
 #include "argHeader.h"
 #include "exitFailure.h"
-#include <iostream>
 
 
 int calculation1(int* x);
@@ -85,10 +86,10 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     calc2 = calc2 <= 0 ? calc2 = 1 : calc2;
     calc3 = calc3 <= 0 ? calc3 = 1 : calc3;*/
     /*
+    */
     std::cout << result->dlength << " || " << calc1 << " || " << result->dlength + calc1 << " || " << length << std::endl;
     std::cout << result->elength << " || " << calc2 << " || " << result->elength + calc2 << " || " << length << std::endl;
     std::cout << result->plength << " || " << calc3 << " || " << result->plength + calc3 << " || " << length << std::endl;
-    */
     
 
     //
@@ -140,7 +141,7 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     }
 
     int amount = spacing == 0 ? 0 : originalLength / spacing;
-    int test = amount + 1;
+    int test = amount;
 
     std::vector<unsigned char> newResults;
 
@@ -157,6 +158,12 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
         i++;
     }
 
+    // TODO KORJAA EXT
+    if (what == 1 && newResults.size() == 6) {
+        newResults.pop_back();
+    }
+
+    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << std::endl;
     return newResults;
 }
 

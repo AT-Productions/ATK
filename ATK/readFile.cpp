@@ -35,7 +35,7 @@ void readFile(string filePath, basicInfo* result){
 
     // Check if filepath and type provided are correct
     std::error_code ec;
-    if (fs::is_directory(fullPath, ec) && (result->type.substr(0, 1) == "f" || result->type.substr(0, 1) == "F")) {
+    if (fs::is_directory(fullPath, ec) && (result->type.substr(0, 1) == "f")) {
         // Process a directory.
         cout << fullPath << " is a directory. " << shortHelp() << endl;
         exitfailure();
@@ -43,7 +43,7 @@ void readFile(string filePath, basicInfo* result){
     if (ec) {
         std::cerr << "Error in is_directory: " << ec.message();
     }
-    if (fs::is_regular_file(fullPath, ec) && (result->type.substr(0, 1) == "d" || result->type.substr(0, 1) == "D")) {
+    if (fs::is_regular_file(fullPath, ec) && (result->type.substr(0, 1) == "d")) {
         // Process a regular file.
         cout << fullPath << " is a file. " << shortHelp() << endl;
         exitfailure();
@@ -138,7 +138,6 @@ void readFile(string filePath, basicInfo* result){
             std::string memF_2 = "w01|_DATAMSTRT_##+1ld13";
 
             int startPos1 = line.find("3hzk233dr198_DATA011kpp253");
-
             if (startPos1 != std::string::npos && separator != string::npos) {
                 // Turn to integers
                 result->elength = std::stoi(line.substr(0, startPos1));
@@ -152,7 +151,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get password
             string extractedSubstring = line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length()));
-            //cout << "|" << line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length())) << "|" << endl;
+            
             // Turn password to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -179,8 +178,8 @@ void readFile(string filePath, basicInfo* result){
             }
 
             // Checks the strings equality and safepasswords
-            //cout << passwordString << "|" << result->password << "|" << passwordString.substr(0, 1) << "|" << endl;
-
+            cout << "|" << passwordString << "|" << result->password << "|" << passwordString.substr(0, 1) << "|" << endl;
+            
             // ! BUG !
             // If password is 1 long, it will add 1 random character to the end
             if (passwordString != result->password & passwordString.substr(0,1) != result->password) {
@@ -193,28 +192,30 @@ void readFile(string filePath, basicInfo* result){
                 string safePassword;
 
                 // Make uniq if user hasn't put it themselves
-                deviceId(result);
+                if (result->safe == false) {
+                    deviceId(result);
+                }
             
                 // Length of uniq
                 lengthSafe = result->uniq.length();
                 // passwordstring - uniq length
                 secLengthSafe = passwordString.length() - lengthSafe;
-
+                // cout << "|" << passwordString << "|" << secLengthSafe << "|" << result->password << endl;
                 try {
                     // String length = substring = oikea salasana
                     safePassword = passwordString.substr(secLengthSafe);
                 }
                 catch (const std::exception& error){
-                    std::cerr << error.what() << std::endl;
+                    std::cerr << "Error reading file. " << error.what() << std::endl;
+                    exitfailure();
                 }
 
                 // Checks the strings equality and safepasswords
-                if (safePassword == result->uniq && result->password ==  passwordString.substr(0, secLengthSafe)) {}
-                else {
+                if (safePassword != result->uniq && result->password !=  passwordString.substr(0, secLengthSafe)) {
                     // Exit the program on failure
                     cout << "Password is incorrect or the computer is not the same this file was encrypted on." << endl;
                     exitfailure();
-                } // SAFEPASS
+                }
             } // PASSWORDSTRING
             
             // EXTENSION
@@ -267,6 +268,11 @@ void readFile(string filePath, basicInfo* result){
                 // No file extension, the path is the same but without .atk
                 newPathToFile = fullPath.substr(0, pos);
             }
+            cout << newPathToFile << endl;
+            cout << fullPath.substr(0, pos) << endl;
+            cout << prev << endl;
+            cout << newExtensionS << endl;
+
             // Add newpath to result
             result->newPath = newPathToFile;
         }

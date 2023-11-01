@@ -199,7 +199,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="argHeader.h" />
-    <ClInclude Include="convert.h" />
     <ClInclude Include="cryption.h" />
     <ClInclude Include="deviceId.h" />
     <ClInclude Include="exitFailure.h" />

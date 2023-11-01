@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
     }
     else { // IF NULL POINTER
         cout << "handleArgs returned a null pointer." << endl;
-       return EXIT_FAILURE;
+        exitfailure();
     }
 
 

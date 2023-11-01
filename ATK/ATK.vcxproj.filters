@@ -30,9 +30,6 @@
     <ClInclude Include="argHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="convert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cryption.h">
       <Filter>Header Files</Filter>
     </ClInclude>

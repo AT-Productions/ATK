@@ -12,12 +12,13 @@
 using namespace std;
 
 void unexpected(string);
+bool testType(basicInfo* result);
 
 basicInfo* handleArgs(char** argv, int argc) {
     bool nextArg = false;
     int j = 0;
 
-    // All arg types for error checking
+    // All arg types for error checking, minus first char
     const string argTypes[8] = {
         "t", "p", "k", "s", "-type", "-path", "-key", "-safe"
     };
@@ -82,7 +83,7 @@ basicInfo* handleArgs(char** argv, int argc) {
              * Values for: - typed arguments
 -------------------------------------------------------------*/
             if (next == "t" || next == "-type") { // Check for filetype
-                result->type = currentArg[0];
+                result->type = &currentArg[0];
             }
 
             else if(next == "p" || next == "-path"){ // Checks for filepath
@@ -114,7 +115,7 @@ basicInfo* handleArgs(char** argv, int argc) {
         exitfailure();
     }
 
-    if (result->type != "d" & result->type != "f") {
+    if (testType(result)) {
         cout << "Invalid type \"" << result->type << "\". " << shortHelp() << endl;
         /* Call exit failure */
         exitfailure();
@@ -132,4 +133,15 @@ void unexpected(string next){
     // Logs to console shortHelp and exits
     cout << next << " was unexpected." << endl << shortHelp();
     exitfailure();
+}
+
+bool testType(basicInfo* result) {
+    // Allow the use of f and d
+    if (result->type == "dir" || result->type == "file" || result->type.substr(0,1) == "d" || result->type.substr(0, 1) == "f") {
+        return false;
+    }
+    else {
+        return true;
+    }
+
 }
