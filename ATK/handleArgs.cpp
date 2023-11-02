@@ -44,7 +44,7 @@ basicInfo* handleArgs(char** argv, int argc) {
         }
 
         // Checks for --version or -v
-        else if (currentArg == "-v" || currentArg == "--version") {
+        else if (currentArg == "-v" || currentArg == "--version" || currentArg == "--v") {
 
             // If it is found, consolelog getVersion message and exit
             cout << getVersion();
