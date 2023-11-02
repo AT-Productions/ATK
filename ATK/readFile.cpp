@@ -178,11 +178,12 @@ void readFile(string filePath, basicInfo* result){
             }
 
             // Checks the strings equality and safepasswords
-            cout << "|" << passwordString << "|" << result->password << "|" << passwordString.substr(0, 1) << "|" << endl;
+            cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
             
             // ! BUG !
             // If password is 1 long, it will add 1 random character to the end
-            if (passwordString != result->password & passwordString.substr(0,1) != result->password) {
+            //  & passwordString.substr(0,1) != result->password
+            if (passwordString != result->password) {
                 // If it failed try again with safePassword
 
                 // Init

@@ -50,7 +50,6 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     * I
     * I
     * V
-     */
     int calc1 = result->dlength < 10 ?                   // IF .................................
                         calculation1(&result->dlength) : calculation1(&result->dlength) - 1 < 0 ?
                                                                                 calculation1(&result->dlength) : calculation1(&result->dlength) - 1;
@@ -60,6 +59,11 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     int calc3 = result->plength < 10 ?                   // IF .................................
                         calculation1(&result->plength) : calculation1(&result->plength) - 1 < 0 ? 
                                                                                 calculation1(&result->plength) : calculation1(&result->plength) - 1;
+     */
+    int calc1 = calculation1(&result->dlength);
+    int calc2 = calculation1(&result->elength);
+    int calc3 = calculation1(&result->plength);
+
     // ^^^^^^^^^^^^^^^^^^^^
     // ^ ALL OF THE ABOVE ^
     // ^^^^^^^^^^^^^^^^^^^^
@@ -87,10 +91,10 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     calc3 = calc3 <= 0 ? calc3 = 1 : calc3;*/
     /*
     */
-    std::cout << result->dlength << " || " << calc1 << " || " << result->dlength + calc1 << " || " << length << std::endl;
-    std::cout << result->elength << " || " << calc2 << " || " << result->elength + calc2 << " || " << length << std::endl;
-    std::cout << result->plength << " || " << calc3 << " || " << result->plength + calc3 << " || " << length << std::endl;
-    
+    std::cout << result->dlength << " |+| " << calc1 << " |=| " << result->dlength + calc1 << " |==| " << length << " | " << what << " |" << std::endl;
+    std::cout << result->elength << " |+| " << calc2 << " |=| " << result->elength + calc2 << " |==| " << length << " | " << what << " |" << std::endl;
+    std::cout << result->plength << " |+| " << calc3 << " |=| " << result->plength + calc3 << " |==| " << length << " | " << what << " |" << std::endl;
+    std::cout << "--------------------------" << std::endl;
 
     //
     // Everything below and above may and will probably lead to issues!
@@ -98,17 +102,17 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     // all work??+
     // TODO !\
     BETTER BUGFIX!!
-    if (result->dlength + calc1 == length && what == 2 || result->dlength + (calc1 + 1) == length && what == 2) {
+    if (result->dlength + calc1 == length && what == 2) {
         originalLength = result->dlength;
     }
     // TODO !\
     BETTER BUGFIX!!
-    else if (result->elength + calc2 == length && what == 1 || result->elength + (calc2 + 1) == length && what == 1) {
+    else if (result->elength + calc2 == length && what == 1) {
         originalLength = result->elength;
     }
     // TODO !\
     BETTER BUGFIX!!
-    else if (result->plength + calc3 == length && what == 0|| result->plength + (calc3 + 1) == length && what == 0) {
+    else if (result->plength + calc3 == length && what == 0) {
         originalLength = result->plength;
 
     }
@@ -140,36 +144,35 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
         spacing = originalLength / 1000000;
     }
 
-    int amount = spacing == 0 ? 0 : originalLength / spacing;
+    int amount = spacing;
     int test = amount;
 
     std::vector<unsigned char> newResults;
 
-    int i = -1;
-    for (unsigned char c : results) {
-        newResults.push_back(c);
+    std::cout << newResults.size() << " | " << originalLength << " | " << amount << " | " << test << " | " << spacing << " | " << originalLength << " | " << std::endl;
 
+    int i = 0;
+    for (unsigned char c : results) {
+        cout << (char)results[i] << endl;
+        newResults.push_back(c);
         if (i == amount) {
             amount += test;
             newResults.pop_back();
-            //cout << c << " " << amount << " - ";
         }
-
         i++;
     }
 
-    // TODO KORJAA EXT
-    if (what == 1 && newResults.size() == 6) {
-        newResults.pop_back();
-    }
 
-    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << std::endl;
+    std::cout << newResults.size() << " | " << originalLength << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
     return newResults;
 }
 
 
 int calculation1(int* x) {
+
+    // integer same as spacing
     int integer = 0;
+
     if (*x <= 10) {
         integer = *x / 2;
     }
@@ -189,9 +192,10 @@ int calculation1(int* x) {
         integer = *x / 1000000;
     }
 
-    // TODO Better bugfix!!
-    if (integer == 1) {
-        integer = 0;
+    /// EN MUISTA MITÄ TEKEE
+    int og = integer;
+    for (int i = 0; i < og; i++) {
+        integer++;
     }
 
     return integer;

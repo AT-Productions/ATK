@@ -1,9 +1,10 @@
 ﻿#include <string>
 #include <vector>
 #include <iomanip> 
+#include <cstdlib>
 #include "cryption.h"
 #include "argHeader.h"
-
+#include "exitFailure.h"
 #include <iostream>
 std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result){
     // Holds the final string full of unicode characters
@@ -55,34 +56,42 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
         spacing = length / 1000000;
     }
 
-    int amount = spacing == 0 ? 0 : length / spacing;
+    int amount = spacing;
     int test = amount;
 
     std::vector<unsigned char> newResults;
 
+    std::cout << newResults.size() << " | " << length << " | " << amount << " | " << test << " | " << spacing << " | " << length / 2 << " | " << std::endl;
+    //exitfailure();
     int i = 0;
     for (unsigned char c : results) {
         newResults.push_back(c);
         if (i == amount) {
 
             int random = rand() % (255 - 1) + 1; // Random value between 1 and 255
+            while (true) {
+                random = rand() % (255 - 1) + 1;
+                if (random != 13 && random != 10) { // NO \r\n
+                    break;
+                }
+            }
             newResults.push_back(random);
             amount += test;
-        }
+        } 
         i++;
     }
 
-    // Calculate remainder
-    // KORJAA TÄÄKIN
-    int remainder = (length + spacing) - newResults.size();
-    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << remainder << std::endl;
-    if (remainder >= 0) {
-        // MAYBE NOT WORKING WELL??
-        for (int i = 0; i < remainder; i++) {
-            newResults.push_back(rand() % (255 - 1) + 1);
-        }
-    }
+    //// Calculate remainder
+    //// KORJAA TÄÄKIN
+    //int remainder = (length + spacing) - newResults.size();
+    //std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << remainder << std::endl;
+    //if (remainder >= 0) {
+    //    // MAYBE NOT WORKING WELL??
+    //    for (int i = 0; i < remainder; i++) {
+    //        newResults.push_back(rand() % (255 - 1) + 1);
+    //    }
+    //}
 
-    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << remainder << std::endl;
+    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
     return newResults;
 }
