@@ -21,6 +21,7 @@ mono_crash.*
 [Dd]ebugPublic/
 
 
+
 Release/
 [Rr]elease/
 build/
@@ -30,6 +31,8 @@ installation/admin/ATK-installer.exe
 installation/admin/ATK-Installer.exe
 installation/user/ATK.exe
 installation/user/ATK-installer.exe
+.vscode/
+
 
 # [Rr]elease/
 # [Rr]eleases/
