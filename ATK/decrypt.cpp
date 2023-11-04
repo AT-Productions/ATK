@@ -40,84 +40,25 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
     // Calculate originals
     int originalLength = 0;
 
-
-    //int calc1 = result->dlength >= 100 ? calculation1(&result->dlength) : calculation1(&result->dlength) - 1;
-    //int calc1 = calculation1(&result->dlength) - 1;
-    //int calc2 = calculation1(&result->elength);
-
-    /*
-    * NOT OPTIMAL:)
-    * I
-    * I
-    * V
-    int calc1 = result->dlength < 10 ?                   // IF .................................
-                        calculation1(&result->dlength) : calculation1(&result->dlength) - 1 < 0 ?
-                                                                                calculation1(&result->dlength) : calculation1(&result->dlength) - 1;
-    int calc2 = result->elength < 10 ?                   // IF .................................
-                        calculation1(&result->elength) : calculation1(&result->elength) - 1 < 0 ?
-                                                                                calculation1(&result->elength) : calculation1(&result->elength) - 1;
-    int calc3 = result->plength < 10 ?                   // IF .................................
-                        calculation1(&result->plength) : calculation1(&result->plength) - 1 < 0 ? 
-                                                                                calculation1(&result->plength) : calculation1(&result->plength) - 1;
-     */
     int calc1 = calculation1(&result->dlength);
     int calc2 = calculation1(&result->elength);
     int calc3 = calculation1(&result->plength);
+    //std::cout << result->dlength << " |+| " << calc1 << " |=| " << result->dlength + calc1 << " |==| " << length << " | " << what << " |" << std::endl;
+    //std::cout << result->elength << " |+| " << calc2 << " |=| " << result->elength + calc2 << " |==| " << length << " | " << what << " |" << std::endl;
+    //std::cout << result->plength << " |+| " << calc3 << " |=| " << result->plength + calc3 << " |==| " << length << " | " << what << " |" << std::endl;
+    //std::cout << "--------------------------" << std::endl;
 
-    // ^^^^^^^^^^^^^^^^^^^^
-    // ^ ALL OF THE ABOVE ^
-    // ^^^^^^^^^^^^^^^^^^^^
-    // if length is under 10
-    // use normal
-    // else if length - 1 is under 0
-    // use normal else normal - 1
-    // ???????????????????????????????
-    // 
-    // 
-    // int amount1 = calc1 == 0 ? 0 : result->dlength / calc1;
-    // int amount2 = calc2 == 0 ? 0 : result->elength / calc2;
-    // int amount3 = calc3 == 0 ? 0 : result->plength / calc3;
-    //int amount = spacing == 0 ? 0 : length / spacing;
-    // TODO FIX MAX FILE LENGTH > 10 BEFORE DATA LOSS !!!!!
-    
-   /* 
-    ?????????????????????????????????????
-    ?????????????????????????????????????
-    ?????????????????????????????????????
-    ?????????????????????????????????????
-    ?????????????????????????????????????
-   calc1 = calc1 <= 0 ? calc1 = 1 : calc1;
-    calc2 = calc2 <= 0 ? calc2 = 1 : calc2;
-    calc3 = calc3 <= 0 ? calc3 = 1 : calc3;*/
-    /*
-    */
-    std::cout << result->dlength << " |+| " << calc1 << " |=| " << result->dlength + calc1 << " |==| " << length << " | " << what << " |" << std::endl;
-    std::cout << result->elength << " |+| " << calc2 << " |=| " << result->elength + calc2 << " |==| " << length << " | " << what << " |" << std::endl;
-    std::cout << result->plength << " |+| " << calc3 << " |=| " << result->plength + calc3 << " |==| " << length << " | " << what << " |" << std::endl;
-    std::cout << "--------------------------" << std::endl;
-
-    //
-    // Everything below and above may and will probably lead to issues!
-    // 
-    // all work??+
-    // TODO !\
-    BETTER BUGFIX!!
-    if (result->dlength + calc1 == length && what == 2) {
+    if (what == 2) {
         originalLength = result->dlength;
     }
-    // TODO !\
-    BETTER BUGFIX!!
-    else if (result->elength + calc2 == length && what == 1) {
+    else if (what == 1) {
         originalLength = result->elength;
     }
-    // TODO !\
-    BETTER BUGFIX!!
-    else if (result->plength + calc3 == length && what == 0) {
+    else if (what == 0) {
         originalLength = result->plength;
-
     }
     else {
-        std::cerr << "Error decrypting. The file may have been modified." << std::endl;
+        std::cerr << "Error decrypting." << std::endl;
         exitfailure();
     }
 
@@ -149,25 +90,36 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
 
     std::vector<unsigned char> newResults;
 
-    std::cout << newResults.size() << " | " << originalLength << " | " << amount << " | " << test << " | " << spacing << " | " << originalLength << " | " << std::endl;
+    //std::cout << newResults.size() << " | " << originalLength << " | " << amount << " | " << test << " | " << spacing << " | " << originalLength << " | " << std::endl;
 
-    int i = 0;
-    for (unsigned char c : results) {
-        cout << (char)results[i] << endl;
-        newResults.push_back(c);
-        if (i == amount) {
-            amount += test;
-            newResults.pop_back();
+    // TODO: Fix this. Not optimal.
+    if (originalLength == 1) {
+        newResults.push_back(results[1]);
+    }
+    else {
+        // ! Trial and error success???
+        for (int i = 0; i < results.size(); i++) {
+            newResults.push_back(results[i]);
+            if (i == amount) {
+                amount += test + 1;
+                //cout << " C " << results[i] << endl;
+                newResults.pop_back();
+            }
+            //else {
+            //    cout << " A " << results[i] << endl;
+            //}
         }
-        i++;
     }
 
+    /*for (unsigned char c : newResults) {
+		cout << c << endl;
+	}*/
 
-    std::cout << newResults.size() << " | " << originalLength << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
+    //std::cout << newResults.size() << " | " << originalLength << " | " << /*i <<*/ " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
     return newResults;
 }
 
-
+// @param x: int pointer, same as length
 int calculation1(int* x) {
 
     // integer same as spacing

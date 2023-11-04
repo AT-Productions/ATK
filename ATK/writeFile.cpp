@@ -106,7 +106,7 @@ void action0(basicInfo* result) {
     else {
         // Don't use . add empty
 
-        // ! THIS CODE HERE
+        //! THIS CODE HERE
         // I
         // I
         // V
@@ -143,9 +143,13 @@ void action0(basicInfo* result) {
         newExtensionS += static_cast<char>(c);
     }
     // Writes password and extension. below is seperator
-    result->header = std::to_string(result->elength) + "3hzk233dr198_DATA011kpp253" +
-                     std::to_string(result->plength) + "kl_STM-pfge9132zbag91_META0312" + 
-                     newPasswordS + "41adc_c?^ | ^?cd-cgga" + newExtensionS;
+    result->header = std::to_string(result->elength) + 
+                    "3hzk233dr198_DATA011kpp253" +
+                    std::to_string(result->plength) + 
+                    "kl_STM-pfge9132zbag91_META0312" + 
+                    newPasswordS + 
+                    "41adc_c?^ | ^?cd-cgga" + 
+                    newExtensionS;
 }
 
 void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* content) {
@@ -169,12 +173,8 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
         resultString = result->header + "w01|_DATAMSTRT_##+1ld13" + std::to_string(result->dlength) + "\n";
     }
     // Write the results to the file
-    cout << result->newPath << "|" << endl;
-    cout << resultString << endl;
-
     // Create new file or modify it
     ofstream newFile(result->newPath, std::ios::app | std::ios::binary);
-    cout << endl;
     if (newFile.fail()) {
         cerr << "Error opening the file for writing." << endl;
         exitfailure();

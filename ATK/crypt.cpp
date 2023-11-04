@@ -61,37 +61,23 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     std::vector<unsigned char> newResults;
 
-    std::cout << newResults.size() << " | " << length << " | " << amount << " | " << test << " | " << spacing << " | " << length / 2 << " | " << std::endl;
-    //exitfailure();
-    int i = 0;
-    for (unsigned char c : results) {
-        newResults.push_back(c);
+    //std::cout << newResults.size() << " | " << length << " | " << amount << " | " << test << " | " << spacing << " | " << length / 2 << " | " << std::endl;
+
+    for (int i = 0; i < results.size(); i++) {
         if (i == amount) {
-
-            int random = rand() % (255 - 1) + 1; // Random value between 1 and 255
+			int random = rand() % (255 - 1) + 1; // Random value between 1 and 255
             while (true) {
-                random = rand() % (255 - 1) + 1;
-                if (random != 13 && random != 10) { // NO \r\n
-                    break;
+				random = rand() % (255 - 1) + 1;
+				if (random <= 20) { // NO \r\n
+                	break;
                 }
-            }
-            newResults.push_back(random);
-            amount += test;
-        } 
-        i++;
-    }
+			}
+			newResults.push_back(random);
+			amount += test;
+		}
+		newResults.push_back(results[i]);
+	}
 
-    //// Calculate remainder
-    //// KORJAA TÄÄKIN
-    //int remainder = (length + spacing) - newResults.size();
-    //std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << remainder << std::endl;
-    //if (remainder >= 0) {
-    //    // MAYBE NOT WORKING WELL??
-    //    for (int i = 0; i < remainder; i++) {
-    //        newResults.push_back(rand() % (255 - 1) + 1);
-    //    }
-    //}
-
-    std::cout << newResults.size() << " | " << length << " | " << i << " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
+    //std::cout << newResults.size() << " | " << length << " | " << /*i <<*/ " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
     return newResults;
 }

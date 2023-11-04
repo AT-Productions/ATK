@@ -137,7 +137,7 @@ void unexpected(string next){
 
 bool testType(basicInfo* result) {
     // Allow the use of f and d
-    if (result->type == "dir" || result->type == "file" || result->type.substr(0,1) == "d" || result->type.substr(0, 1) == "f") {
+    if (result->type == "dir" || result->type == "file" || result->type == "d" || result->type == "f") {
         return false;
     }
     else {

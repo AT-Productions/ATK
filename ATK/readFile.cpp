@@ -35,7 +35,7 @@ void readFile(string filePath, basicInfo* result){
 
     // Check if filepath and type provided are correct
     std::error_code ec;
-    if (fs::is_directory(fullPath, ec) && (result->type.substr(0, 1) == "f")) {
+    if (fs::is_directory(fullPath, ec) && (result->type == "f" || result->type == "file")) {
         // Process a directory.
         cout << fullPath << " is a directory. " << shortHelp() << endl;
         exitfailure();
@@ -43,7 +43,7 @@ void readFile(string filePath, basicInfo* result){
     if (ec) {
         std::cerr << "Error in is_directory: " << ec.message();
     }
-    if (fs::is_regular_file(fullPath, ec) && (result->type.substr(0, 1) == "d")) {
+    if (fs::is_regular_file(fullPath, ec) && (result->type == "d" || result->type == "dir")) {
         // Process a regular file.
         cout << fullPath << " is a file. " << shortHelp() << endl;
         exitfailure();
@@ -178,7 +178,7 @@ void readFile(string filePath, basicInfo* result){
             }
 
             // Checks the strings equality and safepasswords
-            cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
+            //cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
             
             // ! BUG !
             // If password is 1 long, it will add 1 random character to the end
@@ -269,10 +269,6 @@ void readFile(string filePath, basicInfo* result){
                 // No file extension, the path is the same but without .atk
                 newPathToFile = fullPath.substr(0, pos);
             }
-            cout << newPathToFile << endl;
-            cout << fullPath.substr(0, pos) << endl;
-            cout << prev << endl;
-            cout << newExtensionS << endl;
 
             // Add newpath to result
             result->newPath = newPathToFile;
