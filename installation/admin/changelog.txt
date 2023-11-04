@@ -1,0 +1,60 @@
+|=============|
+|Release 1.3.1|
+|=============|
+Fixed 1.3.0 encryption
+Added Changelog.txt
+
+|=============|
+|Release 1.3.0|
+|=============|
+New encryption
+Updated fileheader
+
+|=============|
+|Release 1.2.2|
+|=============|
+Fixed --safe
+Fixed fileheader
+
+|=============|
+|Release 1.2.1|
+|=============|
+Added icons
+Bad fix for --safe
+
+|=============|
+|Release 1.2.0|
+|=============|
+Added --safe argument
+Updated cyphering
+Update --help
+
+|=============|
+|Release 1.1.1|
+|=============|
+Updated cyphering
+
+|=============|
+|Release 1.1.0|
+|=============|
+Hexadecimal encryption
+Added uninstall script
+Added argument: location
+Added new file header
+
+
+|=============|
+|Release 1.0.2|
+|=============|
+Added -- arguments
+
+|=============|
+|Release 1.0.1|
+|=============|
+Added Nsis script
+Minor bug fixes
+
+|=============|
+|Release 1.0.0|
+|=============|
+File encryption
