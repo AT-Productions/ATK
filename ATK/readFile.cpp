@@ -203,7 +203,8 @@ void readFile(string filePath, basicInfo* result){
                     safePassword = passwordString.substr(secLengthSafe);
                 }
                 catch (const std::exception& error){
-                    std::cerr << "Error reading file. " << error.what() << std::endl;
+                    //std::cerr << "Error reading file. " << error.what() << std::endl;
+                    std::cerr << "Error reading file. Password is incorrect or the computer is not the same this file was encrypted on." << std::endl;
                     exitfailure();
                 }
                 //cout << "1: " << lengthSafe << " = " << secLengthSafe << endl;
