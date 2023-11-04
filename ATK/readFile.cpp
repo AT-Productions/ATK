@@ -151,7 +151,7 @@ void readFile(string filePath, basicInfo* result){
 
             // Get password
             string extractedSubstring = line.substr(line.find(memF_) + memF_.length(), separator - (line.find(memF_) + memF_.length()));
-            
+            //cout << extractedSubstring << endl;
             // Turn password to vector
             for (char c : extractedSubstring) {
                 // Push value to vector as unsigned char
@@ -180,9 +180,6 @@ void readFile(string filePath, basicInfo* result){
             // Checks the strings equality and safepasswords
             //cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
             
-            // ! BUG !
-            // If password is 1 long, it will add 1 random character to the end
-            //  & passwordString.substr(0,1) != result->password
             if (passwordString != result->password) {
                 // If it failed try again with safePassword
 
@@ -201,7 +198,6 @@ void readFile(string filePath, basicInfo* result){
                 lengthSafe = result->uniq.length();
                 // passwordstring - uniq length
                 secLengthSafe = passwordString.length() - lengthSafe;
-                // cout << "|" << passwordString << "|" << secLengthSafe << "|" << result->password << endl;
                 try {
                     // String length = substring = oikea salasana
                     safePassword = passwordString.substr(secLengthSafe);
@@ -210,12 +206,14 @@ void readFile(string filePath, basicInfo* result){
                     std::cerr << "Error reading file. " << error.what() << std::endl;
                     exitfailure();
                 }
-
+                //cout << "1: " << lengthSafe << " = " << secLengthSafe << endl;
+                //cout << "2: " << result->password << " = " << passwordString.substr(0, secLengthSafe) << endl;
+                //cout << "3: " << safePassword << " = " << result->uniq << endl;
                 // Checks the strings equality and safepasswords
-                if (safePassword != result->uniq && result->password !=  passwordString.substr(0, secLengthSafe)) {
+                if (!(safePassword == result->uniq && result->password == passwordString.substr(0, secLengthSafe))) {
                     // Exit the program on failure
-                    cout << "Password is incorrect or the computer is not the same this file was encrypted on." << endl;
-                    exitfailure();
+					cout << "Password is incorrect or the computer is not the same this file was encrypted on." << endl;
+					exitfailure();
                 }
             } // PASSWORDSTRING
             

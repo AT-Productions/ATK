@@ -10,6 +10,11 @@ if (-not $isAdmin) {
 # Contains the directory it was called from
 $callDir = $args[0]
 
+# Checks if path is non existent
+if(![System.IO.File]::Exists($callDir)){
+    Write-Host "Program is already deleted or the folder location has been changed."
+    exit
+}
 
 # Windows PATH Environment Variable Setup
 #

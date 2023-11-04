@@ -15,6 +15,7 @@
 #endif
 using namespace std;
 
+
 int main(int argc, char* argv[]){
     /* If there are no arguments, throw exit failure */
     if (argc <= 1) { 

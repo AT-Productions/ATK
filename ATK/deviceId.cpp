@@ -37,7 +37,7 @@ void deviceId(basicInfo* result) {
     results += getUser();
     results += std::to_string(siSysInfo.wProcessorRevision);
     results += std::to_string(siSysInfo.wReserved);
-    
+
     result->uniq = results;
 }
 
