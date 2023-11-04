@@ -5,7 +5,7 @@
 | Version | Supported          | Reason|
 | ------- | ------------------ |-------|
 | 1.3.1   | :white_check_mark: | Latest encryption |
-| 1.3.0   | :white_check_mark: | Old encryption |
+| 1.3.0   | <span style="color:red;">&#10060;</span> | Old encryption |
 | 1.2.2   | <span style="color:red;">&#10060;</span> | Old encryption |
 | 1.2.1   | <span style="color:red;">&#10060;</span> | Old encryption |
 | 1.2.0   | <span style="color:red;">&#10060;</span> | Old encryption |
