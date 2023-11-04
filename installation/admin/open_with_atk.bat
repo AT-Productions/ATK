@@ -5,6 +5,6 @@ if "%key%"=="" (
     exit /b 1
 )
 
-atk -t f -p "%1" -s -k "%key%"
+atk -t f -p "%1" -k "%key%"
 
-exit
+pause
