@@ -5,7 +5,7 @@
 #include "cryption.h"
 #include "argHeader.h"
 #include "exitFailure.h"
-#include <iostream>
+//#include <iostream>
 std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result){
     // Holds the final string full of unicode characters
 

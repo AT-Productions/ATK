@@ -21,7 +21,11 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
 
     // Delete old file
     if (action == 0) {
-        if(remove(result->newPath.c_str()) == 0) {}
+        if (remove(result->newPath.c_str()) == 0) {}
+        else {
+			cerr << "Error deleting the file." << endl;
+			exitfailure();
+        }
     }
 
     
@@ -43,6 +47,9 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
 
         delete ptr;
         delete strptr;
+
+        ptr = nullptr;
+        strptr = nullptr;
     }
 }
 
@@ -106,7 +113,7 @@ void action0(basicInfo* result) {
     else {
         // Don't use . add empty
 
-        //! THIS CODE HERE
+        // ! THIS CODE HERE
         // I
         // I
         // V
@@ -190,4 +197,8 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
 
     // Delete the previous file
     if (remove(result->path.c_str()) == 0) {}
+    else {
+		cerr << "Error deleting file." << endl;
+		exitfailure();
+    }
 }

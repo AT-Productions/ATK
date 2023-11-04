@@ -9,6 +9,7 @@ Added Changelog.txt
 |=============|
 New encryption
 Updated fileheader
+New --safe
 
 |=============|
 |Release 1.2.2|

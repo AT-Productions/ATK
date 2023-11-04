@@ -2,7 +2,6 @@
 #include <vector>
 #include <iomanip> 
 
-#include <iostream>
 #include "cryption.h"
 #include "argHeader.h"
 #include "exitFailure.h"
@@ -10,6 +9,7 @@
 
 int calculation1(int* x);
 
+//#include <iostream>
 std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo* result, int what) {
     // Holds the final string full of unicode characters
     // Vector to store Unicode characters
