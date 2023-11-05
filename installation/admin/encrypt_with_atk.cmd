@@ -1,13 +1,13 @@
 @echo off
 echo Encrypting
-echo --------
+echo ----------
 set /p key="Enter file key: "
 if "%key%"=="" (
     echo Error. Key is not defined.
     exit /b 1
 )
 
-set /p addS="Do you want to make it decryptable in this PC only? (y/n)? "
+set /p addS="Do you want to make this file decryptable only on this computer and on current user? (y/n)? "
 
 set file=%~1
 

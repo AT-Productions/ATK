@@ -81,7 +81,7 @@ $registryCommandKeyPath = "HKCR\.atk\shell\Open with ATK\command"
 $iconPath = "$PSScriptRoot\atk-ext.ico"
 
 # Define the path to your "open_with_atk.cmd" script
-$cmdScriptPath = "$PSScriptRoot\open_with_atk.bat"
+$cmdScriptPath = "$PSScriptRoot\open_with_atk.cmd"
 
 # Create registry entries
 reg.exe add "$registryKeyPath" /v "$registryKeyValuePerceivedType" /d "$registryKeyValuePerceivedTypeValue" /f
@@ -91,9 +91,9 @@ reg.exe add "$registryCommandKeyPath" /ve /d "$cmdScriptPath `"%1`"" /f
 
 
 # Add gloval reged Crypt with ATK
-$cryptCmd = "$PSScriptRoot\encrypt_with_atk.bat"
-reg.exe add "HKCR\*\shell\Enrypt with ATK" /ve /d "Encrypt with ATK" /f
-reg.exe add "HKCR\*\shell\Enrypt with ATK\command" /ve /d "$cryptCmd `"%1`"" /f
+$cryptCmd = "$PSScriptRoot\encrypt_with_atk.cmd"
+reg.exe add "HKCR\*\shell\Encrypt with ATK" /ve /d "Encrypt with ATK" /f
+reg.exe add "HKCR\*\shell\Encrypt with ATK\command" /ve /d "$cryptCmd `"%1`"" /f
 
 # Add the DefaultIcon registry key with the path to your custom icon
 reg.exe add "$registryKeyPath\DefaultIcon" /ve /d "$iconPath" /f

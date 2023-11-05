@@ -10,12 +10,6 @@ if (-not $isAdmin) {
 # Contains the directory it was called from
 $callDir = $args[0]
 
-# Checks if path is non existent
-if(![System.IO.File]::Exists($callDir)){
-    Write-Host "Program is already deleted or the folder location has been changed."
-    exit
-}
-
 # Windows PATH Environment Variable Setup
 #
 # ---------------------------------------------------------------------
@@ -91,9 +85,16 @@ if($Env:PATHEXT -like "*.ATK*"){
 # ---------------------------------------------------------------------
 # Define the registry keys to delete
 $registryKeyPath = "HKCR\.atk"
+$registryKeyPathEncrypt = "HKCR\*\shell\Encrypt with ATK"
 
 # Delete registry entries
 reg.exe delete "$registryKeyPath" /f
+
+# Check if the "Encrypt with ATK" key exists before attempting to delete it
+reg.exe delete "$registryKeyPathEncrypt" /f
+
+Write-Host "Registry entries deleted."
+
 
 Write-Host "Context menu entry removed for .atk files."
 Write-Host "You can now close this window by clicking any button."

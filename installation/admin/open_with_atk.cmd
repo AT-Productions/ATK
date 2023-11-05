@@ -1,5 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
+echo Decrypting
+echo ----------
 set /p key="Enter file key: "
 if "%key%"=="" (
     echo Error. Key is not defined.
