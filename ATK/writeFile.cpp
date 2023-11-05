@@ -97,6 +97,7 @@ void action0(basicInfo* result) {
     if (newStringMem.find_last_of(".") != -1) {
         // Use .
         result->elength = newExtensionCVector.size();
+
         newExtensionC = crypt(
             newExtensionCVector, result
         );
@@ -108,7 +109,6 @@ void action0(basicInfo* result) {
                 c = static_cast<unsigned char>(static_cast<int>(c) + 1);
             }
         }
-
     }
     else {
         // Don't use . add empty
@@ -149,6 +149,7 @@ void action0(basicInfo* result) {
     for (unsigned char c : newExtensionC) {
         newExtensionS += static_cast<char>(c);
     }
+
     // Writes password and extension. below is seperator
     result->header = std::to_string(result->elength) + 
                     "3hzk233dr198_DATA011kpp253" +

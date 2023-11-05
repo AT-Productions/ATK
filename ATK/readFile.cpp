@@ -232,6 +232,9 @@ void readFile(string filePath, basicInfo* result){
                 // Push value to vector as unsigned char
                 int value = static_cast<int>(static_cast<unsigned char>(c));
                 newExtensionCVector.push_back(c);
+                if (c == 'c') {
+                    cout << "Warning. Extension contains \'c\'. It will turn to \'d\' when decrypting!" << endl;
+                }
             }
 
 
@@ -253,7 +256,7 @@ void readFile(string filePath, basicInfo* result){
             for (char c : newExtensionC) {
                 newExtensionS += c;
             }
-
+            //cout << newExtensionS << endl;
             //cout << "|" << newExtensionS << "|" << endl;
             // Check if it doesn't have extension.
             if (newExtensionS != "") {
@@ -268,7 +271,7 @@ void readFile(string filePath, basicInfo* result){
                 // No file extension, the path is the same but without .atk
                 newPathToFile = fullPath.substr(0, pos);
             }
-
+            //cout << newPathToFile << endl;
             // Add newpath to result
             result->newPath = newPathToFile;
         }

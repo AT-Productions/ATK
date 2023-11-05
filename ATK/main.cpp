@@ -15,6 +15,9 @@
 #endif
 using namespace std;
 
+/* 
+    if password = 123 ||213 || 321 || 312 and extension has c it will turn to d
+*/
 
 int main(int argc, char* argv[]){
     /* If there are no arguments, throw exit failure */

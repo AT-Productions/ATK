@@ -25,18 +25,30 @@ void deviceId(basicInfo* result) {
 
     GetSystemInfo(&siSysInfo);
 
-    results += std::to_string(siSysInfo.dwActiveProcessorMask);
-    results += std::to_string(siSysInfo.dwAllocationGranularity);
+    // ! CPU OVERLOAD x results += std::to_string(siSysInfo.dwActiveProcessorMask); // a
+    //results += " ";
+    // ! CPU OVERLOAD  x results += std::to_string(siSysInfo.dwAllocationGranularity); // a
+    //results += " ";
     results += std::to_string(siSysInfo.dwNumberOfProcessors);
+    //results += " ";
     results += getComputerNameF();
+    //results += " ";
     results += std::to_string(siSysInfo.dwOemId);
+    //results += " ";
     results += std::to_string(siSysInfo.dwPageSize);
-    results += std::to_string(siSysInfo.dwProcessorType);
+    //results += " ";
+    // ! CPU OVERLOAD x results += std::to_string(siSysInfo.dwProcessorType); // a
+    //results += " ";
     results += std::to_string(siSysInfo.wProcessorArchitecture);
+    //results += " ";
     results += std::to_string(siSysInfo.wProcessorLevel);
+    //results += " ";
     results += getUser();
+    //results += " ";
     results += std::to_string(siSysInfo.wProcessorRevision);
+    //results += " ";
     results += std::to_string(siSysInfo.wReserved);
+    //results += " ";
 
     result->uniq = results;
 }

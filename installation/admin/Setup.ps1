@@ -77,28 +77,47 @@ $registryKeyValuePerceivedTypeValue = "text"
 $registryShellKeyPath = "HKCR\.atk\shell\Open with ATK"
 $registryCommandKeyPath = "HKCR\.atk\shell\Open with ATK\command"
 
+
+$defaultIconKeyPath = "HKCR\.atk\DefaultIcon"
+
+# Define the path to your custom icon
+$iconPathExe = "$PSScriptRoot\atk-exe.ico"
+
 # Define the path to your custom icon
 $iconPath = "$PSScriptRoot\atk-ext.ico"
 
 # Define the path to your "open_with_atk.cmd" script
 $cmdScriptPath = "$PSScriptRoot\open_with_atk.cmd"
 
+
 # Create registry entries
 reg.exe add "$registryKeyPath" /v "$registryKeyValuePerceivedType" /d "$registryKeyValuePerceivedTypeValue" /f
 reg.exe add "$registryShellKeyPath" /ve /d "Open with ATK" /f
 reg.exe add "$registryCommandKeyPath" /ve /d "$cmdScriptPath `"%1`"" /f
+# Context menu icon
+reg.exe add "$registryShellKeyPath" /v "Icon" /d "$iconPathExe" /f
+# Add position
+# reg.exe add "$registryKeyPath" /v "Position" /d "Top" /f
+
+# Add the DefaultIcon registry key with the path to your custom icon
+reg.exe add "$registryKeyPath\DefaultIcon" /ve /d "$iconPath" /f
 
 
+Write-Host "Context menu entry added for .atk files."
+Write-Host "Context menu entry added for .atk files."
 
 # Add gloval reged Crypt with ATK
 $cryptCmd = "$PSScriptRoot\encrypt_with_atk.cmd"
 reg.exe add "HKCR\*\shell\Encrypt with ATK" /ve /d "Encrypt with ATK" /f
 reg.exe add "HKCR\*\shell\Encrypt with ATK\command" /ve /d "$cryptCmd `"%1`"" /f
 
-# Add the DefaultIcon registry key with the path to your custom icon
-reg.exe add "$registryKeyPath\DefaultIcon" /ve /d "$iconPath" /f
+# Context menu icon
+reg.exe add "HKCR\*\shell\Encrypt with ATK" /v "Icon" /d "$iconPathExe" /f
+# Add position
+# reg.exe add "HKCR\*\shell\Encrypt with ATK" /v "Position" /d "Top" /f
 
-Write-Host "Context menu entry added for .atk files."
+Write-Host "Context menu icon added for all files."
+Write-Host "Context menu entry added for all files."
 Write-Host "Custom icon added for .atk files."
 
 
@@ -121,7 +140,7 @@ Write-Host "Shortcut created with the specified icon."
 
 # GLOBAL
 # Define the path where you want to save the shortcut
-$shortcutPath = "$callDir\crypt_with_atk.lnk"
+$shortcutPath = "$callDir\encrypt_with_atk.lnk"
 
 # Create a WScript Shell object
 $WshShell = New-Object -ComObject WScript.Shell

@@ -5,7 +5,7 @@
 #include "cryption.h"
 #include "argHeader.h"
 #include "exitFailure.h"
-//#include <iostream>
+#include <iostream>
 std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result){
     // Holds the final string full of unicode characters
 
@@ -15,19 +15,19 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     int finalValue;
     // Loops through the content string
-    for (char16_t c : content) {
+    for (unsigned char c : content) {
         // If c is over 255 decimals
         if (static_cast<int>(c) + cypher > 255) {
             // Calculates overflow 255
             finalValue = static_cast<int>(c) + cypher - 255 - 1;
             //std::cout << static_cast<int>(c) << "+" << cypher << "=" << finalValue << std::endl;
             results.push_back(static_cast<unsigned char>(finalValue));
+            //cout << char(finalValue) << endl;
         }
         else {
             // Pushes to the back of the vector
             // And adds cypher amount
             results.push_back(c + cypher);
-
         }
     }
 
@@ -61,14 +61,14 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     std::vector<unsigned char> newResults;
 
-    //std::cout << newResults.size() << " | " << length << " | " << amount << " | " << test << " | " << spacing << " | " << length / 2 << " | " << std::endl;
+    // std::cout << newResults.size() << " | " << length << " | " << amount << " | " << test << " | " << spacing << " | " << length / 2 << " | " << std::endl;
 
     for (int i = 0; i < results.size(); i++) {
         if (i == amount) {
 			int random = rand() % (255 - 1) + 1; // Random value between 1 and 255
             while (true) {
 				random = rand() % (255 - 1) + 1;
-				if (random <= 20) { // NO \r\n
+                if (random >= 40) { // NO \r\n
                 	break;
                 }
 			}

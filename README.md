@@ -45,18 +45,6 @@ Setup environmental variables and RegEd by running the following script: ```run_
 
 ---
 
-# Context menu
-
-You will have to navigate to ATK folder (default: Program Files x86).
-
-On encryption choose: ```encrypt_with_atk.bat```
-
-On decryption choose: ```open_with_atk.bat```
-
-On decrypt, open_with_atk.bat can be set as default
-
----
-
 # Building standalone executable
 
 ### Windows build

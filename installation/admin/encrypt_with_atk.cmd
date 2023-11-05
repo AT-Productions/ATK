@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 echo Encrypting
 echo ----------
 set /p key="Enter file key: "

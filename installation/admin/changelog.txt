@@ -1,4 +1,9 @@
 |=============|
+|Release 1.3.3|
+|=============|
+Fixed encryption bugs
+
+|=============|
 |Release 1.3.2|
 |=============|
 Added context menu cmds
