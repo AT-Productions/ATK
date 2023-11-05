@@ -76,21 +76,65 @@ $registryKeyValuePerceivedType = "PerceivedType"
 $registryKeyValuePerceivedTypeValue = "text"
 $registryShellKeyPath = "HKCR\.atk\shell\Open with ATK"
 $registryCommandKeyPath = "HKCR\.atk\shell\Open with ATK\command"
-$registryCommandKeyValue = "open_with_atk.cmd `"%%1`""  # Note the double percent signs
 
 # Define the path to your custom icon
-$iconPath = "$callDir\atk-ext.ico"  # Replace with the actual path to your icon
+$iconPath = "$PSScriptRoot\atk-ext.ico"
+
+# Define the path to your "open_with_atk.cmd" script
+$cmdScriptPath = "$PSScriptRoot\open_with_atk.bat"
 
 # Create registry entries
 reg.exe add "$registryKeyPath" /v "$registryKeyValuePerceivedType" /d "$registryKeyValuePerceivedTypeValue" /f
 reg.exe add "$registryShellKeyPath" /ve /d "Open with ATK" /f
-reg.exe add "$registryCommandKeyPath" /ve /d "$registryCommandKeyValue" /f
+reg.exe add "$registryCommandKeyPath" /ve /d "$cmdScriptPath `"%1`"" /f
+
+
+
+# Add gloval reged Crypt with ATK
+$cryptCmd = "$PSScriptRoot\encrypt_with_atk.bat"
+reg.exe add "HKCR\*\shell\Enrypt with ATK" /ve /d "Encrypt with ATK" /f
+reg.exe add "HKCR\*\shell\Enrypt with ATK\command" /ve /d "$cryptCmd `"%1`"" /f
 
 # Add the DefaultIcon registry key with the path to your custom icon
 reg.exe add "$registryKeyPath\DefaultIcon" /ve /d "$iconPath" /f
 
-
 Write-Host "Context menu entry added for .atk files."
 Write-Host "Custom icon added for .atk files."
+
+
+
+
+# Define the path where you want to save the shortcut
+$shortcutPath = "$callDir\open_with_atk.lnk"
+
+# Create a WScript Shell object
+$WshShell = New-Object -ComObject WScript.Shell
+
+# Create the shortcut
+$shortcut = $WshShell.CreateShortcut($shortcutPath)
+$shortcut.Arguments = "`"$cmdScriptPath`" `"%1`""
+$shortcut.IconLocation = $iconPath
+$shortcut.Save()
+
+Write-Host "Shortcut created with the specified icon."
+
+
+# GLOBAL
+# Define the path where you want to save the shortcut
+$shortcutPath = "$callDir\crypt_with_atk.lnk"
+
+# Create a WScript Shell object
+$WshShell = New-Object -ComObject WScript.Shell
+
+# Create the shortcut
+$shortcut = $WshShell.CreateShortcut($shortcutPath)
+$shortcut.Arguments = "`"$cryptCmd`" `"%1`""
+$shortcut.IconLocation = "$PSScriptRoot\atk-exe.ico"
+$shortcut.Save()
+
+Write-Host "Shortcut created with the specified icon."
+
+# Write-Host "Shortcut created in AppData Roaming folder."
+
 Write-Host "You can now close this window by clicking any button."
 

@@ -25,6 +25,8 @@ File "Uninstall.ps1"
 
 ; Extract an EXE and BAT file
 File "ATK.exe"
+File "atk-exe.ico"
+File "crypt_with_atk.bat"
 File "open_with_atk.bat"
 File "atk-ext.ico"
 File "changelog.txt"
@@ -50,8 +52,15 @@ Delete "$PROGRAMFILES\ATK\open_with_atk.bat"
 Delete "$PROGRAMFILES\ATK\atk-ext.ico"
 Delete "$PROGRAMFILES\ATK\Setup.ps1"
 Delete "$PROGRAMFILES\ATK\Uninstall.ps1"
-DELETE "$PROGRAMFILES\ATK\"
-DELETE "$PROGRAMFILES\ATK\Uninstall.exe"
+Delete "$PROGRAMFILES\ATK\"
+Delete "$PROGRAMFILES\ATK\open_with_atk"
+Delete "$PROGRAMFILES\ATK\open_with_atk.lnk"
+Delete "$PROGRAMFILES\ATK\crypt_with_atk"
+Delete "$PROGRAMFILES\ATK\crypt_with_atk.lnk"
+Delete "$PROGRAMFILES\ATK\crypt_with_atk.bat"
+Delete "$PROGRAMFILES\ATK\Uninstall.exe"
+
+Delete "$SMPROGRAMS\open_with_atk.lnk"
 
 ; Remove the installation directory
 RMDir $PROGRAMFILES\ATK
