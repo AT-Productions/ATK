@@ -17,10 +17,10 @@ $callDir = $args[0]
 # Check if folder $callDir is already in the path
 # ! Adds path to build folder
 $pathDir = "$callDir"
+Write-Host Removing path from System Environment Variables.
 if($Env:PATH -like "*$pathDir*"){
     # TRUE, REMOVE FROM PATH
 
-    Write-Host Removing path from System Environment Variables.
 
     # Make oldPath and newPath variables    
     $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
@@ -50,9 +50,9 @@ if($Env:PATH -like "*$pathDir*"){
 # Removing the PATHEXT environment variable
 
 # Check if .ATK is already in the pathext
+Write-Host Removing .ATK from PATHEXT.
 if($Env:PATHEXT -like "*.ATK*"){
     # TRUE, REMOVE TO PATHEXT
-    Write-Host Removing .ATK from PATHEXT.
     
     # Get the oldpath
     $oldpathext = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT).pathext
@@ -97,4 +97,5 @@ Write-Host "Registry entries deleted."
 
 
 Write-Host "Context menu entry removed for .atk files."
-Write-Host "You can now close this window by clicking any button."
+Write-Host "Context menu commands removed for files."
+Write-Host "Uninstallation succesfull."

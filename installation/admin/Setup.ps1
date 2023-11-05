@@ -25,11 +25,11 @@ if($mode -like "manual"){
 } else {
     $pathDir = "$callDir"
 }
-Write-Output $pathDir
+
+Write-Host Adding current path to System Environmental Variables.
 if($Env:PATH -notlike "*$pathDir*"){
     # TRUE, ADD TO PATH
 
-    Write-Host Adding current path to System Environmental Variables.
 
     # Make oldPath and newPath variables
     $oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).path
@@ -54,9 +54,9 @@ $oldpathext = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\Curre
 $newpathext = "$oldpathext;.ATK"
 
 # Check if .ATK is already in the pathext
+Write-Host Adding .ATK to PATHEXT.
 if($Env:PATHEXT -notlike "*.ATK*"){
     # TRUE, ADD TO PATHEXT
-    Write-Host Adding .ATK to PATHEXT.
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATHEXT -Value $newpathext
     Write-Host Added .ATK to PATHEXT.
 } else {
@@ -76,9 +76,6 @@ $registryKeyValuePerceivedType = "PerceivedType"
 $registryKeyValuePerceivedTypeValue = "text"
 $registryShellKeyPath = "HKCR\.atk\shell\Open with ATK"
 $registryCommandKeyPath = "HKCR\.atk\shell\Open with ATK\command"
-
-
-$defaultIconKeyPath = "HKCR\.atk\DefaultIcon"
 
 # Define the path to your custom icon
 $iconPathExe = "$PSScriptRoot\atk-exe.ico"
@@ -122,57 +119,38 @@ Write-Host "Custom icon added for .atk files."
 
 
 
+# $shortcutPath = "$callDir\open_with_atk.lnk"
 
-# Define the path where you want to save the shortcut
-$shortcutPath = "$callDir\open_with_atk.lnk"
+# # Create a WScript Shell object
+# $WshShell = New-Object -ComObject WScript.Shell
 
-# Create a WScript Shell object
-$WshShell = New-Object -ComObject WScript.Shell
+# # Create the shortcut
+# $shortcut = $WshShell.CreateShortcut($shortcutPath)
+# $shortcut.Arguments = "`"$cmdScriptPath`" `"%1`""
+# $shortcut.IconLocation = $iconPath
+# $shortcut.Save()
 
-# Create the shortcut
-$shortcut = $WshShell.CreateShortcut($shortcutPath)
-$shortcut.Arguments = "`"$cmdScriptPath`" `"%1`""
-$shortcut.IconLocation = $iconPath
-$shortcut.Save()
-
-Write-Host "Shortcut created with the specified icon."
+# Write-Host "Shortcut created with the specified icon."
 
 
-# GLOBAL
-# Define the path where you want to save the shortcut
-$shortcutPath = "$callDir\encrypt_with_atk.lnk"
+# $shortcutPath = "$callDir\encrypt_with_atk.lnk"
 
-# Create a WScript Shell object
-$WshShell = New-Object -ComObject WScript.Shell
+# # Create a WScript Shell object
+# $WshShell = New-Object -ComObject WScript.Shell
 
-# Create the shortcut
-$shortcut = $WshShell.CreateShortcut($shortcutPath)
-$shortcut.Arguments = "`"$cryptCmd`" `"%1`""
-$shortcut.IconLocation = "$PSScriptRoot\atk-exe.ico"
-$shortcut.Save()
+# # Create the shortcut
+# $shortcut = $WshShell.CreateShortcut($shortcutPath)
+# $shortcut.Arguments = "`"$cryptCmd`" `"%1`""
+# $shortcut.IconLocation = "$PSScriptRoot\atk-exe.ico"
+# $shortcut.Save()
 
-Write-Host "Shortcut created with the specified icon."
+# Write-Host "Shortcut created with the specified icon."
 
 # Write-Host "Shortcut created in AppData Roaming folder."
 
+
 # Refresh environmental variables
 $Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+Write-Host "Environmental variables refreshed"
 
-
-# Clear the icon cache
-& "C:\Windows\System32\ie4uinit.exe" -ClearIconCache
-
-# Kill the Explorer process
-Stop-Process -Name explorer -Force
-
-# Delete the IconCache.db file
-$iconCachePath = [System.IO.Path]::Combine($env:LOCALAPPDATA, 'IconCache.db')
-Remove-Item -Path $iconCachePath -Force -ErrorAction SilentlyContinue
-
-Write-Host "Icon cache resetted. Starting explorer"
-
-# Restart the Explorer process
-Start-Process explorer.exe
-
-Write-Host "You can now close this window by clicking any button."
-
+Write-Host "Setup succesfull."
