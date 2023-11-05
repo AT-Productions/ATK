@@ -27,45 +27,61 @@ PageEx components
     ComponentText "Choose files you want to install." \
     "About" \
     "Main program contains all necessary components for basic functioning. \
-    Additional components contain all extra files, mainly used by the context menu."
+    Additional programs contain all extra files, mainly used by the context menu."
 PageExEnd
 
 SectionGroup "!Main Program" RO
     Section !ATK.exe sec1_id
+        DetailPrint "These files go to your TEMP folder. These will be deleted after setup."
         SectionInstType ${IT_FULL} ${IT_MIN} RO
+        SectionIn 1 ${sec1_id}
+        SetOutPath "$TEMP\ATK"
+        File "ATK.exe"
     SectionEnd
     Section !LICENSE.txt sec7_id
         SectionInstType ${IT_FULL} ${IT_MIN} RO
+        SectionIn 1 ${sec1_id}
+        File "LICENSE.txt"
     SectionEnd
     Section !Uninstall.ps1 sec8_id
         SectionInstType ${IT_FULL} ${IT_MIN} RO
-    SectionEnd
-    Section !RestartExplorer.ps1 sec9_id
-        SectionInstType ${IT_FULL} ${IT_MIN} RO
+        SectionIn 1 ${sec1_id}
+        File "Uninstall.ps1"
     SectionEnd
 SectionGroupEnd
 
 SectionGroup "Additional Components"
     Section encrypt_with_atk.cmd sec2_id
+        SectionIn 1 ${sec1_id}
         SectionInstType ${IT_FULL}
+        File "encrypt_with_atk.cmd"
     SectionEnd
 
     Section open_with_atk.cmd sec3_id
+        SectionIn 1 ${sec1_id}
         SectionInstType ${IT_FULL}
+        File "open_with_atk.cmd"
     SectionEnd
 
     Section atk-ext.ico sec4_id
+        SectionIn 1 ${sec1_id}
         SectionInstType ${IT_FULL}
+        File "atk-ext.ico"
     SectionEnd
 
     Section atk-exe.ico sec5_id
+        SectionIn 1 ${sec1_id}
         SectionInstType ${IT_FULL}
+        File "atk-exe.ico"
     SectionEnd
 
     Section changelog.txt sec6_id
+        SectionIn 1 ${sec1_id}
         SectionInstType ${IT_FULL}
+        File "changelog.txt"
     SectionEnd
 SectionGroupEnd
+
 
 ############ DIRECTORY ######################
 Var INSTALL_DIR
@@ -89,8 +105,33 @@ FunctionEnd
 
 PageEx instfiles
 PageExEnd
+
 ############################## START ##############################
 Section 
+
+
+; Delete the $TEMP folder stuff before extracting more files
+; and taking up more space from the disk
+Delete "$TEMP\ATK\ATK.exe"
+Delete "$TEMP\ATK\Uninstall.exe"
+
+Delete "$TEMP\ATK\changelog.txt"
+Delete "$TEMP\ATK\LICENSE.txt"
+
+Delete "$TEMP\ATK\atk-ext.ico"
+Delete "$TEMP\ATK\atk-exe.ico"
+
+Delete "$TEMP\ATK\Uninstall.ps1"
+
+Delete "$TEMP\ATK\open_with_atk.cmd"
+Delete "$TEMP\ATK\encrypt_with_atk.cmd"
+
+; The folder will be deleted in the Uninstall section
+# RMDir /r $TEMP\ATK\
+
+
+; After deletion begin with setup
+
 ; Set the installation directory
 SetOutPath $INSTALL_DIR
 
@@ -184,5 +225,6 @@ Delete "$INSTDIR\encrypt_with_atk.cmd"
 
 ; Remove the installation directory
 RMDir $INSTDIR
+RMDir $TEMP\ATK
 
 SectionEnd
