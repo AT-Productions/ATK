@@ -35,8 +35,8 @@ File "changelog.txt"
 WriteUninstaller "$PROGRAMFILES\ATK\Uninstall.exe"
 
 
-MessageBox MB_YESNO|MB_ICONQUESTION "Reboot may be required for the changes to take place. Do you wish to reboot the system?" IDNO +2
-Reboot
+; MessageBox MB_YESNO|MB_ICONQUESTION "Reboot may be required for the changes to take place. Do you wish to reboot the system?" IDNO +2
+; Reboot
 
 SectionEnd
 
