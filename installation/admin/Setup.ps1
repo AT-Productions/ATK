@@ -95,27 +95,26 @@ reg.exe add "$registryCommandKeyPath" /ve /d "$cmdScriptPath `"%1`"" /f
 reg.exe add "$registryShellKeyPath" /v "Icon" /d "$iconPathExe" /f
 # Add position
 # reg.exe add "$registryKeyPath" /v "Position" /d "Top" /f
+Write-Host "Context menu entry added for .atk files."
 
 # Add the DefaultIcon registry key with the path to your custom icon
 reg.exe add "$registryKeyPath\DefaultIcon" /ve /d "$iconPath" /f
+Write-Host "Custom icon added for .atk files."
 
 
-Write-Host "Context menu entry added for .atk files."
-Write-Host "Context menu entry added for .atk files."
 
 # Add gloval reged Crypt with ATK
 $cryptCmd = "$PSScriptRoot\encrypt_with_atk.cmd"
 reg.exe add "HKCR\*\shell\Encrypt with ATK" /ve /d "Encrypt with ATK" /f
 reg.exe add "HKCR\*\shell\Encrypt with ATK\command" /ve /d "$cryptCmd `"%1`"" /f
+Write-Host "Context menu entry added for all files."
 
 # Context menu icon
 reg.exe add "HKCR\*\shell\Encrypt with ATK" /v "Icon" /d "$iconPathExe" /f
+Write-Host "Context menu icon added for all files."
 # Add position
 # reg.exe add "HKCR\*\shell\Encrypt with ATK" /v "Position" /d "Top" /f
 
-Write-Host "Context menu icon added for all files."
-Write-Host "Context menu entry added for all files."
-Write-Host "Custom icon added for .atk files."
 
 
 
