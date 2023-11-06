@@ -139,8 +139,30 @@ SetOutPath $INSTALL_DIR
 CreateDirectory $INSTALL_DIR
 SectionEnd
 
-########## INSTALLATION AND EXTRACTION ##########
+
+############# SETUP ################
 Section 
+
+File "Setup.ps1"
+
+; Execute ps1 script
+nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTALL_DIR\Setup.ps1" "$INSTALL_DIR" "no"'
+
+Delete "Setup.ps1"
+
+MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to restart explorer.exe? This is needed for icons to refresh." IDYES true IDNO false
+
+true:
+    File "RestartExplorer.ps1"
+    nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTALL_DIR\RestartExplorer.ps1" "$INSTDIR" "yes"'
+    Delete "RestartExplorer.ps1"
+    Goto done
+
+false:
+    Goto done
+
+done:
+
 
 ; Extract uninstallation script
 File "Uninstall.ps1"
@@ -155,6 +177,7 @@ ${Else}
     DetailPrint "Failed to set Uninstall.ps1 file attributes to hidden."
 ${EndIf}
 
+########## INSTALLATION AND EXTRACTION ##########
 ; Extract files based on section selection
 
 ########## MAIN PROGRAM ##########
@@ -219,6 +242,7 @@ Delete "$INSTDIR\atk-ext.ico"
 Delete "$INSTDIR\atk-exe.ico"
 
 Delete "$INSTDIR\Uninstall.ps1"
+Delete "$INSTDIR\Setup.ps1"
 
 Delete "$INSTDIR\open_with_atk.cmd"
 Delete "$INSTDIR\encrypt_with_atk.cmd"
