@@ -5,11 +5,12 @@
 #include <iostream>
 #include <iomanip> 
 #include <locale>
-
+#include <filesystem>
 #include "argHeader.h"
 #include "writeFile.h"
 #include "cryption.h"
 #include "exitFailure.h"
+#include "zips.h"
 
 using namespace std;
 
@@ -28,7 +29,6 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
         }*/
     }
 
-    
 
     // Set chinese utf as locale
     std::locale::global(std::locale("en_US.UTF-8"));
@@ -56,21 +56,9 @@ void writeFile(std::vector<unsigned char> content, basicInfo* result = nullptr, 
 void action0(basicInfo* result) {
     // Crypted versions of password and file extension
     std::vector<unsigned char> newPasswordC, newExtensionC;
-
-
     std::vector<unsigned char> newPasswordCVector, newExtensionCVector;
 
-
     // Turn password and extension to unsigned char vectors:
-
-    // EXT to unsigned vector
-    for (char c : result->path.substr(result->path.find_last_of(".") + 1)) {
-        // Push value to vector as unsigned char
-        int value = static_cast<int>(static_cast<unsigned char>(c));
-        newExtensionCVector.push_back(value);
-    }
-
-
 
     // Password to unsigned vector
     for (char c : result->password) {
@@ -86,42 +74,6 @@ void action0(basicInfo* result) {
             int value = static_cast<int>(static_cast<unsigned char>(c));
             newPasswordCVector.push_back(value);
         }
-    }
-
-
-
-    int secPos = result->path.find_last_of("\\");
-
-    string newStringMem = result->path.substr(secPos + 1);
-    // If it has a . in it
-    if (newStringMem.find_last_of(".") != -1) {
-        // Use .
-        result->elength = newExtensionCVector.size();
-
-        newExtensionC = crypt(
-            newExtensionCVector, result
-        );
-
-        // Check for \r\n
-        for (unsigned char& c : newExtensionC) {
-            if (static_cast<int>(c) == 13 || static_cast<int>(c) == 10) { // If char is 13 or 10 \r\n
-                // Add 1
-                c = static_cast<unsigned char>(static_cast<int>(c) + 1);
-            }
-        }
-    }
-    else {
-        // Don't use . add empty
-
-        // ! THIS CODE HERE
-        // I
-        // I
-        // V
-        // MAY LEAD TO ISSUES !
-        //
-        result->elength = newExtensionCVector.size();
-
-        newExtensionC = { 20 };
     }
 
     // Crypt vector
@@ -145,24 +97,89 @@ void action0(basicInfo* result) {
         newPasswordS += static_cast<char>(c);
     }
 
+    // ! EXTENSION !
+    if (result->type != "d" && result->type != "dir") {
+        // EXT to unsigned vector
+        for (char c : result->path.substr(result->path.find_last_of(".") + 1)) {
+            // Push value to vector as unsigned char
+            int value = static_cast<int>(static_cast<unsigned char>(c));
+            newExtensionCVector.push_back(value);
+        }
+
+        int secPos = result->path.find_last_of("\\");
+
+        string newStringMem = result->path.substr(secPos + 1);
+        // If it has a . in it
+        if (newStringMem.find_last_of(".") != -1) {
+            // Use .
+            result->elength = newExtensionCVector.size();
+
+            newExtensionC = crypt(
+                newExtensionCVector, result
+            );
+
+        }
+        else {
+            // Don't use . add empty
+
+            // ! THIS CODE HERE
+            // I
+            // I
+            // V
+            // MAY LEAD TO ISSUES !
+            //
+            result->elength = newExtensionCVector.size();
+
+            newExtensionC = { 20 };
+        }
+    }
+    else {
+        newExtensionCVector = { 'z', 'i', 'p'};
+        newExtensionC = crypt(
+			newExtensionCVector, result
+		);
+    }
+    // Check for \r\n
+    for (unsigned char& c : newExtensionC) {
+        if (static_cast<int>(c) == 13 || static_cast<int>(c) == 10) { // If char is 13 or 10 \r\n
+            // Add 1
+            c = static_cast<unsigned char>(static_cast<int>(c) + 1);
+        }
+    }
+
     // Change extension to crypt string
     for (unsigned char c : newExtensionC) {
         newExtensionS += static_cast<char>(c);
     }
 
     // Writes password and extension. below is seperator
-    result->header = std::to_string(result->elength) + 
-                    "3hzk233dr198_DATA011kpp253" +
-                    std::to_string(result->plength) + 
-                    "kl_STM-pfge9132zbag91_META0312" + 
-                    newPasswordS + 
-                    "41adc_c?^ | ^?cd-cgga" + 
-                    newExtensionS;
+    std::string headerString;
+    if (result->type == "d" || result->type == "dir") {
+        headerString = "DIRECTORY \n" +
+            std::to_string(result->elength) +
+            "3hzk233dr198_DATA011kpp253" +
+            std::to_string(result->plength) +
+            "kl_STM-pfge9132zbag91_META0312" +
+            newPasswordS +
+            "41adc_c?^ | ^?cd-cgga" +
+            newExtensionS;
+    }
+    else {
+        headerString = "FILE \n" +
+                std::to_string(result->elength) +
+				"3hzk233dr198_DATA011kpp253" +
+				std::to_string(result->plength) +
+				"kl_STM-pfge9132zbag91_META0312" +
+				newPasswordS +
+				"41adc_c?^ | ^?cd-cgga" +
+				newExtensionS;
+    }
+
+    result->header = headerString;
 }
 
 void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* content) {
     std::vector<unsigned char> results;
-
     /* DECRYPT THE FILE */
     if (*decrypt == true) {
         // Decrypt the contents and get the result vector
@@ -188,6 +205,7 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
         exitfailure();
     }
 
+    // Write to file
     std::string resultString2(results.begin(), results.end());
     resultString +=  resultString2;
     newFile << resultString;
@@ -197,7 +215,51 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
     newFile.close();
 
     // Delete the previous file
-    if (remove(result->path.c_str()) == 0) {}
+    if (result->type != "d" && result->type != "dir") {
+        if (remove(result->path.c_str()) == 0) {}
+    }
+    // Delete the directory
+    else {
+        // Delete directory at result->path
+
+        // Delete the zip file
+        //cout << result->path.substr(0, result->path.find_last_of("zip") - 3) + "\\" << endl;
+        //cout << result->path << endl;
+        //cout << result->newPath << endl;
+        /*
+        C:\Users\anton\source\repos\ATK\installation\test\admin\
+        C:\Users\anton\source\repos\ATK\installation\test\admin.zip
+        C:\Users\anton\source\repos\ATK\installation\test\admin.atk
+        
+        */
+        // If file is .atk
+        if (result->type == "d" || result->type == "dir") {
+            // UNZIP ZIP
+            // REMOVE ZIP
+            if (result->path.substr(result->path.find_last_of(".") + 1) == "atk") {
+                std::string outputPath = result->newPath.substr(0, result->path.find_last_of("zip") - 3) + "\\";
+                unzip(result->newPath.c_str(), outputPath.c_str());
+
+                // Delete atk file
+                if (remove(result->path.c_str()) == 0) {}
+                // Delete the zip file
+                if (remove(result->newPath.c_str()) == 0) {}
+
+            }
+            // REMOVE ORIGINAL DIR
+            // REMOVE ZIP
+            else {
+			    //if (remove(result->path.c_str()
+			    // Delete the zip file
+                if (remove(result->path.c_str()) == 0) {}
+                // Delete the directory
+                if (std::filesystem::remove_all(result->path.substr(0, result->path.find_last_of("zip") - 3) + "\\") == 0) {}
+
+            }
+
+        }
+        //std::filesystem::remove_all( result->path.substr(0, result->path.find_last_of("zip") - 3) + "\\");
+    }
     /*else {
 		cerr << "Error deleting file." << endl;
 		exitfailure();

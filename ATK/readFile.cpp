@@ -4,9 +4,9 @@
 #include <filesystem>
 #include <iomanip> 
 #include <algorithm>
-#include <minizip/zip.h>
+//#include <minizip/zip.h>
 //#include <stdio.h>
-#include <cstdlib>
+//#include <cstdlib>
 
 #include "help.h"
 #include "argHeader.h"
@@ -17,9 +17,12 @@
 #include "exitFailure.h"
 #include "deviceId.h"
 #include "cryption.h"
+#include "zips.h"
 
 namespace fs = std::filesystem;
 using namespace std;
+
+
 
 void readFile(string filePath, basicInfo* result){
     string fullPath = filePath;
@@ -34,81 +37,78 @@ void readFile(string filePath, basicInfo* result){
         exitfailure();
     }
 
-    
-
-    // Check if filepath and type provided are correct
-    std::error_code ec;
-    if (fs::is_directory(fullPath, ec) && (result->type == "f" || result->type == "file")) {
-        // Process a directory.
-        cout << fullPath << " is a directory. " << shortHelp() << endl;
-        exitfailure();
-    }
-    if (ec) {
-        std::cerr << "Error in is_directory: " << ec.message();
-    }
-    if (fs::is_regular_file(fullPath, ec) && (result->type == "d" || result->type == "dir")) {
-        // Process a regular file.
-        cout << fullPath << " is a file. " << shortHelp() << endl;
-        exitfailure();
-    }
-    if (ec) {
-        std::cerr << "Error in is_regular_file: " << ec.message();
-    }
-
     // Add path to result
     result->path = fullPath;
 
-    // ! If directory
-    if (result->type == "d" || result->type == "dir") {
-        // TODO: Zip original directory
-        // TODO: Delete original directory
-        // TODO: After zipping, process it as normal file
-        // Initialize the ZIP archive
-        const char* zipFileName = "output.zip";
-        zipFile zip = zipOpen(zipFileName, APPEND_STATUS_CREATE);
+    // Get position of last '.'
+    int pos = result->path.find_last_of(".");
+    if (pos == std::string::npos) {
+        pos += 1;
+    }
 
-        if (zip == NULL) {
-            printf("Failed to open ZIP archive for writing.\n");
+    /* New file */
+    ifstream newfile; // Open file using read operation;
+    
+    // ! CHECK TYPES
+    if (result->path.substr(pos, result->path.length()) == ".atk") {
+        newfile.open(filePath, ios::in | ios::binary);
+        std::string firstLine;
+        getline(newfile, firstLine);
+
+        std::string memorySTR;
+        // If .atk file
+        if (firstLine.find("DIRECTORY") == 0) {
+            // If file is a directory
+            memorySTR = "d";
+            result->headerType = "DIRECTORY";
+		}
+		else if(firstLine.find("FILE") == 0){
+            // If file is a file
+            memorySTR = "f";
+            result->headerType = "FILE";
+		}
+        else {
+            cerr << "Error reading file" << endl;
             exitfailure();
         }
 
-        // Folder path to compress
-        const char* folderPath = "path/to/your/folder";
-
-        // Iterate through the files in the folder and add them to the ZIP archive
-        // You'll need to write the code to list the files in the folder
-
-        // For each file:
-        const char* fileName = "C:\\tmp\\testing.txt"; // Replace with the actual file name
-        zip_fileinfo file_info = { 0 };
-        file_info.external_fa = 0; // Set file attributes (optional)
-
-        FILE* file;
-        if (fopen_s(&file, fileName, "rb") != 0) {
-            // Handle the error
+        if ((memorySTR == "f" && (result->type == "f" || result->type == "file")) ||
+            (memorySTR == "d" && (result->type == "d" || result->type == "dir"))) {
+            // Valid type
         }
-        if (file) {
-            zipOpenNewFileInZip(zip, fileName, &file_info, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
-
-            char buffer[1024];
-            int bytesRead;
-
-            while ((bytesRead = fread(buffer, 1, sizeof(buffer), file)) > 0) {
-                zipWriteInFileInZip(zip, buffer, bytesRead);
-            }
-
-            fclose(file);
-            zipCloseFileInZip(zip);
+        else {
+            cout << "Invalid type. " << shortHelp() << endl;
+            exit(EXIT_FAILURE);
         }
 
-        // Close the ZIP archive
-        zipClose(zip, NULL);
+    }
+    else {
+        // Check if filepath and type provided are correct
+        std::error_code ec;
+        if (fs::is_directory(fullPath, ec) && (result->type == "f" || result->type == "file")) {
+            // Process a directory.
+            cout << fullPath << " is a directory. " << shortHelp() << endl;
+            exitfailure();
+        }
+        else {
+            newfile.open(filePath, ios::in | ios::binary);
+        }
+        if (ec) {
+            std::cerr << "Error in is_directory: " << ec.message();
+        }
+        if (fs::is_regular_file(fullPath, ec) && (result->type == "d" || result->type == "dir")) {
+            // Process a regular file.
+            cout << fullPath << " is a file. " << shortHelp() << endl;
+            exitfailure();
+        }
+        if (ec) {
+            std::cerr << "Error in is_regular_file: " << ec.message();
+        }
     }
 
 
-    exitfailure();
-    /* New file */
-    ifstream newfile(filePath, ios::in | ios::binary); // Open file using read operation;
+    
+    
 
     // Holds value of the new pathfile
     string newPathToFile;
@@ -118,11 +118,8 @@ void readFile(string filePath, basicInfo* result){
     // /old/path/name.atk
     // Changes .ext to atk
 
-    // Get position of last '.'
-    int pos = result->path.find_last_of(".");
-    if (pos == std::string::npos) {
-        pos += 1;
-    }
+    
+    
     // !
     // ! Checks if file is not .atk file
     // ! 
@@ -130,7 +127,6 @@ void readFile(string filePath, basicInfo* result){
     // !
     if (result->path.substr(pos, result->path.length()) != ".atk") {
         // Create new substring excluding the .ext part
-        
         // Get position of last \-character
 
         int secPos = result->path.find_last_of("\\");
@@ -146,7 +142,19 @@ void readFile(string filePath, basicInfo* result){
         }
         else {
             // Add .atk file extension
-            newPathToFile = result->path + ".atk";
+
+            // if result.type is dir remove last \ and add .atk
+            if (result->type == "d" || result->type == "dir") {
+                if (result->path.find_last_of("\\") == result->path.length()) {
+                    newPathToFile = result->path.substr(0, result->path.length() - 1) + ".atk";
+                }
+                else {
+                    newPathToFile = result->path + ".atk";
+                }
+			}
+            else {
+				newPathToFile = result->path + ".atk";
+			}
         }
 
         // Add newpath to result
@@ -322,26 +330,83 @@ void readFile(string filePath, basicInfo* result){
                 // No file extension, the path is the same but without .atk
                 newPathToFile = result->path.substr(0, pos);
             }
+
+            if (result->type == "d" || result->type == "dir") {
+				newPathToFile = result->path.substr(0, pos) + ".zip";
+			}
             //cout << newPathToFile << endl;
             // Add newpath to result
+
+            //cout << passwordString << " " << newExtensionS << " " << newPathToFile << endl;
             result->newPath = newPathToFile;
         }
+    }
+
+    /*
+    * ! Checks if file is a directory
+    * ! If it is, it will zip the directory
+    * ! and then read the filedata in the following
+    * ! if-statement
+    */
+    if (result->type == "d" && result->path.substr(pos, result->path.length()) != ".atk" ||
+        result->type == "dir" && result->path.substr(pos, result->path.length()) != ".atk") {
+        // Make new filepath
+        int secPos = result->path.find_last_of("\\");
+
+        string newStringMem = result->path.substr(secPos + 1);
+        // If it has a . in it
+        if (newStringMem.find_last_of(".") != -1) {
+            // Get part excluding .ext part
+            newPathToFile = result->path.substr(0, pos);
+
+            // Add .atk file extension
+            newPathToFile = newPathToFile + ".zip";
+        }
+        else {
+            // Add .atk file extension
+            if (result->path.find_last_of("\\") == result->path.length()) {
+				newPathToFile = result->path.substr(0, result->path.length() - 1) + ".zip";
+			}
+            else {
+                newPathToFile = result->path + ".zip";
+            }
+            //newPathToFile = result->path.substr(0, result->path.length() - 1) + ".zip";
+        }
+        //cout << newPathToFile << endl;
+        // Make the new file
+        //cout << "ZIOPPING" << endl;
+        zip(newPathToFile.c_str(), result->path.substr(0, result->path.length()).c_str());
+        result->path = newPathToFile;
+        // Replace result.path with the zipped file extension
+
+        //
+        //cout << result->path << endl;
+        newfile.open(result->path, ios::in | ios::binary);
     }
 
     // ! 
     // ! Reads filedata
     // ! 
-    if (newfile.is_open()){   // Checks if file is open
-        string line;
+    //cout << "RESULTJUSTBEGF " << result->path << endl;
+	//
 
+    if (newfile.is_open()){   // Checks if file is open
+        //cout << "File isa open" << endl;
         /*
         Vector that will hold the values
         of each byte in hexadeciaml
         */
         std::vector<unsigned char> hexData;
+        ifstream newfile1; // Open file using read operation;
+        if (result->type == "d" || result->type == "dir") {
+            //cout << "File ise open" << endl;
+            if (!newfile.is_open()) {
+				cerr << "Error reading directory" << endl;
+				exitfailure();
+			}
+        }
 
         char byte;
-        
         while (newfile.read(&byte, 1)) {
             // Store the byte in the vector
             hexData.push_back(static_cast<unsigned char>(byte));

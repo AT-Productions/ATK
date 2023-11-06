@@ -1,8 +1,8 @@
-# File encryptor
+# File and directory encryptor
 
-Advanced file encryptor with sophisticated encryption algorithm.
+Advanced file and directory encryptor with sophisticated encryption algorithm.
 
-Encrypts files of all kind fast and reliably without data loss.
+Encrypts files and directories of all kind fast and reliably without data loss.
 
 Has build in password feature to lock files after encryption
 
@@ -58,10 +58,6 @@ Setup environmental variables and RegEd by running the following script: ```run_
 	- Choose C++17 by going to Properties -> C/C++ -> Language -> C++ Language Standard -> ISO C++ 17
 	- Choose C++17 by going to Properties -> Configuration Properties -> General -> C++ Language Standard -> ISO C++ 17
 	- Change from Debug to Release
-	- Install zlib using [vcpkg](https://github.com/microsoft/vcpkg#quick-start-windows). 
-	- Run: ```.\vcpkg install zlib:triplet```
-	- Run: ```.\vcpkg install minizip:triplet```
-	- Run: ```.\vcpkg integrate install```
 	- Choose target platform
 	- Build -> Build ATK
 	- Build will appear in ATK\Release\ATK.exe

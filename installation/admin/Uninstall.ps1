@@ -86,12 +86,16 @@ if($Env:PATHEXT -like "*.ATK*"){
 # Define the registry keys to delete
 $registryKeyPath = "HKCR\.atk"
 $registryKeyPathEncrypt = "HKCR\*\shell\Encrypt with ATK"
+$registryKeyPathEncrypt2 = "HKCR\Directory\shell\Encrypt with ATK"
 
 # Delete registry entries
 reg.exe delete "$registryKeyPath" /f
 
 # Check if the "Encrypt with ATK" key exists before attempting to delete it
 reg.exe delete "$registryKeyPathEncrypt" /f
+
+
+reg.exe delete "$registryKeyPathEncrypt2" /f
 
 Write-Host "Registry entries deleted."
 

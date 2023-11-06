@@ -25,9 +25,6 @@
     <Filter Include="Source Files\cryption">
       <UniqueIdentifier>{e51bf6b6-c753-4fe4-aea9-21349cfff67e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\zlib">
-      <UniqueIdentifier>{263ee8cc-7e36-4455-a613-a36a578c58ef}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="argHeader.h">
@@ -66,11 +63,8 @@
     <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\zconf.h">
-      <Filter>Header Files\zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="zlib\zlib.h">
-      <Filter>Header Files\zlib</Filter>
+    <ClInclude Include="zips.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,15 +110,13 @@
     <ClCompile Include="deviceId.cpp">
       <Filter>Source Files\cryption</Filter>
     </ClCompile>
+    <ClCompile Include="zips.cpp">
+      <Filter>Source Files\fileHandling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="zlib.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
   </ItemGroup>
 </Project>

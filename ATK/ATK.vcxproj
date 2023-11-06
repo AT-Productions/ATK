@@ -221,8 +221,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="writeFile.h" />
-    <ClInclude Include="zlib\zconf.h" />
-    <ClInclude Include="zlib\zlib.h" />
+    <ClInclude Include="zips.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="crypt.cpp" />
@@ -239,12 +238,10 @@
     <ClCompile Include="readFile.cpp" />
     <ClCompile Include="shorthelp.cpp" />
     <ClCompile Include="writeFile.cpp" />
+    <ClCompile Include="zips.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="zlib.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

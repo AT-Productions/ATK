@@ -19,6 +19,7 @@ struct basicInfo
     bool safe = false;
     string uniq;
     int cypher = 0;
+    string headerType = "";
   };
 
 basicInfo* handleArgs(char** argv, int argc);

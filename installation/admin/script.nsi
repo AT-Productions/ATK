@@ -5,6 +5,7 @@ unicode True
 !include LogicLib.nsh
 !define WM_WININICHANGE 0x001A
 !define HWND_BROADCAST 0xFFFF
+!define WM_SETTINGCHANGE 0x001A
 
 Outfile "ATK-Installer.exe"
 RequestExecutionLevel admin
@@ -66,6 +67,12 @@ SectionGroup "Additional Components"
         File "open_with_atk.cmd"
     SectionEnd
 
+    Section encrypt_dir_with_atk.cmd sec9_id
+        SectionIn 1 ${sec1_id}
+        SectionInstType ${IT_FULL}
+        File "encrypt_dir_with_atk.cmd"
+    SectionEnd
+
     Section atk-ext.ico sec4_id
         SectionIn 1 ${sec1_id}
         SectionInstType ${IT_FULL}
@@ -119,9 +126,6 @@ agree:
 ${EndIf}
 FunctionEnd
 
-
-########################################
-
 ##########INSTFILE"######################
 PageEx instfiles
 PageExEnd
@@ -134,7 +138,8 @@ Function Refresh
     System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) i(0x8000000, 0, 0, 0)'
 
     ; Refreshes Environmental variables
-    System::Call 'user32::SendMessage(i ${HWND_BROADCAST}, i ${WM_WININICHANGE}, i 0, t "Environment")'
+    # TODO FIX
+    ;System::Call 'user32::SendMessage(i ${HWND_BROADCAST}, i ${WM_SETTINGCHANGE}, i 0, t "Environment")'
 FunctionEnd
 
 ############## INIT ######################
@@ -142,7 +147,6 @@ FunctionEnd
 Function .onInit
     InitPluginsDir
     StrCpy $INSTALL_DIR $PROGRAMFILES64\ATK
-StrCpy $InstallInfoText "This is the information you want to display on the custom page."
 FunctionEnd
 
 ############################## START ##############################
@@ -192,8 +196,7 @@ File "Setup.ps1"
 ; Execute Setup.ps1 script
 nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTALL_DIR\Setup.ps1" "$INSTALL_DIR" "no"'
 
-; After executing, delete it
-Delete "Setup.ps1"
+
 
 ; Check if setup ran succesfully
 Pop $0
@@ -205,16 +208,25 @@ ${Else}
     ignore the error and continue by pressing 'Ignore', or close the program by pressing 'Abort'." IDABORT abortM IDIGNORE ignoreM
         ; Run setup again
         DetailPrint "Running setup again."
+        ; After executing, delete it
+        Delete "Setup.ps1"
         Goto runSetup
     ignoreM:
         ; Continue setup
         DetailPrint "Continuing setup."
+        ; After executing, delete it
+        Delete "Setup.ps1"
         Goto Continue
     abortM:
         ; Abort
+        ; After executing, delete it
+        Delete "Setup.ps1"
         Abort "Setup aborted by user."
 ${EndIf}
 Continue:
+; After executing, delete it
+Delete "Setup.ps1"
+
 ; Refresh icons and Environmental variables
 Call Refresh
 
@@ -266,6 +278,10 @@ ${EndIf}
 
 ${If} ${SectionIsSelected} ${sec6_id}
     File "changelog.txt"
+${EndIf}
+
+${If} ${SectionIsSelected} ${sec9_id}
+    File "encrypt_dir_with_atk.cmd"
 ${EndIf}
 
 ; Create an uninstaller in the same directory as the installer

@@ -103,7 +103,7 @@ Write-Host "Custom icon added for .atk files."
 
 
 
-# Add gloval reged Crypt with ATK
+# Add global reged Crypt with ATK
 $cryptCmd = "$PSScriptRoot\encrypt_with_atk.cmd"
 reg.exe add "HKCR\*\shell\Encrypt with ATK" /ve /d "Encrypt with ATK" /f
 reg.exe add "HKCR\*\shell\Encrypt with ATK\command" /ve /d "$cryptCmd `"%1`"" /f
@@ -116,7 +116,16 @@ Write-Host "Context menu icon added for all files."
 # reg.exe add "HKCR\*\shell\Encrypt with ATK" /v "Position" /d "Top" /f
 
 
+# Add global reged encrypt dir with atk
 
+$cryptCmd2 = "$PSScriptRoot\encrypt_dir_with_atk.cmd"
+reg.exe add "HKCR\Directory\shell\Encrypt with ATK" /ve /d "Encrypt with ATK" /f
+reg.exe add "HKCR\Directory\shell\Encrypt with ATK\command" /ve /d "$cryptCmd2 `"%1`"" /f
+Write-Host "Context menu entry added for all files."
+
+# Context menu icon
+reg.exe add "HKCR\Directory\shell\Encrypt with ATK" /v "Icon" /d "$iconPathExe" /f
+Write-Host "Context menu icon added for all directories."
 
 # $shortcutPath = "$callDir\open_with_atk.lnk"
 
