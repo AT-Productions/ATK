@@ -55,7 +55,7 @@ void deviceId(basicInfo* result) {
 
 // @Returns the current username
 std::string getUser() {
-    TCHAR name[UNLEN + 1];
+    TCHAR name[UNLEN + 1] = {};
     DWORD size = UNLEN + 1;
 
     if (GetUserName((TCHAR*)name, &size)) {

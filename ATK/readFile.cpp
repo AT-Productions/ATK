@@ -4,6 +4,9 @@
 #include <filesystem>
 #include <iomanip> 
 #include <algorithm>
+#include <minizip/zip.h>
+//#include <stdio.h>
+#include <cstdlib>
 
 #include "help.h"
 #include "argHeader.h"
@@ -52,10 +55,58 @@ void readFile(string filePath, basicInfo* result){
         std::cerr << "Error in is_regular_file: " << ec.message();
     }
 
-
     // Add path to result
     result->path = fullPath;
 
+    // ! If directory
+    if (result->type == "d" || result->type == "dir") {
+        // TODO: Zip original directory
+        // TODO: Delete original directory
+        // TODO: After zipping, process it as normal file
+        // Initialize the ZIP archive
+        const char* zipFileName = "output.zip";
+        zipFile zip = zipOpen(zipFileName, APPEND_STATUS_CREATE);
+
+        if (zip == NULL) {
+            printf("Failed to open ZIP archive for writing.\n");
+            exitfailure();
+        }
+
+        // Folder path to compress
+        const char* folderPath = "path/to/your/folder";
+
+        // Iterate through the files in the folder and add them to the ZIP archive
+        // You'll need to write the code to list the files in the folder
+
+        // For each file:
+        const char* fileName = "C:\\tmp\\testing.txt"; // Replace with the actual file name
+        zip_fileinfo file_info = { 0 };
+        file_info.external_fa = 0; // Set file attributes (optional)
+
+        FILE* file;
+        if (fopen_s(&file, fileName, "rb") != 0) {
+            // Handle the error
+        }
+        if (file) {
+            zipOpenNewFileInZip(zip, fileName, &file_info, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
+
+            char buffer[1024];
+            int bytesRead;
+
+            while ((bytesRead = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+                zipWriteInFileInZip(zip, buffer, bytesRead);
+            }
+
+            fclose(file);
+            zipCloseFileInZip(zip);
+        }
+
+        // Close the ZIP archive
+        zipClose(zip, NULL);
+    }
+
+
+    exitfailure();
     /* New file */
     ifstream newfile(filePath, ios::in | ios::binary); // Open file using read operation;
 
@@ -68,7 +119,7 @@ void readFile(string filePath, basicInfo* result){
     // Changes .ext to atk
 
     // Get position of last '.'
-    int pos = fullPath.find_last_of(".");
+    int pos = result->path.find_last_of(".");
     if (pos == std::string::npos) {
         pos += 1;
     }
@@ -77,25 +128,25 @@ void readFile(string filePath, basicInfo* result){
     // ! 
     // ! Initialize fileheader
     // !
-    if (fullPath.substr(pos, fullPath.length()) != ".atk") {
+    if (result->path.substr(pos, result->path.length()) != ".atk") {
         // Create new substring excluding the .ext part
         
         // Get position of last \-character
 
-        int secPos = fullPath.find_last_of("\\");
+        int secPos = result->path.find_last_of("\\");
 
-        string newStringMem = fullPath.substr(secPos + 1);
+        string newStringMem = result->path.substr(secPos + 1);
         // If it has a . in it
         if (newStringMem.find_last_of(".") != -1) {
             // Get part excluding .ext part
-            newPathToFile = fullPath.substr(0, pos);
+            newPathToFile = result->path.substr(0, pos);
 
             // Add .atk file extension
             newPathToFile = newPathToFile + ".atk";
         }
         else {
             // Add .atk file extension
-            newPathToFile = fullPath + ".atk";
+            newPathToFile = result->path + ".atk";
         }
 
         // Add newpath to result
@@ -261,7 +312,7 @@ void readFile(string filePath, basicInfo* result){
             // Check if it doesn't have extension.
             if (newExtensionS != "") {
                 // Get part excluding .ext part
-                newPathToFile = fullPath.substr(0, pos);
+                newPathToFile = result->path.substr(0, pos);
 
                 // Add old file extension
                 prev = "." + newExtensionS;
@@ -269,7 +320,7 @@ void readFile(string filePath, basicInfo* result){
             }
             else {
                 // No file extension, the path is the same but without .atk
-                newPathToFile = fullPath.substr(0, pos);
+                newPathToFile = result->path.substr(0, pos);
             }
             //cout << newPathToFile << endl;
             // Add newpath to result

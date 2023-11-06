@@ -89,11 +89,7 @@ SectionGroupEnd
 ############ DIRECTORY ######################
 Var INSTALL_DIR
 
-; Set the default installation directory
-Function .onInit
-    InitPluginsDir
-    StrCpy $INSTALL_DIR $PROGRAMFILES64\ATK
-FunctionEnd
+
 
 PageEx directory
     DirVar $INSTALL_DIR
@@ -123,6 +119,10 @@ agree:
 ${EndIf}
 FunctionEnd
 
+
+########################################
+
+##########INSTFILE"######################
 PageEx instfiles
 PageExEnd
 
@@ -135,6 +135,14 @@ Function Refresh
 
     ; Refreshes Environmental variables
     System::Call 'user32::SendMessage(i ${HWND_BROADCAST}, i ${WM_WININICHANGE}, i 0, t "Environment")'
+FunctionEnd
+
+############## INIT ######################
+; Set the default installation directory
+Function .onInit
+    InitPluginsDir
+    StrCpy $INSTALL_DIR $PROGRAMFILES64\ATK
+StrCpy $InstallInfoText "This is the information you want to display on the custom page."
 FunctionEnd
 
 ############################## START ##############################

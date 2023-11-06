@@ -58,6 +58,10 @@ Setup environmental variables and RegEd by running the following script: ```run_
 	- Choose C++17 by going to Properties -> C/C++ -> Language -> C++ Language Standard -> ISO C++ 17
 	- Choose C++17 by going to Properties -> Configuration Properties -> General -> C++ Language Standard -> ISO C++ 17
 	- Change from Debug to Release
+	- Install zlib using [vcpkg](https://github.com/microsoft/vcpkg#quick-start-windows). 
+	- Run: ```.\vcpkg install zlib:triplet```
+	- Run: ```.\vcpkg install minizip:triplet```
+	- Run: ```.\vcpkg integrate install```
 	- Choose target platform
 	- Build -> Build ATK
 	- Build will appear in ATK\Release\ATK.exe
