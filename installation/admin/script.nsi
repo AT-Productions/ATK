@@ -1,7 +1,10 @@
 ; Script to run as administrator, execute PowerShell, and extract files
 
 unicode True
+
 !include LogicLib.nsh
+!define WM_WININICHANGE 0x001A
+!define HWND_BROADCAST 0xFFFF
 
 Outfile "ATK-Installer.exe"
 RequestExecutionLevel admin
@@ -27,7 +30,7 @@ PageEx components
     ComponentText "Choose files you want to install." \
     "About" \
     "Main program contains all necessary components for basic functioning. \
-    Additional programs contain all extra files, mainly used by the context menu."
+    Additional components contain all extra files, mainly used by the context menu."
 PageExEnd
 
 SectionGroup "!Main Program" RO
@@ -101,15 +104,41 @@ Function .onVerifyInstDir
     Var /GLOBAL ext
     StrCpy $ext "ATK"
     StrCpy $INSTALL_DIR "$INSTALL_DIR$ext"
+    ; Checks if folder already exists
+    Call CheckFolder
+FunctionEnd
+
+
+; Checks if the folder exists, if it exists and user wants to delete
+; it and it's contents the script will continue
+Function CheckFolder
+DetailPrint "Checking folder."
+${If}  ${FileExists} $INSTALL_DIR
+    ; Delete it
+    MessageBox MB_YESNO|MB_ICONQUESTION `"$INSTALL_DIR" already exists, delete its contents and continue installing?` IDYES agree
+    Abort "Setup aborted by user."
+agree:
+    DetailPrint 'Removing "$INSTALL_DIR" and its contents.'
+    RMDir /r $INSTALL_DIR
+${EndIf}
 FunctionEnd
 
 PageEx instfiles
 PageExEnd
 
+
+############ REFRESH ####################
+
+Function Refresh
+    ; Refreshes icons
+    System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) i(0x8000000, 0, 0, 0)'
+
+    ; Refreshes Environmental variables
+    System::Call 'user32::SendMessage(i ${HWND_BROADCAST}, i ${WM_WININICHANGE}, i 0, t "Environment")'
+FunctionEnd
+
 ############################## START ##############################
 Section 
-
-
 ; Delete the $TEMP folder stuff before extracting more files
 ; and taking up more space from the disk
 Delete "$TEMP\ATK\ATK.exe"
@@ -127,42 +156,64 @@ Delete "$TEMP\ATK\open_with_atk.cmd"
 Delete "$TEMP\ATK\encrypt_with_atk.cmd"
 
 ; The folder will be deleted in the Uninstall section
-# RMDir /r $TEMP\ATK\
+RMDir /r $TEMP\ATK
 
+DetailPrint 'Files from "$TEMP\ATK" deleted. beginning setup.' 
 
 ; After deletion begin with setup
+
+; Check the folder
+Call CheckFolder
 
 ; Set the installation directory
 SetOutPath $INSTALL_DIR
 
 ; Create the installation directory if it doesn't exist
 CreateDirectory $INSTALL_DIR
+
 SectionEnd
 
 
 ############# SETUP ################
 Section 
 
+runSetup:
+
 File "Setup.ps1"
 
-; Execute ps1 script
+; Execute Setup.ps1 script
 nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTALL_DIR\Setup.ps1" "$INSTALL_DIR" "no"'
 
+; After executing, delete it
 Delete "Setup.ps1"
 
-MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to restart explorer.exe? This is needed for icons to refresh." IDYES true IDNO false
+; Check if setup ran succesfully
+Pop $0
+${If} $0 == "0"
+    DetailPrint "Setup sequence completed with success."
+${Else}
+    DetailPrint "Failed to run setup."
+    MessageBox MB_ABORTRETRYIGNORE|MB_ICONEXCLAMATION "Error running setup. Retry by pressing 'Retry', \
+    ignore the error and continue by pressing 'Ignore', or close the program by pressing 'Abort'." IDABORT abortM IDIGNORE ignoreM
+        ; Run setup again
+        DetailPrint "Running setup again."
+        Goto runSetup
+    ignoreM:
+        ; Continue setup
+        DetailPrint "Continuing setup."
+        Goto Continue
+    abortM:
+        ; Abort
+        Abort "Setup aborted by user."
+${EndIf}
+Continue:
+; Refresh icons and Environmental variables
+Call Refresh
 
-true:
-    File "RestartExplorer.ps1"
-    nsExec::ExecToLog 'Powershell.exe -ExecutionPolicy Bypass -File "$INSTALL_DIR\RestartExplorer.ps1" "$INSTDIR" "yes"'
-    Delete "RestartExplorer.ps1"
-    Goto done
 
-false:
-    Goto done
 
-done:
-
+########## EXTRACTION ##########
+; Extract files based on section selection
 
 ; Extract uninstallation script
 File "Uninstall.ps1"
@@ -173,12 +224,10 @@ System::Call 'kernel32::SetFileAttributes(t "$INSTALL_DIR\Uninstall.ps1", i 2) i
 ; Check if the SetFileAttributes call succeeded
 ${If} $0 != 0
     DetailPrint "Uninstall.ps1 file attributes set to hidden."
+    DetailPrint 'Uninstall.ps1 location: "$INSTALL_DIR\Uninstall.ps1".' 
 ${Else}
     DetailPrint "Failed to set Uninstall.ps1 file attributes to hidden."
 ${EndIf}
-
-########## INSTALLATION AND EXTRACTION ##########
-; Extract files based on section selection
 
 ########## MAIN PROGRAM ##########
 ${If} ${SectionIsSelected} ${sec1_id}
@@ -213,6 +262,7 @@ ${EndIf}
 
 ; Create an uninstaller in the same directory as the installer
 WriteUninstaller "$INSTALL_DIR\Uninstall.exe"
+DetailPrint 'You can now close this windows by pressing "Close".' 
 
 SectionEnd
 
@@ -224,6 +274,14 @@ SectionEnd
 UninstPage uninstConfirm
 UninstPage instfiles
 
+# Call must be used with function names starting with "un." in the uninstall section.
+;Function unRefresh
+;    ; Refreshes icons
+;    System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) i(0x8000000, 0, 0, 0)'
+;
+;    ; Refreshes Environmental variables
+;    System::Call 'user32::SendMessage(i ${HWND_BROADCAST}, i ${WM_WININICHANGE}, i 0, t "Environment")'
+;FunctionEnd
 
 Section "Uninstall"
 ; Execute the PowerShell script with elevated privileges and pass the parameters
@@ -247,8 +305,11 @@ Delete "$INSTDIR\Setup.ps1"
 Delete "$INSTDIR\open_with_atk.cmd"
 Delete "$INSTDIR\encrypt_with_atk.cmd"
 
-; Remove the installation directory
-RMDir $INSTDIR
-RMDir $TEMP\ATK
+; Remove the installation directory and TEMP directory if it still exists
+RMDir /r $INSTDIR
+RMDir /r $TEMP\ATK
+
+; Lastly refresh icons and env
+;Call unRefresh
 
 SectionEnd
