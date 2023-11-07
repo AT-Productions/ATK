@@ -82,7 +82,7 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     //std::cout << newResults.size() << " | " << length << " | " << /*i <<*/ " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
     return newResults;
-    }/*
+    /*}
     else {
         return results;
     }*/

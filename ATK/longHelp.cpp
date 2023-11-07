@@ -18,7 +18,7 @@ ARGUMENTS:
         
 OPTIONS:
         
---help          Display this help message.
+-h, --help      Display this help message.
 -v, --version   Show the current version of ATK.
 -l, --location  Return the location of the ATK.exe file.
 

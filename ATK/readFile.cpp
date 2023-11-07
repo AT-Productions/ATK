@@ -246,7 +246,7 @@ void readFile(string filePath, basicInfo* result){
             }
 
             // Checks the strings equality and safepasswords
-            cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
+            //cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
             
             if (passwordString != result->password) {
                 // If it failed try again with safePassword

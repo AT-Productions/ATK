@@ -36,7 +36,7 @@ basicInfo* handleArgs(char** argv, int argc) {
             break;
         }
         // Checks for --help
-        if (currentArg == "--help") {
+        if (currentArg == "--help" || currentArg == "-h") {
 
             // If it is found, consolelog longHelp message and exit
             cout << longHelp();
@@ -73,9 +73,26 @@ basicInfo* handleArgs(char** argv, int argc) {
 
             // If argument safe has been used
             if (next == "s" || next == "-safe") {
+                cout << "Argument: SAFE used. Use this argument at your own risk! Type y to continue, n to exit program." << endl;
+                std::string answer;
+                while (true) {
+					cin >> answer;
+                    if (answer == "y") {
+						break;
+                    }
+                    else if (answer == "n") {
+                        cout << "Stopped by user." << endl;
+                        exitfailure();
+                    }
+                    else {
+						cout << "Type y to continue, n to exit program." << endl;
+					}
+				}
+
                 nextArg = true;
                 result->safe = true;
                 deviceId(result);
+                
             }
 
         } else {

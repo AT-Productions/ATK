@@ -2,9 +2,11 @@
 
 ## Supported / Safe Versions 
 
-| Version | Supported          | Reason|
+| Version | Supported / Safe   | Reason|
 | ------- | ------------------ |-------|
-| 1.3.1   | :white_check_mark: | Latest encryption |
+| 1.4.1   | :white_check_mark: | Latest encryption |
+| 1.4.0   | :white_check_mark: | Latest encryption |
+| 1.3.3   | <span style="color:red;">&#10060;</span> | Broken encryption |
 | 1.3.2   | <span style="color:red;">&#10060;</span> | Broken encryption |
 | 1.3.1   | <span style="color:red;">&#10060;</span> | Broken encryption |
 | 1.3.0   | <span style="color:red;">&#10060;</span> | Old encryption |
