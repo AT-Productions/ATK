@@ -7,7 +7,7 @@ if "%key%"=="" (
     echo Error. Key is not defined.
     exit /b 1
 )
-set /p dirS="File or Directory? (d/f)?"
+set /p dirS="File or Directory? (f/d)?"
 
 if "%dirS%"=="" (
     echo Error. Type is not defined.

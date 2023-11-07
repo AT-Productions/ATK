@@ -1,4 +1,9 @@
 |=============|
+|Release 1.4.1|
+|=============|
+Fixed context menu
+
+|=============|
 |Release 1.4.0|
 |=============|
 Directory encryption

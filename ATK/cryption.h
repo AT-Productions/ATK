@@ -14,7 +14,7 @@
  * @param result Pointer to result struct
  * @returns vector containing crypted data
 */
-std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result);
+std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result, int what);
 
 
 /**

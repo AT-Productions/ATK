@@ -17,6 +17,7 @@ using namespace std;
 
 /* 
     if password = 123 ||213 || 321 || 312 and extension has c it will turn to d
+    !lol
 */
 
 int main(int argc, char* argv[]){

@@ -78,7 +78,7 @@ void action0(basicInfo* result) {
 
     // Crypt vector
     result->plength = newPasswordCVector.size();
-    newPasswordC = crypt(newPasswordCVector, result);
+    newPasswordC = crypt(newPasswordCVector, result, 0);
 
     // Check for \r\n
     for (unsigned char& c : newPasswordC) {
@@ -115,7 +115,7 @@ void action0(basicInfo* result) {
             result->elength = newExtensionCVector.size();
 
             newExtensionC = crypt(
-                newExtensionCVector, result
+                newExtensionCVector, result, 1
             );
 
         }
@@ -136,7 +136,7 @@ void action0(basicInfo* result) {
     else {
         newExtensionCVector = { 'z', 'i', 'p'};
         newExtensionC = crypt(
-			newExtensionCVector, result
+			newExtensionCVector, result, 1
 		);
     }
     // Check for \r\n
@@ -190,7 +190,7 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
     else {
         // Crypt the content and get the result vector
         result->dlength = content->size();
-        results = crypt(*content, result);
+        results = crypt(*content, result, 2);
     }
     // Create an empty string to store the result
     std::string resultString;
@@ -223,24 +223,24 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
         // Delete directory at result->path
 
         // Delete the zip file
-        //cout << result->path.substr(0, result->path.find_last_of("zip") - 3) + "\\" << endl;
+        std::string outputPath = result->newPath.substr(0, result->path.find_last_of("zip") - 3);
+        //cout << outputPath << endl;
         //cout << result->path << endl;
         //cout << result->newPath << endl;
+        //cout << "|" << result->path.substr(result->path.find_last_of(".") + 1) <<"|" << endl;
         /*
-        C:\Users\anton\source\repos\ATK\installation\test\admin\
-        C:\Users\anton\source\repos\ATK\installation\test\admin.zip
-        C:\Users\anton\source\repos\ATK\installation\test\admin.atk
         
         */
+        
         // If file is .atk
         if (result->type == "d" || result->type == "dir") {
             // UNZIP ZIP
             // REMOVE ZIP
-            if (result->path.substr(result->path.find_last_of(".") + 1) == "atk") {
-                std::string outputPath = result->newPath.substr(0, result->path.find_last_of("zip") - 3) + "\\";
-                unzip(result->newPath.c_str(), outputPath.c_str());
+            if (result->path.substr(result->path.find_last_of(".")) == ".atk") {
+                std::string input = result->newPath.substr(0, result->newPath.find_last_of("."));
+                unzip(result->newPath.c_str(), input.c_str());
 
-                // Delete atk file
+                // Delete .atk file
                 if (remove(result->path.c_str()) == 0) {}
                 // Delete the zip file
                 if (remove(result->newPath.c_str()) == 0) {}
@@ -249,11 +249,28 @@ void action1(basicInfo* result, bool* decrypt, std::vector<unsigned char>* conte
             // REMOVE ORIGINAL DIR
             // REMOVE ZIP
             else {
-			    //if (remove(result->path.c_str()
-			    // Delete the zip file
+                std::string testing;
+				// Delete the zip file
                 if (remove(result->path.c_str()) == 0) {}
                 // Delete the directory
-                if (std::filesystem::remove_all(result->path.substr(0, result->path.find_last_of("zip") - 3) + "\\") == 0) {}
+                //cout << outputPath << " DIR " << endl;
+
+                if (result->path.find_last_of("\\") + 1 != result->path.length()) {
+                    testing = result->newPath.substr(0, result->path.find_last_of("zip") - 2);
+                }
+                else {
+                    testing = result->newPath.substr(0, result->path.find_last_of("zip") - 3);
+                }
+                //cout << testing << " DIR " << endl;
+                //cout << " a: " << result->newPath.substr(0, result->path.find_last_of("zip") - 2) << endl;
+                //cout << " b: " << result->newPath.substr(0, result->path.find_last_of("zip") - 3) << endl;
+                if (std::filesystem::remove_all(testing) == 0) {
+                    cerr << "Failed to delete the directory: " << testing << endl;
+                    exitfailure();
+                }
+                else {
+                    //cout << "Directory " << testing << " deleted successfully." << endl;
+                }
 
             }
 

@@ -10,8 +10,8 @@ unicode True
 Outfile "ATK-Installer.exe"
 RequestExecutionLevel admin
 
-BrandingText /TRIMCENTER "ATK 1.4.0 Setup"
-Name "ATK 1.4.0 Setup"
+BrandingText /TRIMCENTER "ATK 1.4.1 Setup"
+Name "ATK 1.4.1 Setup"
 ManifestSupportedOS Win10
 DetailsButtonText "Show progress"
 

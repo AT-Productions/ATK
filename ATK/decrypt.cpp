@@ -52,9 +52,11 @@ std::vector<unsigned char> deCrypt(std::vector<unsigned char> content, basicInfo
         originalLength = result->dlength;
     }
     else if (what == 1) {
+        //return results;
         originalLength = result->elength;
     }
     else if (what == 0) {
+        //return results;
         originalLength = result->plength;
     }
     else {

@@ -6,7 +6,7 @@
 #include "argHeader.h"
 #include "exitFailure.h"
 #include <iostream>
-std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result){
+std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* result, int what){
     // Holds the final string full of unicode characters
 
     // Vector to store Unicode characters
@@ -33,7 +33,9 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     // Size of results
     const int length = results.size();
+    //if (what != 0 && what != 1) {
 
+    
     // Spacing for randomness
     int spacing = 0;
 
@@ -80,4 +82,8 @@ std::vector<unsigned char> crypt(std::vector<unsigned char> content, basicInfo* 
 
     //std::cout << newResults.size() << " | " << length << " | " << /*i <<*/ " | " << amount << " | " << test << " | " << spacing << " | " << std::endl;
     return newResults;
+    }/*
+    else {
+        return results;
+    }*/
 }

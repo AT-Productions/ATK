@@ -91,6 +91,7 @@ void readFile(string filePath, basicInfo* result){
             exitfailure();
         }
         else {
+            result->headerType = "FILE";
             newfile.open(filePath, ios::in | ios::binary);
         }
         if (ec) {
@@ -100,6 +101,9 @@ void readFile(string filePath, basicInfo* result){
             // Process a regular file.
             cout << fullPath << " is a file. " << shortHelp() << endl;
             exitfailure();
+        }
+        else {
+            	result->headerType = "DIRECTORY";
         }
         if (ec) {
             std::cerr << "Error in is_regular_file: " << ec.message();
@@ -133,7 +137,7 @@ void readFile(string filePath, basicInfo* result){
 
         string newStringMem = result->path.substr(secPos + 1);
         // If it has a . in it
-        if (newStringMem.find_last_of(".") != -1) {
+        if (newStringMem.find_last_of(".") != -1 && result->headerType != "DIRECTORY") {
             // Get part excluding .ext part
             newPathToFile = result->path.substr(0, pos);
 
@@ -144,20 +148,25 @@ void readFile(string filePath, basicInfo* result){
             // Add .atk file extension
 
             // if result.type is dir remove last \ and add .atk
+            // TODO FIX IFELSE
             if (result->type == "d" || result->type == "dir") {
-                if (result->path.find_last_of("\\") == result->path.length()) {
-                    newPathToFile = result->path.substr(0, result->path.length() - 1) + ".atk";
+                if (result->path.find_last_of("\\") + 1 != result->path.length()) {
+                    newPathToFile = result->path.substr(0, result->path.length()) + ".atk";
                 }
                 else {
-                    newPathToFile = result->path + ".atk";
+                    newPathToFile = result->path.substr(0, result->path.length() - 1) + ".atk";
                 }
 			}
             else {
+                //cout << "F " << endl;
 				newPathToFile = result->path + ".atk";
 			}
         }
-
-        // Add newpath to result
+        //cout << "DD " << result->path << endl;
+        //cout << newPathToFile << endl;
+        //cout << result->path.substr(0, result->path.length() - 1) << endl;
+        //cout << result->path.substr(0, result->path.length() - 2) << endl;
+         //Add newpath to result
         result->newPath = newPathToFile;
 
         // Initialize files header section with @param 0
@@ -237,7 +246,7 @@ void readFile(string filePath, basicInfo* result){
             }
 
             // Checks the strings equality and safepasswords
-            //cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
+            cout << "|PASS " << passwordString << "|RES " << result->password << "|SUB " << passwordString.substr(0, 1) << "|" << endl;
             
             if (passwordString != result->password) {
                 // If it failed try again with safePassword
@@ -354,6 +363,7 @@ void readFile(string filePath, basicInfo* result){
         int secPos = result->path.find_last_of("\\");
 
         string newStringMem = result->path.substr(secPos + 1);
+            std::string tester;
         // If it has a . in it
         if (newStringMem.find_last_of(".") != -1) {
             // Get part excluding .ext part
@@ -364,18 +374,21 @@ void readFile(string filePath, basicInfo* result){
         }
         else {
             // Add .atk file extension
-            if (result->path.find_last_of("\\") == result->path.length()) {
-				newPathToFile = result->path.substr(0, result->path.length() - 1) + ".zip";
-			}
+            // TODO FIX IFELSE
+            if (result->path.find_last_of("\\") + 1 != result->path.length()) {
+                newPathToFile = result->path.substr(0, result->path.length()) + ".zip";
+                tester = result->path.substr(0, result->path.length()) + "\\";
+            }
             else {
-                newPathToFile = result->path + ".zip";
+                newPathToFile = result->path.substr(0, result->path.length() - 1) + ".zip";
+                tester = result->path.substr(0, result->path.length());
             }
             //newPathToFile = result->path.substr(0, result->path.length() - 1) + ".zip";
         }
         //cout << newPathToFile << endl;
         // Make the new file
         //cout << "ZIOPPING" << endl;
-        zip(newPathToFile.c_str(), result->path.substr(0, result->path.length()).c_str());
+        zip(newPathToFile.c_str(), tester.c_str());
         result->path = newPathToFile;
         // Replace result.path with the zipped file extension
 

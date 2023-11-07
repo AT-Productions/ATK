@@ -9,8 +9,7 @@ void zip(const char* output, const char* input) {
     //cout << "aa " << output << " " << input << endl;
     // PowerShell script to run
     // Build the PowerShell command to compress the input folder
-    std::string powerShellCommand = "powershell -ExecutionPolicy Bypass -Command \"Compress-Archive -Path \'" + std::string(input) + "\' -DestinationPath \'" + std::string(output) + "\'\"";
-    //std::string powerShellCommand = "powershell -ExecutionPolicy Bypass -Command \"Compress-Archive -Path 'C:\\Users\\janne\\Desktop\\testi' -DestinationPath 'C:\\Users\\janne\\Desktop\\testi.zip'\"";
+    std::string powerShellCommand = "powershell -ExecutionPolicy Bypass -Command \"Compress-Archive -Path \'" + std::string(input) +"*" + "\' -DestinationPath \'" + std::string(output) + "\'\"";
     //cout << powerShellCommand << endl;
     // Launch a PowerShell process
     int result = system(powerShellCommand.c_str());
@@ -19,7 +18,7 @@ void zip(const char* output, const char* input) {
         //std::cout << "PowerShell script executed successfully." << std::endl;
     }
     else {
-        std::cerr << "Error encrypting directory" << std::endl;
+        std::cerr << "Error encrypting directory. Possible overwriting of existing files." << std::endl;
         exitfailure();
     }
 }
